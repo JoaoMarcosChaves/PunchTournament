@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="Template.xhtml">
+    
+    <ui:define name="conteudo">
+
+                        <h1 class="page-header">Atletas</h1>
+			
+
+	            <h:panelGrid columns="4">
+                    <p:outputLabel for="codPRT" value="Código identificação do participante: "/>
+                    <p:inputText id="codPRT" value="#{ParticipantesManagedBean.codAtleta}" />
+                    
+                    <p:outputLabel for="ModCads" value="Modalidades: "/>
+                    <p:selectOneMenu id="ModCads"  value="#{ParticipantesManagedBean.codModaliSelecionada}"  >
+                        <p:ajax   listener="#{ParticipantesManagedBean.carregaComboGradu()}" update="GraduATL" />
+                        <f:selectItem itemLabel="Selecione uma modalidade"/>
+                        <f:selectItems value="#{EventosManagedBean.comboMod}"  />
+                    </p:selectOneMenu>
+                    
+                    </h:panelGrid>
+                <br/><br/>
+                <h:panelGrid columns="6">
+                
+                    <p:outputLabel for="nomePRT" value="Nome: "/>
+                    <p:inputText id="nomePRT" value="#{ParticipantesManagedBean.nomeAtleta}" />
+                    
+                    <p:outputLabel for="idadePRT" value="Idade: "/>
+                    <p:inputText id="idadePRT" value="#{ParticipantesManagedBean.idadeAtleta}" />
+                    
+                    <p:outputLabel for="pesoPRT" value="Peso: "/>
+                    <p:inputText id="pesoPRT" value="#{ParticipantesManagedBean.pesoAtleta}"/>
+                    
+                     <p:outputLabel for="sexoPRT" value="Sexo: "/>
+                     <p:selectOneMenu id="sexoPRT" value="#{ParticipantesManagedBean.sexo}">
+                    <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                    <f:selectItem itemLabel="Feminino" itemValue="Feminino"/>
+                </p:selectOneMenu>
+                    
+                     <p:outputLabel for="cpfPRT" value="CPF: "/>
+                     <p:inputText id="cpfPRT" value="#{ParticipantesManagedBean.cpfAtleta}"/>
+                     
+                     <p:outputLabel for="emailPRT" value="E-mail: "/>
+                     <p:inputText id="emailPRT" value="#{ParticipantesManagedBean.emailAtleta}"/>
+                
+                     <p:outputLabel value="Graduação: "/>
+                     <p:selectOneMenu id="GraduATL" value="#{ParticipantesManagedBean.graduacaoAtleta}"  >
+                        <f:selectItem itemLabel="Graduações"/>
+                        <f:selectItems value="#{ParticipantesManagedBean.comboGradu}"  />
+                    </p:selectOneMenu> 
+                     
+                </h:panelGrid>
+                <br/>
+                <p:commandButton value="Salvar cadastro" action="#{ParticipantesManagedBean.inserirParticipante()}" update="codPRT,growl"/>
+                <p:commandButton value="Realizar inscrição" actionListener="#{ParticipantesManagedBean.linkInscricao()}"/>
+        
+        
+    </ui:define>
+    
+</ui:decorate>

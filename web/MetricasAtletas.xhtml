@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="Template.xhtml">
+    
+    <ui:define name="conteudo">
+
+        <h1 class="page-header">Métricas dos atletas</h1>
+			
+                        
+                        <h:panelGrid columns="4">
+                        <p:outputLabel for="ModCads" value="Modalidades cadastradas: "/>
+                        <p:selectOneMenu id="ModCads"  value="#{VencedoresManagedBean.codModSelecionado}"  >
+                        <p:ajax   listener="#{VencedoresManagedBean.carregarComboEv()}" update="EventCads" />
+                        <f:selectItem itemLabel="Selecione uma modalidade"/>
+                        <f:selectItems value="#{EventosManagedBean.comboMod}"  />
+                        
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel for="EventCads" value="Eventos cadastrados: "/>
+                    <p:selectOneMenu id="EventCads"  value="#{RelatoriosManagedBean.codEveSelecionado}"  >
+                        <p:ajax   listener="#{RelatoriosManagedBean.carregaCombos()}" />
+                        
+                        <f:selectItem itemLabel="Selecione um evento"/>
+                        <f:selectItems value="#{VencedoresManagedBean.comboEve}"  />
+                        
+                    </p:selectOneMenu>
+                    
+   
+
+                   </h:panelGrid>
+                   
+                        <br/>
+                        <p:commandButton id="altelasBtn" class="btn btn-primary" value="Atletas" onclick="PF('atletas').show();" />
+
+                        <p:tooltip  for="altelasBtn" value="Selecione o atleta que gostaria de realizar a consulta" trackMouse="true" />
+                        
+                   <br/><br/>     
+                        <h4>Métricas dos combates vencidos</h4>
+                    <p:dataTable id="tbMetPst" paginator="true" rows="5" value="#{RelatoriosManagedBean.metricasPST}" var="metPST">
+                       
+<!--                      <p:column headerText="Nome evento">
+                           <h:outputLabel value="#{metPST.nomeEvento}"/>
+                       </p:column> -->
+                       
+                       <p:column headerText="Nome segmento">
+                           <h:outputText value="#{metPST.nomeSegmento}"/>
+                       </p:column> 
+                       
+                       <p:column headerText="Chaves que competiu">
+                           <h:outputText value="#{metPST.nomeChvConf}"/>
+                       </p:column>
+                       
+                       <p:column headerText="Inscrição">
+                           <h:outputText value="#{metPST.codInscricao}"/>
+                       </p:column> 
+                       
+                       <p:column headerText="Código atleta">
+                           <h:outputText value="#{metPST.codAtleta}"/>
+                       </p:column>   
+                       
+                       <p:column headerText="Pontos positivos">
+                           <h:outputText value="#{metPST.totPontosPositivos}"/>
+                       </p:column> 
+                       
+                       <p:column headerText="Maior numero de acertos">
+                           <h:outputText value="#{metPST.parteDoCorpoPST}"/>
+                       </p:column>   
+                       
+                       
+                       <p:column headerText="Total de combates geral">
+                       <h:outputText value="#{metPST.qtdCbtGeral}"/>
+                       </p:column>   
+                       
+                       <p:column headerText="Total de vitórias">
+                           <h:outputText value="#{metPST.totalVits}"/>    
+                       </p:column>   
+                        
+                   </p:dataTable>     
+                      <br/>  
+                    <p:commandButton class="btn btn-primary" onclick="PF('comentVencARB').show();" value="Visualizar comentários dos arbitros dos combates vencidos"/>
+                    <p:commandButton class="btn btn-primary" onclick="PF('graficProgressVenc').show();" value="Visualizar grafico de progresso"/>   
+                   
+                    <br/><br/><br/>
+                    
+                    <h4>Métricas dos combates perdidos</h4>
+                   <p:dataTable id="tbMetNgt" paginator="true" rows="5" value="#{RelatoriosManagedBean.metricasNGT}" var="metNgt">
+                       
+<!--                       <p:column headerText="Nome evento">
+                           <h:outputLabel value="#{metNgt.nomeEvento}"/>
+                       </p:column> -->
+                       
+                       <p:column headerText="Nome segmento">
+                           <h:outputText value="#{metNgt.nomeSegmento}"/>
+                       </p:column> 
+                       
+                       <p:column headerText="Chaves que competiu">
+                           <h:outputText value="#{metNgt.nomeChvConf}"/>
+                       </p:column>
+                       
+                       <p:column headerText="Inscrição">
+                           <h:outputText value="#{metNgt.codInscricao}"/>
+                       </p:column> 
+                       
+                       <p:column headerText="Código atleta">
+                           <h:outputText value="#{metNgt.codAtleta}"/>
+                       </p:column>   
+                       
+                       <p:column headerText="Pontos negativos">
+                           <h:outputText value="#{metNgt.totPontosNegativos}"/>
+                       </p:column> 
+                        
+                       <p:column headerText="Maior numero de acertos negativos">
+                           <h:outputText value="#{metNgt.parteDoCorpoNGT}"/>
+                       </p:column>   
+                       
+                       
+                       <p:column headerText="Total de combates geral">
+                       <h:outputText value="#{metNgt.qtdCbtGeral}"/>
+                       </p:column>   
+                       
+                       <p:column headerText="Total de derrotas">
+                           <h:outputText value="#{metNgt.totalDerr}"/>    
+                       </p:column>   
+                       
+                   </p:dataTable>     
+                        <br/>
+                    <p:commandButton class="btn btn-primary" onclick="PF('comentPerdARB').show();" value="Visualizar comentários dos arbitros dos combates perdidos"/>
+                    <p:commandButton class="btn btn-primary" onclick="PF('graficProgressPerd').show();" value="Visualizar grafico de progresso"/>   
+                   
+                    
+                    
+                    <p:dialog id="Atletas" header="Competidores" widgetVar="atletas" minHeight="40" width="750px">
+                        <p><b>Selecione o atléta que gostaria de realizar a consulta</b></p>
+                        <p>O atléta com nome e código preenchidos, já será considerado selecionado, caso o cadastro do mesmo exista.</p>
+                            <h:panelGrid columns="5">
+                            <p:outputLabel value="Código atleta"/>
+                            <p:inputText id="codigoAtleta" value="#{RelatoriosManagedBean.codAtletaSelecionado}"/>
+                            
+                            <p:outputLabel value="Nome atleta"/>
+                            <p:inputText id="nomeAtleta" value="#{RelatoriosManagedBean.nomeAtletaSelecionado}"/>
+                            
+                            <p:commandButton class="btn btn-primary" value="Pesquisar" action="#{RelatoriosManagedBean.consultaAtletas()}" update="tbAtls,growl"/>
+                            
+                            </h:panelGrid>
+                            <br/>
+                            
+                            <p:commandButton class="btn btn-primary" value="Selecionar" action="#{RelatoriosManagedBean.consultaMetricas()}" update="form"/>
+                            
+                            <p:dataTable id="tbAtls" paginator="true" rows="10" selectionMode="single" selection="#{RelatoriosManagedBean.atletaSelecionado}"
+                                         rowKey="#{atls.codAtleta}" value="#{RelatoriosManagedBean.listaAtletas}" var="atls">
+                    
+                                <p:ajax event="rowSelect" listener="#{RelatoriosManagedBean.linhaSelecionadaAtleta()}" update=":form:codigoAtleta,:form:nomeAtleta"/>    
+                                
+                    <p:column headerText="Nome atleta">
+                                <h:outputText value="#{atls.nomeAtleta}"/>
+                            </p:column>
+                            
+                            
+                            <p:column headerText="Codigo atleta">
+                                <h:outputText value="#{atls.codAtleta}"/>
+                            </p:column>
+                                
+                            </p:dataTable>
+                            
+                        </p:dialog>
+                    
+                    <p:dialog id="comentariosPerd" header="Comentários dos árbitros" widgetVar="comentPerdARB" minHeight="40">
+    
+                        <p:dataTable id="comNgt" paginator="true" rows="10"  value="#{RelatoriosManagedBean.listaComentsArbNgt}" var="comNgt">
+                                
+                           <p:column headerText="Segmento">
+                               <h:outputText value="#{comNgt.nomeSegmento}" />
+                            </p:column>     
+                           
+                            <p:column headerText="Chave">
+                                <h:outputText value="#{comNgt.nomeChvConf}" /> 
+                            </p:column>    
+                            
+                            <p:column headerText="Combate numero">
+                                <h:outputText value="#{comNgt.numRodada}" />
+                            </p:column>    
+                                
+                            <p:column headerText="Comentário do combate">
+                                <h:outputText value="#{comNgt.descricaoCBT}" />
+                            </p:column>
+                                
+                            </p:dataTable>
+                            
+                        </p:dialog>
+                    
+                    <p:dialog id="comentariosVenc" header="Comentários dos árbitros" widgetVar="comentVencARB" minHeight="40">
+    
+                        <p:dataTable id="comPst" paginator="true" rows="10" value="#{RelatoriosManagedBean.listaComentsArbPst}" var="comPst">
+                                
+                           <p:column headerText="Segmento">
+                               <h:outputText value="#{comPst.nomeSegmento}" />
+                            </p:column>     
+                           
+                            <p:column headerText="Chave">
+                                <h:outputText value="#{comPst.nomeChvConf}" /> 
+                            </p:column>    
+                            
+                            <p:column headerText="Combate numero">
+                                <h:outputText value="#{comPst.numRodada}" />
+                            </p:column>    
+                                
+                            <p:column headerText="Comentário do combate">
+                                <h:outputText value="#{comPst.descricaoCBT}" />
+                            </p:column>
+                                
+                            </p:dataTable>
+                            
+                        </p:dialog>
+                    
+                    <p:dialog id="graficPerd" header="Progresso do atleta" widgetVar="graficProgressPerd" minHeight="40" 
+                              height="400px" resizable="false">
+                        <p:chart type="pie" model="#{RelatoriosManagedBean.grafPizzaMetNgts}" style="width:400px;height:300px" 
+                                 rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
+                        <br/><br/>
+                        <p:chart type="line" model="#{RelatoriosManagedBean.grafLinhaMetAcertNgt}" rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
+                        <br/><br/>
+                        <p:chart type="bar" model="#{RelatoriosManagedBean.grafBarResultsConfNgt}" rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
+                        <br/><br/>
+                        <b><h4>Atributos que decaíram desde o evento anterior:</h4></b><br/>
+                        
+                        <b>Dominuição de acertos positivos:</b>
+                        <h:panelGrid columns="2">
+                        <p:outputLabel value="Cabeça:"/>
+                        <h:outputText value="-#{RelatoriosManagedBean.progCabecaNgt}%"/>
+                        <p:outputLabel value="Tronco:"/>
+                        <h:outputText value="-#{RelatoriosManagedBean.progTroncoNgt}%"/>
+                        <p:outputLabel value="Braços:"/>
+                        <h:outputText value="-#{RelatoriosManagedBean.progBracoNgt}%"/>
+                        <p:outputLabel value="Pernas:"/>
+                        <h:outputText value="-#{RelatoriosManagedBean.progPernaNgt}%"/>
+                        <p:outputLabel value="Quedagem:"/>
+                        <h:outputText value="-#{RelatoriosManagedBean.progQuedagemNgt}%"/>
+                        
+                        </h:panelGrid>
+                        <br/>
+                        <b>Aumento de acertos negativos:</b><br/>
+                        <h:panelGrid columns="2">
+                        <p:outputLabel value="Cabeça:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progCabecaPstNgt}%"/>
+                        <p:outputLabel value="Tronco:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progTroncoPstNgt}%"/>
+                        <p:outputLabel value="Braços:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progBracoPstNgt}%"/>
+                        <p:outputLabel value="Pernas:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progPernaPstNgt}%"/>
+                        <p:outputLabel value="Quedagem:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progQuedagemPstNgt}%"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                    
+                    <p:dialog id="graficVenc" header="Progresso do atleta" widgetVar="graficProgressVenc" minHeight="40" 
+                              height="400px" resizable="false">
+                        <p:chart type="pie" model="#{RelatoriosManagedBean.grafPizzaMetPst}" style="width:400px;height:300px" 
+                                 rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
+                        <br/><br/>
+                        <p:chart type="line" model="#{RelatoriosManagedBean.grafLinhaMetAcertPst}" rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
+                        <br/><br/>
+                        <p:chart type="bar" model="#{RelatoriosManagedBean.grafBarResultsConfPst}" rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
+                        <br/><br/>
+                        <b><h4>Progresso desde o evento anterior:</h4></b><br/>
+                        
+                        <b>  Progressões de acertos positivos:</b><br/>
+                        <h:panelGrid columns="2">
+                        <p:outputLabel value="Cabeça:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progCabecaPst}%"/>
+                        <p:outputLabel value="Tronco:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progTroncoPst}%"/>
+                        <p:outputLabel value="Braços:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progBracoPst}%"/>
+                        <p:outputLabel value="Pernas:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progPernaPst}%"/>
+                        <p:outputLabel value="Quedagem:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progQuedagemPst}%"/>
+                        
+                        </h:panelGrid>
+                        <br/>
+                        <b>Progressões diminuição de acertos negativos:</b><br/>
+                        <h:panelGrid columns="2">
+                        <p:outputLabel value="Cabeça:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progCabecaNegPst}%"/>
+                        <p:outputLabel value="Tronco:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progTroncoNegPst}%"/>
+                        <p:outputLabel value="Braços:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progBracoNegPst}%"/>
+                        <p:outputLabel value="Pernas:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progPernaNegPst}%"/>
+                        <p:outputLabel value="Quedagem:"/>
+                        <h:outputText value="#{RelatoriosManagedBean.progQuedagemNegPst}%"/>
+                        </h:panelGrid>
+                        
+                    </p:dialog>
+                    
+                         <br/><br/>
+        
+    </ui:define>
+    
+
+
+
+</ui:decorate>
+
+

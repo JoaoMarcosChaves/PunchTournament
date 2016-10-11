@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="Template.xhtml">
+    
+    <ui:define name="conteudo">
+     
+        <h1 class="page-header">Chaves de confronto</h1>
+			
+
+
+        <p:commandButton class="btn btn-outline btn-primary" value="Atualizar página" style="float: right"
+                         action="#{ChavesManagedBean.consultaEstruturaCHV()}"  update="tabelaPRT1,tabelaPRT2,CHVCads,tabelaVence"/> 
+
+                <h:panelGrid columns="4">
+                <p:outputLabel for="ModCads" value="Modalidades: "/>
+                    <p:selectOneMenu id="ModCads"  value="#{EventosManagedBean.codModSelecionado}" >
+                        <p:ajax   listener="#{EventosManagedBean.carregarComboEv()}" update="EventCads,SegsCads"/>
+                        <f:selectItem itemLabel="Selecione uma modalidade"/>
+                        <f:selectItems value="#{EventosManagedBean.comboMod}"  />
+                        
+                    </p:selectOneMenu>
+                
+               <p:outputLabel for="EventCads" value="Eventos cadastrados: "/>
+                    <p:selectOneMenu id="EventCads"  value="#{EventosManagedBean.codEveSelecionado}"  >
+                     <p:ajax   listener="#{EventosManagedBean.carregaComboSegEcategs()}"  update="SegsCads"/>
+                        <f:selectItem itemLabel="Selecione um evento"/>
+                        <f:selectItems value="#{EventosManagedBean.comboEve}"  />
+                    </p:selectOneMenu>
+                
+                <p:outputLabel for="SegsCads" value="Segmentos do evento: "/>    
+                <p:selectOneMenu id="SegsCads"   value="#{ChavesManagedBean.codSegSelecionado}">
+                    <p:ajax   listener="#{ChavesManagedBean.carregaComboCHVs()}"  update="CHVCads,tabelaPRT1,tabelaPRT2,tabelaVence,arbitros,growl"/>  
+                        <f:selectItem itemLabel="Segmentos"/>
+                        <f:selectItems value="#{EventosManagedBean.comboSegs}"  />
+                    </p:selectOneMenu> 
+                
+                <p:outputLabel for="CHVCads" value="Chave disponível: "/>    
+                <p:selectOneMenu id="CHVCads"  value="#{ChavesManagedBean.codChvSelecionado}" >
+                    <p:ajax   listener="#{ChavesManagedBean.consultaEstruturaCHV()}"  update="tabelaPRT1,tabelaPRT2,CHVCads,tabelaVence"/>
+                        <f:selectItem itemLabel="Chaves"/>
+                        <f:selectItems value="#{ChavesManagedBean.comboCHVs}"  />
+                    </p:selectOneMenu> 
+                
+                
+                </h:panelGrid>
+                <br/><br/>
+                <p:commandButton value="Finalizar rodada" class="btn btn-primary" action="#{ChavesManagedBean.fializaRodadaCHV()}" update="form">
+                <p:confirm header="Confirmação" message="Deseja mesmo finalizar esta rodada?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+                </p:commandButton>
+                
+                <p:commandButton value="Finalizar chave" class="btn btn-primary" onclick="PF('VencedorDlg').show();" action="#{ChavesManagedBean.finalizaCHV()}" update="vencedor,growl">
+                <p:confirm header="Confirmação" message="Deseja mesmo finalizar esta chave de confronto?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+                </p:commandButton>
+                <br/><br/>
+                <h:panelGrid columns="3">
+                
+                    <p:dataTable id="tabelaPRT1" value="#{ChavesManagedBean.tabCHV1}"  var="insc1" >
+                
+                       <p:column headerText="Selecionar" >
+                           <p:selectBooleanCheckbox value="#{insc1.selected}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{insc1.nomeAtleta}"/>
+                    </p:column>    
+                        
+                        
+                    <p:column headerText="Inscrição do participante" >
+                        <h:outputText value="#{insc1.codInscricao}"/>
+                    </p:column>
+                    
+                        <p:column headerText="Status">
+                            <h:outputText value="#{insc1.statusConf}"/>
+                        </p:column>
+                        
+                </p:dataTable>
+                    
+                    <H1><b>X</b></H1>
+                    
+                   <p:dataTable id="tabelaPRT2"  value="#{ChavesManagedBean.tabCHV2}"  var="insc2">
+                
+                    <p:column headerText="Selecionar" >
+                        <p:selectBooleanCheckbox value="#{insc2.selected}"/>
+                    </p:column>
+                       
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{insc2.nomeAtleta}"/>
+                    </p:column>
+                
+                       <p:column headerText="Inscrição do participante" >
+                        <h:outputText value="#{insc2.codInscricao}"/>
+                    </p:column>
+                       
+                      <p:column headerText="Status">
+                            <h:outputText value="#{insc2.statusConf}"/>
+                        </p:column>
+                       
+                </p:dataTable> 
+                    
+                    
+                    
+                </h:panelGrid>
+                <br/><br/>
+ 
+                
+                <p:commandButton value="Iniciar confronto" class="btn btn-primary" action="#{ChavesManagedBean.preparaInicioConf()}" onclick="PF('configConf').show();" update="tbPontua,growl">
+                     <p:confirm header="Confirmação" message="Deseja iniciar o combate do atleta selecionado?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+                </p:commandButton>
+                
+                <p:commandButton value="Veriricar vencedores" class="btn btn-primary" onclick="PF('vencedoresDlg').show();"/>
+                
+		
+                <p:dialog header="Iniciando confronto" widgetVar="configConf" modal="true" showEffect="fade" hideEffect="fade" width="800" >
+                    <p:fieldset legend="Árbitros do confronto">
+                        <h:panelGrid columns="5">
+                            
+                            <p:outputLabel value="Árbitros:" />
+                            <p:selectOneMenu id="arbitros" value="#{ChavesManagedBean.arbitroSelecionado}">
+                                <p:ajax   listener="#{ChavesManagedBean.carregaComboPontua()}"  update="ptArb,tbPontua"/>  
+                                <f:selectItem itemLabel="Selecione um árbitro"/>
+                                <f:selectItems value="#{ChavesManagedBean.comboArb}"/>
+                            </p:selectOneMenu>
+                            
+                            <p:outputLabel value="Pontuaçoes a se árbitrar: " />
+                            <p:selectOneMenu id="ptArb" value="#{ChavesManagedBean.codPontuaSelecionado}">
+                                <f:selectItem itemLabel="Selecione uma pontuação"/>
+                                <f:selectItems value="#{ChavesManagedBean.comboPtArb}"/>
+                            </p:selectOneMenu>
+                            
+                            <p:commandButton value="Adicionar pontuação" action="#{ChavesManagedBean.adicionaPontoLista()}" update="tbPontua,growl"/>
+                        </h:panelGrid>
+                        <br/>
+                        <p:commandButton value="Limpar lista" class="btn btn-primary btn-xs" action="#{ChavesManagedBean.limparListaPont()}" update="tbPontua"/>
+                        <p:commandButton value="Remover ponto da lista" class="btn btn-primary btn-xs" action="#{ChavesManagedBean.removePontLista()}" update="tbPontua"/>
+                       <br/> 
+                       <p:dataTable id="tbPontua" value="#{ChavesManagedBean.listaPont}" var="pont" selectionMode="single"
+                                    selection="#{ChavesManagedBean.pontoSelecionado}" rowKey="#{pont.codPontua}">
+                 
+                 <p:column headerText="Código pontuação">
+                     <h:outputText value="#{pont.codPontua}" />
+                 </p:column>
+                 
+                 <p:column headerText="Nome pontuação">
+                     <h:outputText value="#{pont.nomePontua}" />
+                 </p:column>
+                 
+             </p:dataTable>
+                        <br/>
+                        <p:commandButton value="Adicionar árbitro" class="btn btn-primary btn-xs" action="#{ChavesManagedBean.adicionarArbitroLista()}" update="growl"/>
+                        <p:commandButton value="Iniciar confronto" class="btn btn-primary btn-xs" action="#{ChavesManagedBean.iniciarCBT()}" update="tabelaPRT1,tabelaPRT2,growl"/>
+                    </p:fieldset>
+                </p:dialog>
+                
+	
+            
+            <p:dialog widgetVar="vencedoresDlg" modal="true" showEffect="fade" hideEffect="fade" >
+                <p:fieldset legend="Vencedores da rodada">
+                <p:dataTable id="tabelaVence"  value="#{ChavesManagedBean.vencedores}"  var="vence">
+                
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{vence.nomeAtleta}"/>
+                    </p:column>
+                
+                       <p:column headerText="Inscrição do participante" >
+                        <h:outputText value="#{vence.codInscricao}"/>
+                     </p:column>
+                </p:dataTable> 
+                    <br/>
+                    <p:commandButton value="Visualizar vencedores rodada anterior"/>
+                    
+                </p:fieldset>
+            </p:dialog>
+                  
+<p:dialog header="Vencedor da chave" widgetVar="VencedorDlg" showEffect="explode" hideEffect="explode" height="100">
+    <h:outputText id="vencedor" value=" Parabéns ao vencedor da chave  #{ChavesManagedBean.vencedor}!!" />
+</p:dialog>
+        
+        
+    </ui:define>
+    
+
+
+
+</ui:decorate>
+
+
+
+

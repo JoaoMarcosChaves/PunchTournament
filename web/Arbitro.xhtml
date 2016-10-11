@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="Template.xhtml">
+
+<ui:define name="conteudo">
+     
+        <h1 class="page-header">Gerencimento de confrontos</h1>
+        
+
+        <p:inputText value="#{ArbitroManagedBean.codArbitro}" />  
+        <p:commandButton value="Verificar" action="#{ArbitroManagedBean.criaEstrutura()}" update="prts"/><br/><br/>
+
+                         <p:wizard id="prts" nextLabel="Próximo" backLabel="Anterior" flowListener="#{ArbitroManagedBean.proxSelecAtl}">
+                
+                <p:tab title="Confrontos disponíveis"> 
+                    
+                    <p:panel header="Selecione o confronto a se iniciar">
+                        
+                        <ui:repeat value="#{ArbitroManagedBean.listaEstruConf}" var="prt">
+<!--            <h3>Confrontos a serem iniciados:</h3>-->
+<br/>          
+<p:outputLabel value="Confronto numero: #{prt.codConf}"/>        
+<p:panelGrid columns="6">        
+            
+    <p:selectBooleanCheckbox value="#{prt.selected}" required="true"/>
+            
+            <p:outputLabel value="#{prt.codInsc1}"/>
+            <p:outputLabel value="#{prt.nomeAtl1}"/>
+            <p:outputLabel>X</p:outputLabel>
+            <p:outputLabel value="#{prt.codInsc2}"/>
+            <p:outputLabel value="#{prt.nomeAtl2}"/>
+        </p:panelGrid>            
+        </ui:repeat>
+        <br/>
+        
+                        
+                    </p:panel>
+                    
+                </p:tab>
+                    
+                <p:tab title="Atleta a julgar">
+                    
+                    <p:panel header="Selecione o participante a julgar">
+                    <br/>
+
+<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+        
+    <p:selectBooleanCheckbox value="#{ArbitroManagedBean.boolAtlSelec1}" />
+        
+        <p:outputLabel value="#{ArbitroManagedBean.atletaSelec1}"/>
+        
+        
+        <p:selectBooleanCheckbox value="#{ArbitroManagedBean.boolAtlSelec2}" />
+         <p:outputLabel value="#{ArbitroManagedBean.atletaSelec2}"/>
+    </h:panelGrid> 
+  <br/>
+  <p:commandButton class="btn btn-primary" value="Confirmar inicio" action="#{ArbitroManagedBean.confirmaInicioConf()}"  onclick="PF('bar').show()">
+      <p:confirm header="Confirmação" message="Deseja realmente confirmar que este será o atleta a ser julgado por você neste confronto? Não será possível voltar atrás nessa ação" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+  </p:commandButton>
+                    <p:commandButton value="Verificar status dos arbitros" class="btn btn-primary" onclick="PF('bar').show()"/>
+                    </p:panel>
+                </p:tab>
+                
+            </p:wizard>
+         <p:notificationBar position="bottom" effect="slide" styleClass="top" widgetVar="bar">
+
+
+            <center><b><h:outputText id="pqp" value="#{ArbitroManagedBean.msgStatusConf}" /></b> </center>
+            <center><p:graphicImage library="imgs" name="carrBar.gif" /></center>
+            <p:poll interval="10" listener="#{ArbitroManagedBean.verificaOkArb()}" update="pqp,btnInicio" />
+            
+            <p:commandButton value="Ocultar" onclick="PF('bar').hide()" type="button"  icon="ui-icon-arrow-1-s"/>
+            <p:commandButton id="btnInicio" value="Iniciar confronto" action="#{ArbitroManagedBean.okConf()}" update="ptsPst,ptsNgt,growl"  onclick="PF('inicioPrtDlg').show()"/>
+            
+<!--            <p:commandButton id="btnInicio" value="Iniciar confronto"  update="growl"  onclick="PF('inicioPrtDlg').show()"/>-->
+
+            </p:notificationBar>        
+
+        
+        <p:dialog widgetVar="inicioPrtDlg" height="500"  modal="false" resizable="false" minimizable="true" maximizable="true" showEffect="fade" hideEffect="fade">
+            
+            <b>Ao finalizar selecione: </b>
+            <p:selectOneButton id="vencedor" value="#{ArbitroManagedBean.vencedor}">
+            <f:selectItem itemLabel="Vencedor" itemValue="vencedor" />
+            <f:selectItem itemLabel="Perdedor" itemValue="perdedor" /> 
+        </p:selectOneButton>
+             
+              
+            <b><h4>Pontos positivos:</h4></b>
+            
+            <ui:repeat id="ptsPst" value="#{ArbitroManagedBean.listaPontosPstCbt}" var="pstPt">
+            
+                <p:outputLabel id="nomePt" value="#{pstPt.nomePontua}: "/> 
+                <p:spinner id="spinnerPst" value="#{pstPt.totPont}" stepFactor="#{pstPt.valorPontua}" min="0"/>
+                <br/>
+                <b>Pontuar quando: </b><h:outputText id="descPt" value="#{pstPt.descricaoPontua}" /><br/>
+            
+            </ui:repeat>
+            
+            
+            <b><h4>Pontos Negativos:</h4></b>
+            
+            <ui:repeat id="ptsNgt" value="#{ArbitroManagedBean.listaPontosNgtCbt}" var="pstNgt" >
+            
+                <p:outputLabel id="nomePtNgt" value="#{pstNgt.nomePontua}: "/>
+                <p:spinner id="spinnerNgt" value="#{pstNgt.totPont}" stepFactor="#{pstNgt.valorPontua}" min="0"/><br/>
+                <h:outputText id="descPtNgt" value="Pontuar quando: #{pstNgt.descricaoPontua}" /><br/>
+            
+            </ui:repeat>
+             
+            <p:poll interval="1"  listener="#{ArbitroManagedBean.computarTotPontos()}" update="totPtPst" />
+            <br/><br/>
+            <b>Total de pontos positivos: </b><h:outputText id="totPtPst" value="#{ArbitroManagedBean.totalPontPst}"/><br/> 
+            <b>Total de pontos Negativos: </b><h:outputText id="totPtNgt" value="#{ArbitroManagedBean.totalPontNgt}"/>
+            <br/><br/> 
+                 
+             
+             
+            <h:panelGrid columns="2">
+              
+             <p:outputLabel value="O combate acabou com:"/>
+             <p:selectOneMenu value="#{ArbitroManagedBean.finalCBT}">
+             <f:selectItem itemLabel="Nocaute" itemValue="Nocaute"/>
+             <f:selectItem itemLabel="Finalização" itemValue="Finalização"/>
+             <f:selectItem itemLabel="Pontos" itemValue="Pontos"/>
+             </p:selectOneMenu> 
+             
+                 
+            <p:outputLabel value="Descrição do combate:"/>
+            <p:inputTextarea  rows="4" autoResize="false" value="#{ArbitroManagedBean.descMetricas}"/>
+             
+            </h:panelGrid>
+             <br/><br/>
+            
+             <p:commandButton value="Finalizar confronto" action="#{ArbitroManagedBean.definicaoConf()}" update="prts,growl"/>
+        </p:dialog>
+        
+    </ui:define>
+</ui:decorate>
+

@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="Template.xhtml">
+    
+    <ui:define name="conteudo">
+
+ <h1 class="page-header">Modalidades</h1>
+			
+
+			 <h:panelGrid columns="2">
+                
+                <p:commandButton value="Inserir nova modalidade" onclick="PF('dlgInserModalidade').show();" />
+                
+                <p:commandButton value="Atualizar dados da modalidade"  onclick="PF('dlgAltModalidade').show();" />
+                
+            </h:panelGrid>
+                
+                <br/><br/>
+                
+                <h:panelGrid columns="4">
+                <p:outputLabel for="codModalidade" value="Código de identificação da modalidade: "/>
+                <p:inputText id="codModalidade" value="#{ModalidadeManagedBean.altCodModali}" disabled="true"/>
+                
+                <p:outputLabel for="nomeModalidade" value="Nome da modalidade: "/>
+                <p:inputText id="nomeModalidade" value="#{ModalidadeManagedBean.altNomeDaModalidade}" disabled="true"/>
+                </h:panelGrid>
+                
+                <br/><br/>
+<!--                <p:dataTable id="tabelaModalidade" value="#{ModalidadeManagedBean.modalidades}" var="mods" paginator="true" rows="10" >-->
+                
+                <p:dataTable id="tabelaModalidade" value="#{ModalidadeManagedBean.modalidades}" selectionMode="single" selection="#{ModalidadeManagedBean.modSelecionada}"
+                             rowKey="#{mods.codModali}" var="mods" paginator="true" rows="10" >
+                
+                    <p:ajax event="rowSelect" listener="#{ModalidadeManagedBean.linhaSelecionada()}" update=":form" />
+<!--                    <p:column headerText="Selecionar" exportable="false">
+                 <h:selectBooleanCheckbox value="#{mods.selected}" />
+             </p:column>     -->
+                    
+                <p:column headerText="Código modalidade" >
+                    <h:outputText value="#{mods.codModali}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Nome modalidade">
+                        <h:outputText value="#{mods.nomeModali}"/>
+                    </p:column>
+                
+<!--                <p:column headerText="Botão">
+                    <p:commandButton value="editar" action="#{ModalidadeManagedBean.linhaSelecionada()}" update=":form" />  
+                </p:column>-->
+                    
+                </p:dataTable>
+                
+                
+<!--      Dialog inserir modalidades    -->
+                
+<p:dialog   header="Inserir modalidade" widgetVar="dlgInserModalidade" modal="true" height="auto" width="auto">
+    
+    <p:fieldset>
+     
+        <p:tabView >
+     
+            <p:tab title="Informações básicas">
+    
+    <h:panelGrid columns="2">
+    
+    <p:outputLabel for="NomeModali" value="Nome da modalidade: "/>
+    <p:inputText id="NomeModali" value="#{ModalidadeManagedBean.nomeDaModalidade}" />
+    
+    <p:outputLabel for="descModali" value="Descrição da modalidade:"/>
+    <p:inputTextarea id="descModali"  autoResize="false" rows="5"   value="#{ModalidadeManagedBean.descricaoDaModalidade}"/>
+    
+    </h:panelGrid>
+    </p:tab>
+     
+           <p:tab id="teste2" title="Graduações da modalidade para participantes">
+               <h:panelGrid  columns="5">
+    <p:outputLabel for="graduacModaliAlu" value="Nome graduação/faixa dos participantes: " />
+    <p:inputText id="graduacModaliAlu" title="Adicione as faixas ou niveis de graduação da arte marcial"  value="#{ModalidadeManagedBean.identificacaoGraduATL}"/>
+    <p:tooltip id="toolTipFocusAlu" for="graduacModaliAlu" showEvent="focus" hideEvent="blur" />
+    
+    <p:commandButton value="Adicionar graduação" action="#{ModalidadeManagedBean.adicionarGraduATL()}"  update="TabelaGraduacaoModaliAlu"/>
+    <p:commandButton value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaInsATL()}"  update="TabelaGraduacaoModaliAlu"/>
+    
+    </h:panelGrid>
+        <br/><br/>
+        <p:dataTable id="TabelaGraduacaoModaliAlu" value="#{ModalidadeManagedBean.graduacoesModaliATL}" 
+                     var="atl" paginator="true" rows="5" >
+
+             <p:column headerText="Selecionar" exportable="false">
+                 <h:selectBooleanCheckbox value="#{atl.selected}" />
+             </p:column>     
+           
+        <p:column headerText="Faixa/Graduação" >
+            <h:outputText value="#{atl.identificacaoGradu}"/>
+        </p:column>
+            
+
+            
+        </p:dataTable>   
+<!--        <p:commandButton value="editar" action="#{ModalidadeManagedBean.linhaSelecionada()}" update="@graduacModaliAlu"/>  -->
+            </p:tab>
+        <br/><br/>
+        
+         <p:tab title="Graduações da modalidade para árbitros">    
+    <h:panelGrid columns="5">
+        
+    <p:outputLabel for="graduacModaliArb" value="Nome graduação/faixa dos árbitros: " />
+    <p:inputText id="graduacModaliArb" title="Adicione as faixas ou niveis de graduação da arte marcial" value="#{ModalidadeManagedBean.identificacaoGraduARB}"/>
+    <p:tooltip id="toolTipFocusArb" for="graduacModaliArb" showEvent="focus" hideEvent="blur" />
+    
+    <p:commandButton value="Adicionar graduação" action="#{ModalidadeManagedBean.adicionarGraduARB()}" update="TabelaGraduacaoModaliArb"/>
+    <p:commandButton value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaInsARB()}" update="TabelaGraduacaoModaliArb"/>
+    </h:panelGrid>
+        <br/><br/>
+        <p:dataTable id="TabelaGraduacaoModaliArb" value="#{ModalidadeManagedBean.graduacoesModaliARB}" var="arb" paginator="true" rows="5" >
+            
+            
+         <p:column headerText="Selecionar" exportable="false">
+                 <h:selectBooleanCheckbox value="#{arb.selected}" />
+             </p:column>     
+            
+        <p:column headerText="Faixa/Graduação" >
+            <h:outputText value="#{arb.identificacaoGradu}"/>
+        </p:column>
+            
+        </p:dataTable>    
+        <br/><br/>
+        
+        </p:tab> 
+        
+        
+        </p:tabView> 
+        </p:fieldset>
+    <br/>
+    <p:commandButton value="Salvar modalidade" action="#{ModalidadeManagedBean.inserirModali()}" update="form,growl"/>
+</p:dialog>                
+
+<!--   Finaliza Dialog inserir modalidades    -->
+
+<!--   Dialog Atualiza modalidades  -->
+
+<p:dialog  header="Atualizar dados modalidade" widgetVar="dlgAltModalidade" modal="true" height="auto" width="auto">
+    
+    <p:fieldset>
+     
+        <p:tabView >
+     
+            <p:tab title="Informações básicas">
+    <p:outputLabel for="AltCodModali" value="Código de indentificação da modalidade: "/>
+    <p:inputText id="AltCodModali" value="#{ModalidadeManagedBean.altCodModali}" disabled="true"/>
+        <br/><br/>
+    <h:panelGrid columns="2">
+    
+    <p:outputLabel for="AltNomeModali" value="Nome da modalidade: "/>
+    <p:inputText id="AltNomeModali" value="#{ModalidadeManagedBean.altNomeDaModalidade}" />
+    
+    <p:outputLabel for="AltdescModali" value="Descrição da modalidade:"/>
+    <p:inputTextarea id="AltdescModali"  autoResize="false" rows="5" value="#{ModalidadeManagedBean.altDescricaoDaModalidade}"/>
+    
+    </h:panelGrid>
+    </p:tab>
+     
+            <p:tab title="Graduações da modalidade para alunos">
+    <h:panelGrid columns="5">
+    <p:outputLabel for="AltgraduacModaliAlu" value="Nome graduação/faixa dos participantes: " />
+    <p:inputText id="AltgraduacModaliAlu" value="#{ModalidadeManagedBean.altIdentificacaoGraduATL}" title="Adicione as faixas ou niveis de graduação da arte marcial"/>
+    <p:tooltip id="AlttoolTipFocusAlu" for="AltgraduacModaliAlu" showEvent="focus" hideEvent="blur" />
+    
+    <p:commandButton value="Adicionar graduação" action="#{ModalidadeManagedBean.alteraGraduATL()}" update="AltTabelaGraduacaoModaliAlu"/>
+    <p:commandButton value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaAltATL()}" update="AltTabelaGraduacaoModaliAlu"/>
+    </h:panelGrid>
+        <br/><br/>
+        <p:dataTable id="AltTabelaGraduacaoModaliAlu" value="#{ModalidadeManagedBean.altGraduacoesModaliATL}" var="altGrdATL" paginator="true" rows="5" >
+            
+            <p:column headerText="Selecionar" exportable="false">
+                <h:selectBooleanCheckbox value="#{altGrdATL.selected}" />
+             </p:column>     
+            
+         <p:column headerText="Código Faixa/Graduação" >
+             <h:outputText value="#{altGrdATL.codGraduMod}" />
+        </p:column>   
+            
+        <p:column headerText="Faixa/Graduação" >
+            <h:outputText value="#{altGrdATL.identificacaoGradu}" />
+        </p:column>
+            
+        </p:dataTable>    
+            </p:tab>
+        <br/><br/>
+        
+        <p:tab title="Graduações da modalidade para árbitros">    
+    <h:panelGrid columns="5">
+    <p:outputLabel for="AltgraduacModaliArb" value="Nome graduação/faixa dos árbitros: " />
+    <p:inputText id="AltgraduacModaliArb" value="#{ModalidadeManagedBean.altIdentificacaoGraduARB}" title="Adicione as faixas ou niveis de graduação da arte marcial"/>
+    <p:tooltip id="AlttoolTipFocusArb" for="AltgraduacModaliArb" showEvent="focus" hideEvent="blur" />
+    
+    <p:commandButton value="Adicionar graduação" action="#{ModalidadeManagedBean.alteraGraduABR()}" update="AltTabelaGraduacaoModaliArb"/>
+    <p:commandButton value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaAltARB()}" update="AltTabelaGraduacaoModaliArb"/>
+    </h:panelGrid>
+        <br/><br/>
+        <p:dataTable id="AltTabelaGraduacaoModaliArb" value="#{ModalidadeManagedBean.altGraduacoesModaliARB}"
+                     var="altGraduARB" paginator="true" rows="5" >
+            
+          <p:column headerText="Selecionar" exportable="false">
+                <h:selectBooleanCheckbox value="#{altGraduARB.selected}" />
+             </p:column>       
+            
+         <p:column headerText="Código Faixa/Graduação" >
+             <h:outputText value="#{altGraduARB.codGraduMod}"/>
+        </p:column>   
+            
+        <p:column headerText="Faixa/Graduação" >
+            <h:outputText value="#{altGraduARB.identificacaoGradu}"/>
+        </p:column>
+            
+        </p:dataTable>    
+        <br/><br/>
+        
+        </p:tab> 
+        
+        
+        </p:tabView> 
+        </p:fieldset>
+    <br/>
+    <p:commandButton value="Alterar modalidade" action="#{ModalidadeManagedBean.alteraMod()}" update=":form"/>
+</p:dialog>               
+        
+        
+    </ui:define>
+    
+
+
+
+</ui:decorate>
+
+
+

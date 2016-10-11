@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="Template.xhtml">
+    
+    <ui:define name="conteudo">
+
+        <h1 class="page-header">Gerar chaves de confronto</h1>
+			
+
+			<h:panelGrid columns="4">
+                <p:outputLabel for="ModCads" value="Modalidades: "/>
+                    <p:selectOneMenu id="ModCads"  value="#{EventosManagedBean.codModSelecionado}" >
+                        <p:ajax   listener="#{EventosManagedBean.carregarComboEv()}" update="EventCads,SegsCads"/>
+                        <f:selectItem itemLabel="Selecione uma modalidade"/>
+                        <f:selectItems value="#{EventosManagedBean.comboMod}"  />
+                        
+                    </p:selectOneMenu>
+                
+               <p:outputLabel for="EventCads" value="Eventos cadastrados: "/>
+                    <p:selectOneMenu id="EventCads"  value="#{EventosManagedBean.codEveSelecionado}"  >
+                     <p:ajax   listener="#{EventosManagedBean.carregaComboSegEcategs()}"  update="SegsCads"/>
+                        <f:selectItem itemLabel="Selecione um evento"/>
+                        <f:selectItems value="#{EventosManagedBean.comboEve}"  />
+                    </p:selectOneMenu>
+                
+                <p:outputLabel for="SegsCads" value="Segmentos do evento: "/>    
+                <p:selectOneMenu id="SegsCads"   value="#{ChavesManagedBean.codSegSelecionado}">
+                    <p:ajax   listener="#{ChavesManagedBean.carregaComboCat()}"  update="CatsCads,growl"/>
+                        <f:selectItem itemLabel="Segmentos"/>
+                        <f:selectItems value="#{EventosManagedBean.comboSegs}"  />
+                    </p:selectOneMenu> 
+                
+                <p:outputLabel for="CatsCads" value="Categorias: "/>    
+                <p:selectOneMenu id="CatsCads"  value="#{ChavesManagedBean.codCatSelecionado}" >
+                        <f:selectItem itemLabel="Categorias"/>
+                        <f:selectItems value="#{ChavesManagedBean.comboCats}"  />
+                    </p:selectOneMenu> 
+                
+                <p:outputLabel for="nomeChv" value="Nome da chave: "/>
+                <p:inputText id="nomeChv" value="#{ChavesManagedBean.nomeChvConf}"/>
+                
+                </h:panelGrid>
+                <br/>
+                <p:commandButton value="Pesquisar competidores" action="#{ChavesManagedBean.listarAtletasInsc()}" update="tabelaPRT,growl   "/>
+                <p:commandButton value="Remover participante" action="#{ChavesManagedBean.removerPrtGerarChave()}" update="tabelaPRT"/>
+                <br/><br/>
+                
+                <p:dataTable id="tabelaPRT" value="#{ChavesManagedBean.incritos}" var="insc" paginator="true" rows="10"
+                             selectionMode="single" rowKey="#{insc.codInscricao}" selection="#{ChavesManagedBean.inscSelec}">
+                
+                    <p:column headerText="Inscrição do participante" >
+                        <h:outputText value="#{insc.codInscricao}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{insc.nomeAtleta}"/>
+                    </p:column>
+                
+                </p:dataTable>
+                <br/>
+                <p:commandButton value="Gerar chave de confronto" action="#{ChavesManagedBean.inserirConfrontos()}" update="growl"/>
+                <br/><br/>
+        
+    </ui:define>
+    
+
+
+
+</ui:decorate>
+

@@ -1,0 +1,531 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="Template.xhtml">
+    
+    <ui:define name="conteudo">
+        <h1 class="page-header">Eventos de torneio</h1>
+        
+        <h:panelGrid columns="5" class="grid">
+                <p:commandButton value="Inserir novo evento" onclick="PF('dlgInsEve').show();" />
+                <p:commandButton value="Configurar segmento" onclick="PF('dlgConfSeg').show();" />
+                <p:commandButton value="Atualizar dados do evento" action="#{EventosManagedBean.itensDeATL()}" onclick="PF('dlgAtlEve').show();" update="tabAltEv,CodAltEveSelect"/>
+                <p:commandButton value="Finalizar evento" action="#{EventosManagedBean.finalizaEvento()}" update="form"/>
+                <p:commandButton value="Cancelar evento" action="#{EventosManagedBean.cancelaEvento()}" update="form"/>
+                
+                
+                
+            </h:panelGrid>
+                <br/>
+                <p:commandButton value="Visualizar configurações do segmento" action="#{EventosManagedBean.consultaConfsSegs()}" onclick="PF('dlgVisConfSeg').show();" update="tabVisConfs"/>
+               
+             <br/><br/>
+             
+             <p:outputLabel for="ModCads" value="Modalidades cadastradas: "/>
+                    <p:selectOneMenu id="ModCads"  value="#{EventosManagedBean.codModSelecionado}"  >
+                        <p:ajax   listener="#{EventosManagedBean.carregarComboEv()}" update="EventCads,SegsCads,dtEvent,tabConfSeg,tabelaCat" />
+                        <f:selectItem itemLabel="Selecione uma modalidade"/>
+                        <f:selectItems value="#{EventosManagedBean.comboMod}"  />
+                        
+                    </p:selectOneMenu>
+             
+             <br/><br/>
+                <h:panelGrid columns="7">
+                    
+                    <p:outputLabel for="EventCads" value="Eventos cadastrados: "/>
+                    <p:selectOneMenu id="EventCads"  value="#{EventosManagedBean.codEveSelecionado}"  >
+                        <p:ajax   listener="#{EventosManagedBean.carregaComboSegEcategs()}"  update="SegsCads,dtEvent,tabConfSeg,tabelaCat"/>
+                        
+                        <f:selectItem itemLabel="Selecione um evento"/>
+                        <f:selectItems value="#{EventosManagedBean.comboEve}"  />
+                        
+                    </p:selectOneMenu>
+                    
+   
+
+                   <p:outputLabel for="SegsCads" value="Segmentos do evento: "/>    
+                   <p:selectOneMenu id="SegsCads"  value="#{EventosManagedBean.codSegSelecionado}" >
+                       <p:ajax   listener="#{EventosManagedBean.itensDeConfSeg()}" update="codSegConf,tabConfSeg,tabelaCat" />
+                        <f:selectItem itemLabel="Segmentos"/>
+                        <f:selectItems value="#{EventosManagedBean.comboSegs}"  />
+                        
+                    </p:selectOneMenu> 
+ 
+                    <p:outputLabel for="dtEvent" value="Data do evento: "/>
+                    <p:inputText id="dtEvent"  value="#{EventosManagedBean.dataEventoCons}" disabled="true">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </p:inputText>
+                    
+                    
+                </h:panelGrid>
+                <br/>
+                <p:dataTable id="tabelaCat" value="#{EventosManagedBean.listaCatSegs}" var="catsList" paginator="true" rows="10" >
+                 
+                    <p:column headerText="Código categoria" >
+                        <h:outputText value="#{catsList.codCategoria}" />
+                    </p:column>
+                    <p:column headerText="Peso de">
+                        <h:outputText  value="#{catsList.pesoMinCategoria}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Peso até">
+                        <h:outputText value="#{catsList.pesoMaxCategoria}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Graduação de">
+                        <h:outputText value="#{catsList.graduacaoMinCategoria}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Graduação Até">
+                        <h:outputText value="#{catsList.graduacaoMaxCategoria}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Nome categoria">
+                        <h:outputText value="#{catsList.nomeCategoria}"/>
+                    </p:column>
+                 
+             </p:dataTable>
+                
+<!--  Tela inserir evento -->
+                
+                <p:dialog  header="Inserir evento" widgetVar="dlgInsEve" modal="true" height="auto" width="auto">
+            <p:fieldset  id="dialogInserEv">
+                <p:tabView>
+                    <p:tab title="Informações do evento">
+                        
+                <h:panelGrid columns="4">
+            
+        <p:outputLabel for="nomeEvDlg" value="Nome evento: "/>
+        <p:inputText id="nomeEvDlg" value="#{EventosManagedBean.nomeEvento}"/>
+        
+        <p:outputLabel for="calendarDlg" value="Data do evento: "/>
+        <p:calendar id="calendarDlg"  pattern="dd/MM/yyyy" mask="true" value="#{EventosManagedBean.dataEvento}"/>
+            
+        </h:panelGrid>
+        <br/>
+        <h:panelGrid columns="4">
+            
+        <p:outputLabel for="nomeSegDlg" value="Segmento do evento: "/>
+        <p:inputText id="nomeSegDlg" value="#{EventosManagedBean.nomeSegmento}" />
+        
+        <p:commandButton value="Adicionar segmento" action="#{EventosManagedBean.adicionarSegLista()}" update="DlgtabelaSeg"/>
+        <p:commandButton value="Remover segmento" action="#{EventosManagedBean.removerSegLista()}" update="DlgtabelaSeg"/>
+            
+        <p:outputLabel for="areaDescEve" value="Descrição modalidade"/>
+        <p:inputTextarea id="areaDescEve" value="#{EventosManagedBean.descricaoSegmento}"/>
+        
+        </h:panelGrid>
+        
+        <p:dataTable id="DlgtabelaSeg" value="#{EventosManagedBean.listaSegs}" var="insSegs" paginator="true" rows="5">
+                 
+            <p:column headerText="Selecionar">
+                <h:selectBooleanCheckbox value="#{insSegs.selected}" />
+             </p:column>    
+            
+            <p:column headerText="Segmentos">
+                <h:outputText value="#{insSegs.nomeSegmento}"/>
+            </p:column>
+                 
+             </p:dataTable>
+        
+        <p:commandButton value="Salvar" action="#{EventosManagedBean.inserirEve()}" update=":form"/>
+        </p:tab>
+        </p:tabView>
+            </p:fieldset>
+</p:dialog>
+ 
+<!--  fechar Tela inserir evento -->
+
+<!-- Tela atualizar evento -->
+
+<p:dialog  header="Atualizar dados do evento" widgetVar="dlgAtlEve" modal="true" height="550" width="auto">
+    
+    <p:outputLabel for="CodAltEveSelect" value="Código evento selecionado: "/>
+    <p:inputText id="CodAltEveSelect" value="#{EventosManagedBean.codEvento}"  disabled="true"/>
+    
+   
+    <br/><br/>
+    
+    <p:fieldset  >
+        
+        <p:tabView id="tabAltEv">
+        
+            <p:tab id="teste" title="Informações do evento">
+        <h:panelGrid columns="6">
+            
+        <p:outputLabel for="NomeAltEvDlg" value="Nome evento: "/>
+        <p:inputText id="NomeAltEvDlg" value="#{EventosManagedBean.altNomeEvento}"/>
+        
+        <p:outputLabel for="calendarAltDlg" value="Data do evento: "/>
+        <p:calendar id="calendarAltDlg" value="#{EventosManagedBean.altDataEventoCons}"  pattern="dd/MM/yyyy" mask="true" />
+            
+        <p:outputLabel for="DataOrigEve" value="Data atual do evento: "/>
+        <p:inputText id="DataOrigEve" value="#{EventosManagedBean.dataEventoCons}" disabled="true"/>
+        
+        </h:panelGrid>
+        <br/>
+        <h:panelGrid columns="5">
+            
+        <p:outputLabel for="NomeAltSegDlg" value="Segmento do evento: "/>
+        <p:inputText id="NomeAltSegDlg" value="#{EventosManagedBean.altNomeSegmento}"/>
+        
+        <p:commandButton value="Adicionar segmento" action="#{EventosManagedBean.addAltSegsEve()}" update="DlgAltTabelaSeg"/>
+        <p:commandButton value="Remover segmento" action="#{EventosManagedBean.removerAltSegLista()}" update="DlgAltTabelaSeg,NomeAltSegDlg,AltAreaDescEve"/>
+        <p:commandButton value="Restaurar lista de segmentos" action="#{EventosManagedBean.restauraListaAltSegs()}" update="DlgAltTabelaSeg"/>
+        
+        
+        <p:outputLabel for="AltAreaDescEve" value="Descrição modalidade"/>
+        <p:inputTextarea id="AltAreaDescEve" value="#{EventosManagedBean.altDescricaoSegmento}"/>
+        
+        <p:commandButton value="Alterar segmento" action="#{EventosManagedBean.segsParaAlt()}" update="DlgAltTabelaSeg"/>
+        <p:commandButton value="Limpar campos" action="#{EventosManagedBean.limparCamposAltEve()}" update="NomeAltSegDlg,AltAreaDescEve"/>
+        
+        </h:panelGrid>
+        
+        <p:dataTable id="DlgAltTabelaSeg" value="#{EventosManagedBean.altListaSegs}"  
+                     selectionMode="single" selection="#{EventosManagedBean.segSelecionadoTb}" rowKey="#{altSegs.codSegmento}"
+                     var="altSegs" paginator="true" rows="5">
+                 
+            <p:ajax event="rowSelect" listener="#{EventosManagedBean.linhaSelecionadaAltSeg()}" update=":form:tabAltEv:NomeAltSegDlg,:form:tabAltEv:AltAreaDescEve" />
+            
+            <p:column headerText="Selecionar">
+                <h:selectBooleanCheckbox value="#{altSegs.selected}" />
+
+             </p:column>   
+            
+            <p:column headerText="Código seguimento">
+                <h:outputText value="#{altSegs.codSegmento}"/>
+            </p:column>
+                
+            <p:column headerText="Segmentos">
+                <h:outputText value="#{altSegs.nomeSegmento}"/>
+            </p:column>
+                 
+            <p:column headerText="Descrição segmentos">
+                <h:outputText value="#{altSegs.descricaoSegmento}"/>
+            </p:column>
+            
+             </p:dataTable>
+        <br/>
+        <p:commandButton value="Alterar" action="#{EventosManagedBean.alteraEvento()}" update=":form"/>
+        
+        </p:tab>  
+        </p:tabView>
+    </p:fieldset>
+</p:dialog>
+<!--  fechar Tela atualizar evento  -->
+ 
+<!--  Inicio Tela configurar segmentos  -->
+ <p:dialog  header="Configurar segmento do evento" widgetVar="dlgConfSeg" modal="true" height="500" width="auto">
+     
+     
+     <p:outputLabel for="codSegConf" value="Código de identificação do segmento: "/>
+     <p:inputText id="codSegConf" value="#{EventosManagedBean.codSegSelecionado}" disabled="true"/>
+     
+     <p:tabView id="tabConfSeg">
+     
+         <p:tab title="Categorias">
+             <h:panelGrid columns="4">
+                 
+                 <p:outputLabel value="Graduação de"/>
+                 <p:selectOneMenu id="GraduATLde" value="#{EventosManagedBean.graduDeSelecionada}"  >
+                        <f:selectItem itemLabel="Graduações"/>
+                        <f:selectItems value="#{EventosManagedBean.comboGraduacoesATL}"  />
+                    </p:selectOneMenu> 
+                 
+                 <p:outputLabel value="Até"/>
+                 <p:selectOneMenu id="GraduATLAte" value="#{EventosManagedBean.graduAteSelecionada}">
+                        <f:selectItem itemLabel="Graduações"/>
+                        <f:selectItems value="#{EventosManagedBean.comboGraduacoesATL}"  />
+                    </p:selectOneMenu> 
+                 
+                 <p:outputLabel value="Peso de"/>
+                 <p:inputText value="#{EventosManagedBean.pesoDe}"/>
+                 
+                 <p:outputLabel value="Até"/>
+                 <p:inputText value="#{EventosManagedBean.pesoAte}"/>
+                 
+                 <p:outputLabel value="Idade de"/>
+                 <p:inputText value="#{EventosManagedBean.idadeDe}"/>
+                 
+                 <p:outputLabel value="Até"/>
+                 <p:inputText value="#{EventosManagedBean.idadeate}"/>
+                 
+                 <p:outputLabel value="Sexo"/>
+                 <p:selectOneMenu value="#{EventosManagedBean.sexo}">
+                     <f:selectItem itemLabel="Masculino" itemValue="Masculino"/>
+                        <f:selectItem itemLabel="Feminino" itemValue="Feminino"/>
+                    </p:selectOneMenu> 
+                 
+                 <p:outputLabel value="Nome da categoria"/>
+                 <p:inputText value="#{EventosManagedBean.nomeCat}"/>
+                 
+             </h:panelGrid>
+             <br/><br/>
+             <p:commandButton value="Adicionar categoria" action="#{EventosManagedBean.adicionaCatLista()}" update="DlgtabelaCat"/>             
+             <p:commandButton value="Remover categoria" action="#{EventosManagedBean.removerCatLista()}" update="DlgtabelaCat"/>
+             <br/><br/>
+             
+             <p:dataTable id="DlgtabelaCat" value="#{EventosManagedBean.listaCat}" var="cat" paginator="true" rows="5">
+                 
+                 <p:column headerText="Selecionar">
+                <h:selectBooleanCheckbox value="#{cat.selected}" />
+
+             </p:column>   
+                 
+                 <p:column headerText="Nome categoria">
+                     <h:outputText value="#{cat.nomeCategoria}"/>
+                 </p:column>
+                 
+                 <p:column headerText="Sexo">
+                     <h:outputText value="#{cat.sexo}"/>
+                 </p:column>
+                 
+             </p:dataTable>
+             
+             <p:commandButton value="Salvar" action="#{EventosManagedBean.inserirCategoria()}" update=":form"/>
+         </p:tab>
+ 
+         <p:tab title="Métodos de pontuação">
+             
+             <h:panelGrid columns="4">
+             
+             <p:outputLabel value="Nome pontuação:"/>
+             <p:inputText value="#{EventosManagedBean.nomePontua}"/>
+             
+             <p:outputLabel value="Valor pontuação:"/>
+             <p:inputText value="#{EventosManagedBean.valorPontua}"/>
+             
+             <p:outputLabel value="Tipo de pontuação:"/>
+             <p:selectOneMenu value="#{EventosManagedBean.tipoPontua}">
+             <f:selectItem itemLabel="Positiva" itemValue="Positiva"/>
+             <f:selectItem itemLabel="Negativa" itemValue="Negativa"/>
+             </p:selectOneMenu> 
+             
+             <p:outputLabel value="Parte do corpo impactada:"/>
+             <p:selectOneMenu value="#{EventosManagedBean.ptCorpoPontua}">
+             <f:selectItem itemLabel="Cabeça" itemValue="Cabeça"/>
+             <f:selectItem itemLabel="Tronco" itemValue="Tronco"/>
+             <f:selectItem itemLabel="Braços" itemValue="Braços"/>
+             <f:selectItem itemLabel="Pernas" itemValue="Pernas"/>
+             <f:selectItem itemLabel="Quedagem" itemValue="Quedagem"/>
+             </p:selectOneMenu> 
+             
+             
+             <p:outputLabel value="Descrição para uso:"/>
+             <p:inputTextarea value="#{EventosManagedBean.descricaoPontua}" rows="4" autoResize="false"/>
+             
+             <p:commandButton value="Adicionar" action="#{EventosManagedBean.adicionarPontuacaoLista()}" update="DlgtabelaPotuacao"/>
+             <p:commandButton value="Remover" action="#{EventosManagedBean.removerPontuacaoLista()}" update="DlgtabelaPotuacao"/>
+             </h:panelGrid>
+             
+             
+             <p:dataTable id="DlgtabelaPotuacao" value="#{EventosManagedBean.listaPontos}" var="pts" paginator="true" rows="2" >
+             
+              <p:column headerText="Selecionar">
+                <h:selectBooleanCheckbox value="#{pts.selected}" />
+              </p:column>   
+                 
+                 <p:column headerText="Nome pontuação">
+                     <h:outputText value="#{pts.nomePontua}"/>
+                 </p:column>
+             
+                 <p:column headerText="Tipo pontuação">
+                     <h:outputText value="#{pts.tipoPontua}"/>
+                 </p:column>
+                 
+                 <p:column headerText="Descrição pontuação">
+                     <h:outputText value="#{pts.descricaoPontua}"/> 
+                 </p:column>
+                 
+             </p:dataTable>
+             
+             <p:commandButton value="Salvar" action="#{EventosManagedBean.inserirTpPontuacao()}" update=":form"/>
+             
+         </p:tab>
+         
+         <p:tab title="Arbitros">
+             
+             <h:panelGrid columns="4">
+             <p:outputLabel value="Nome para novo arbitro:"/>
+             <p:inputText value ="#{EventosManagedBean.nomeArbitro}" />
+             
+             <p:outputLabel value="Graduação para novo arbitro:"/>
+             <p:selectOneMenu value="#{EventosManagedBean.graduArbSelecionada}">
+                 <f:selectItem itemLabel="Graduações"/>
+                 <f:selectItems value="#{EventosManagedBean.comboGraduacoesARB}" />
+             </p:selectOneMenu> 
+             
+             <p:outputLabel value="Arbitros já cadastrados:"/>
+             <p:selectOneMenu value="#{EventosManagedBean.arbitroSelecionado}">
+                 <f:selectItem itemLabel="Arbitros"/>
+                 <f:selectItems value="#{EventosManagedBean.comboArbitros}" />
+             </p:selectOneMenu> 
+             
+             <p:outputLabel value="Pontuações a se arbitrar:"/>
+             <p:selectOneMenu value="#{EventosManagedBean.pontuaSelecionado}">
+             <f:selectItem itemLabel="Pontuação" />
+             <f:selectItems value="#{EventosManagedBean.comboPontosParaARB}" />
+             </p:selectOneMenu> 
+             </h:panelGrid>
+             <br/>
+             <p:commandButton value="Adicionar" action="#{EventosManagedBean.adicionarPontuacaoListaARB()}" update="DlgtabelaPotuacaoARB"/>
+             <p:commandButton value="Remover" action="#{EventosManagedBean.removerPontuacaoListaARB()}" update="DlgtabelaPotuacaoARB"/>
+             <br/><br/>
+             <p:dataTable id="DlgtabelaPotuacaoARB" value="#{EventosManagedBean.ptPorARB}" var="prARB" paginator="true" rows="4">
+                 
+                 <p:column headerText="Selecionar">
+                     <h:selectBooleanCheckbox value="#{prARB.selected}" />
+              </p:column>   
+                 
+                 <p:column headerText="Código pontuação">
+                     <h:outputText value="#{prARB.codPontua}"/>    
+                 </p:column>
+                 
+                 <p:column headerText="Nome pontuação">
+                     <h:outputText value="#{prARB.nomePontua}"/> 
+                 </p:column>
+                 
+             </p:dataTable>
+             
+             <p:commandButton value="Salvar" action="#{EventosManagedBean.inserirArbitro()}" update=":form"/>
+         </p:tab>
+         
+     </p:tabView>
+     
+ </p:dialog>
+ 
+ 
+<!--  Fechar Tela configurar segmentos  -->
+ 
+<!-- Inicio da tela Visualizar conf segmentos -->
+
+<p:dialog  header="Configurar segmento do evento" widgetVar="dlgVisConfSeg" modal="true" height="500" width="auto">
+    
+     <p:tabView id="tabVisConfs">
+     
+         <p:tab title="Categorias">
+              <br/><br/>       
+              <p:commandButton value="Remover categoria" action="#{EventosManagedBean.removerCatVis()}" update=":form:tabVisConfs:VisCats"  />
+              <p:commandButton value="Restaurar listas" action="#{EventosManagedBean.consultaConfsSegs()}" update=":form:tabVisConfs:VisCats"  />
+             <br/><br/>
+             
+             <p:dataTable id="VisCats" value="#{EventosManagedBean.visListaCat}" 
+                          selectionMode="single" selection="#{EventosManagedBean.catSelecionadaVis}" rowKey="#{VisCat.codCategoria}"
+                          var="VisCat" paginator="true" rows="5">
+                 
+          
+                 
+                 <p:column headerText="Nome categoria">
+                     <h:outputText value="#{VisCat.codCategoria}"/>
+                 </p:column>
+                 
+                 <p:column headerText="Nome categoria">
+                     <h:outputText value="#{VisCat.nomeCategoria}"/>
+                 </p:column>
+                 
+                 <p:column headerText="Sexo">
+                     <h:outputText value="#{VisCat.sexo}"/>
+                 </p:column>
+                 
+             </p:dataTable>
+            
+         </p:tab>
+ 
+         <p:tab title="Métodos de pontuação">
+             
+             <br/><br/>
+             <p:commandButton value="Remover método de pontuação" action="#{EventosManagedBean.removerMTPontuaVis()}" update=":form:tabVisConfs:VisMetPTs,:form:tabVisConfs:VisPtARB" />
+             <p:commandButton value="Restaurar listas" action="#{EventosManagedBean.consultaConfsSegs()}" update=":form:tabVisConfs:VisMetPTs,:form:tabVisConfs:VisPtARB"  />
+             <br/><br/>
+             <p:dataTable id="VisMetPTs" value="#{EventosManagedBean.visListaPontos}"
+                          selectionMode="single" selection="#{EventosManagedBean.metSelecionadoVis}" rowKey="#{visPts.codPontua}"
+                          var="visPts" paginator="true" rows="2" >
+             
+              
+                 
+                 <p:column headerText="Nome pontuação">
+                     <h:outputText value="#{visPts.codPontua}"/>
+                 </p:column>
+                 
+                 <p:column headerText="Nome pontuação">
+                     <h:outputText value="#{visPts.nomePontua}"/>
+                 </p:column>
+             
+                 <p:column headerText="Tipo pontuação">
+                     <h:outputText value="#{visPts.tipoPontua}"/>
+                 </p:column>
+                 
+                 <p:column headerText="Descrição pontuação">
+                     <h:outputText value="#{visPts.descricaoPontua}"/> 
+                 </p:column>
+                 
+             </p:dataTable>
+             
+             
+         </p:tab>
+         
+         <p:tab title="Arbitros">
+             
+             <br/><br/>     
+             <p:commandButton value="Remover arbitro" action="#{EventosManagedBean.removerARBVis()}" update=":form:tabVisConfs:VisARBs,:form:tabVisConfs:VisPtARB"/>
+             <p:commandButton value="Restaurar listas" action="#{EventosManagedBean.consultaConfsSegs()}" update=":form:tabVisConfs:VisARBs,:form:tabVisConfs:VisPtARB"/>
+             <br/><br/>
+             <p:dataTable id="VisARBs" value="#{EventosManagedBean.visARB}"
+                          selectionMode="single" selection="#{EventosManagedBean.ARBSelecionadoVis}" rowKey="#{ARB.codArbitro}"
+                          var="ARB" paginator="true" rows="4">
+                
+                 
+                 <p:column headerText="Código arbitro">
+                     <h:outputText value="#{ARB.codArbitro}"/>    
+                 </p:column>
+                 
+                 <p:column headerText="Nome arbitro">
+                     <h:outputText value="#{ARB.nomeArbitro}"/> 
+                 </p:column>
+                 
+             </p:dataTable>
+             <br/><br/>
+             <p:commandButton value="Remover ponto arbitrado" action="#{EventosManagedBean.removerPTporARBVis()}" update=":form:tabVisConfs:VisPtARB" />
+              <br/><br/>
+              <p:dataTable id="VisPtARB"  value="#{EventosManagedBean.visPtPorARB}"
+                           selectionMode="single" selection="#{EventosManagedBean.ptPorARBSelecionadoVis}" rowKey="#{visPrARB.codPontua}"
+                           var="visPrARB" paginator="true" rows="4">
+            
+                 
+                   <p:column headerText="Código arbitro">
+                       <h:outputText value="#{visPrARB.codArbitro}"/>    
+                 </p:column>
+                  
+                 <p:column headerText="Código pontuação">
+                     <h:outputText value="#{visPrARB.codPontua}"/>    
+                 </p:column>
+                 
+                 <p:column headerText="Nome pontuação">
+                     <h:outputText value="#{visPrARB.nomePontua}"/> 
+                 </p:column>
+                 
+             </p:dataTable>
+            
+            
+         </p:tab>
+         
+     </p:tabView>
+      <p:commandButton value="Concluir" action="#{EventosManagedBean.removerConfiguracoesSeg()}" update=":form"/>
+ </p:dialog>
+
+<!-- Fechar tela Visualizar conf segmentos               -->
+        
+        
+        
+    </ui:define>
+    
+
+
+
+</ui:decorate>
+

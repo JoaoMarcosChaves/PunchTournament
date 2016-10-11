@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="Template.xhtml">
+    
+    <ui:define name="conteudo">
+
+                        <h1 class="page-header">Tóps do torneio</h1>
+						
+                        <h:panelGrid columns="4">
+                        <p:outputLabel for="ModCads" value="Modalidades cadastradas: "/>
+                    <p:selectOneMenu id="ModCads"  value="#{VencedoresManagedBean.codModSelecionado}"  >
+                        <p:ajax   listener="#{VencedoresManagedBean.carregarComboEv()}" update="EventCads,SegsCads" />
+                        <f:selectItem itemLabel="Selecione uma modalidade"/>
+                        <f:selectItems value="#{EventosManagedBean.comboMod}"  />
+                        
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel for="EventCads" value="Eventos cadastrados: "/>
+                    <p:selectOneMenu id="EventCads"  value="#{RelatoriosManagedBean.codEveSelecionado}"  >
+                        <p:ajax   listener="#{RelatoriosManagedBean.carregaCombos()}"  update="form"/>
+                        
+                        <f:selectItem itemLabel="Selecione um evento"/>
+                        <f:selectItems value="#{VencedoresManagedBean.comboEve}"  />
+                        
+                    </p:selectOneMenu>
+                    
+   
+
+                   <p:outputLabel for="SegsCads" value="Segmentos do evento: "/>    
+                   <p:selectOneMenu id="SegsCads"  value="#{RelatoriosManagedBean.codSegSelecionado}" >
+<!--                       <p:ajax   listener="#{VencedoresManagedBean.carregaComboCat()}"  update="CatsCads,growl"/>-->
+                        <f:selectItem itemLabel="Segmentos"/>
+                        <f:selectItems value="#{RelatoriosManagedBean.comboSegs}"  />
+                        
+                    </p:selectOneMenu> 
+                   
+                   <p:outputLabel value="Combates finalizados com:"/>
+             <p:selectOneMenu value="#{RelatoriosManagedBean.finalCBT}">
+             <f:selectItem itemLabel="Vitória por"/>
+             <f:selectItem itemLabel="Nocaute" itemValue="Nocaute"/>
+             <f:selectItem itemLabel="Finalização" itemValue="Finalização"/>
+             <f:selectItem itemLabel="Pontos" itemValue="Pontos"/>
+             </p:selectOneMenu> 
+                   
+         </h:panelGrid>
+                         <br/><br/>
+                        <p:commandButton class="btn btn-primary" value="Pesquisar" action="#{RelatoriosManagedBean.consulta()}" update="tbTops,growl"/>
+                        <p:commandButton class="btn btn-primary" value="Grafico finalizações de combate" onclick="PF('dlg1').show();" />
+                        <br/><br/>
+                        <p:dataTable id="tbTops" value="#{RelatoriosManagedBean.listaTops}" var="tops">
+                            
+                            <center><f:facet name="header">
+            <h:commandLink>
+                <p:graphicImage library="imgs" name="excel.png" width="24"/>
+                <p:dataExporter type="xls" target="tbTops" fileName="TopsTorneio" />
+            </h:commandLink>
+ 
+                  <h:commandLink>
+                      <p:graphicImage library="imgs" name="pdf.png" width="24" style="margin-left: 10px"/>
+                <p:dataExporter type="pdf" target="tbTops" fileName="TopsTorneio" />
+            </h:commandLink>
+ 
+        </f:facet> </center>    
+                            
+                            <p:column headerText="Código evento">
+                                <h:outputText value="#{tops.codEvento}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Nome evento">
+                                <h:outputText value="#{tops.nomeEvento}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Nome atleta">
+                                <h:outputText value="#{tops.nomeAtleta}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Codigo inscrição">
+                                <h:outputText value="#{tops.codInscricao}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Codigo atleta">
+                                <h:outputText value="#{tops.codAtleta}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Total de pontos positivos">
+                                <h:outputText value="#{tops.totPontosPositivos}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Total de pontos negativos">
+                                <h:outputText value="#{tops.totPontosNegativos}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Venceu por">
+                                <h:outputText value="#{tops.finalCBT}"/>
+                            </p:column>
+                            
+                            <p:column headerText="Totais de vitórias">
+                                <h:outputText value="#{tops.totais}"/>
+                            </p:column>
+                            
+                        </p:dataTable>
+                        <br/><br/>
+                        <p:dialog id="teste" header="Estatisticas de encerramento de combates" widgetVar="dlg1" minHeight="40">
+    
+                            <p:chart id="teste2" type="pie" model="#{RelatoriosManagedBean.grafPizzaTops}" style="width:400px;height:300px" 
+                                     rendered="#{RelatoriosManagedBean.codEvento != 0}"/>
+                            
+                        </p:dialog>
+        
+        
+    </ui:define>
+</ui:decorate>

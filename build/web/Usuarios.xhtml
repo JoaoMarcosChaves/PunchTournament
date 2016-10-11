@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="Template.xhtml">
+    
+    <ui:define name="conteudo">
+
+                                <h1 class="page-header">Cadastro de usuários</h1>
+						
+                        
+                                <p:commandButton value="Arbitros" onclick="PF('arbsDlg').show();" action="#{LoginManagedBean.pesquisaArbitros()}" class="btn btn-outline btn-primary"
+                                                 style="float: right" update="tipo2"/>
+                            
+                            <p:outputLabel for="tipo" value="tipo de perfil:" />
+                            <p:selectOneRadio id="tipo" value="#{LoginManagedBean.cadTipo}">
+                                
+                                <f:selectItem itemLabel="Administrador" itemValue="1" >
+                                </f:selectItem>
+                                
+                                <f:selectItem itemLabel="Árbitro" itemValue="2" >
+                                </f:selectItem>
+                            </p:selectOneRadio>
+                            
+                            <p:outputLabel value="Usuário: "/>
+                            <p:inputText id="tipo1" class="form-control" style="width: 200px"  value="#{LoginManagedBean.cadUsusario}" 
+                                         title="Caso tenha selecionado um cadastro do tipo arbitro, o login deve ser seu código de cadastro."/>
+                            <p:tooltip id="toolTipFocus" for="tipo1" showEvent="focus" hideEvent="blur" />
+                            
+                            <p:outputLabel value="Senha: "/>
+                            <p:password class="form-control" style="width: 200px" value="#{LoginManagedBean.cadSenha}"/>
+                            
+                            <p:outputLabel value="Confirma senha: "/>
+                            <p:password class="form-control" style="width: 200px" value="#{LoginManagedBean.cadConfSenha}"/>
+                            
+                            <p:outputLabel value="Email: "/>
+                            <p:inputText class="form-control" style="width: 200px" value="#{LoginManagedBean.email}"/>
+                            
+                            <p:dialog  widgetVar="arbsDlg" modal="false">
+                                
+                                <p:selectOneMenu id="tipo2" value="#{LoginManagedBean.arbSelec}" >
+                            
+                                <f:selectItems value="#{LoginManagedBean.arbitros}"/>
+                                
+                            </p:selectOneMenu>
+                                
+                            </p:dialog>
+                            
+                            
+                        
+<br/>
+<p:commandButton value="Cadastrar" class="btn btn-primary" action="#{LoginManagedBean.verificaSenha()}" update="growl"/>
+
+        
+    </ui:define>
+</ui:decorate>
