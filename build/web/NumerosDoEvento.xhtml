@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      template="Template.xhtml">
+    
+    <ui:define name="conteudo">
+
+        <h1 class="page-header">Números do evento</h1>
+	
+        <h:panelGrid columns="4">
+                        <p:outputLabel for="ModCads" value="Modalidades cadastradas: "/>
+                        <p:selectOneMenu id="ModCads"  value="#{VencedoresManagedBean.codModSelecionado}"  >
+                        <p:ajax   listener="#{VencedoresManagedBean.carregarComboEv()}" update="EventCads" />
+                        <f:selectItem itemLabel="Selecione uma modalidade"/>
+                        <f:selectItems value="#{EventosManagedBean.comboMod}"  />
+                        
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel for="EventCads" value="Eventos cadastrados: "/>
+                    <p:selectOneMenu id="EventCads"  value="#{RelatoriosManagedBean.codEveSelecionado}"  >
+                        <p:ajax   listener="#{RelatoriosManagedBean.consultaInfIniciaisNumEve()}" update=":form"/>
+                        
+                        <f:selectItem itemLabel="Selecione um evento"/>
+                        <f:selectItems value="#{VencedoresManagedBean.comboEve}"  />
+                        
+                    </p:selectOneMenu>
+                    
+   
+
+                   </h:panelGrid>
+        
+        
+        
+        <div style="float: left;margin-right: 50px;">
+            <b><h3>Evento atual:</h3></b>
+        <h:panelGrid id="inic" columns="2">
+        <h4>Quantidade de participantes inscritos geral: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.qtdPrtInscGeral}"/>
+        <h4>Quantidade de segmentos: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.qtdSegmentos}"/>                
+        <h4>Média de participantes inscritos por segmento: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.mediaPrtInscSeg}"/>
+        <h4>Quantidade de categorias: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.qtdCat}"/>
+        <h4>Média de árbitros por segmento: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.mediaArbSeg}"/>
+        <h4>Quantidade de chaves: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.qtdChv}"/>
+        </h:panelGrid>
+        </div>
+        
+        <div >
+        <b><h3>Evento anterior:</h3></b>
+        <h:panelGrid id="inicAnt" columns="2">
+        <h4>Quantidade de participantes inscritos geral: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.qtdPrtInscGeralAnt}"/>
+        <h4>Quantidade de segmentos: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.qtdSegmentosAnt}"/>                
+        <h4>Média de participantes inscritos por segmento: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.mediaPrtInscSegAnt}"/>
+        <h4>Quantidade de categorias: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.qtdCatAnt}"/>
+        <h4>Média de árbitros por segmento: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.mediaArbSegAnt}"/>
+        <h4>Quantidade de chaves: </h4> 
+        <h:outputText value="#{RelatoriosManagedBean.qtdChvAnt}"/>
+        </h:panelGrid>
+        </div>
+        <br/><br/>
+        <h:panelGrid columns="2" id="grafs">
+        <p:chart id="grafBar" type="bar" model="#{RelatoriosManagedBean.grafBarComparaNumEve}" style="width: 450px ; height: 350px" />
+        <p:chart id="grafPizz" type="pie" model="#{RelatoriosManagedBean.grafPizzaSexoParts}" style="width:400px;height:300px" />
+        </h:panelGrid>
+        <br/>
+       <p:outputLabel value="Porcentagem do aumento geral de valores do evento anterior ao atual:" />
+       <h:outputText id="prog" value="  #{RelatoriosManagedBean.crescEve}%" />
+        <br/>
+       <b><h3>Projeções futuras de procura:</h3></b>
+       <br/>
+       
+       <p:outputLabel for="percAum" value="Estimar porcentágem de crescimento do evento:" />&nbsp;
+       <p:inputMask id="percAum" value="#{RelatoriosManagedBean.percEstProg}"  mask="99,9%"/>&nbsp;
+       <p:outputLabel for="valInsc" value="Estimar valor de inscrição caso seja cobrada:" />&nbsp;
+       <p:inputMask id="valInsc" value="#{RelatoriosManagedBean.valInsc}" placeholder="Preenchimento opcional"  mask="R$99,99"/>&nbsp;
+       <p:commandButton class="btn btn-outline btn-primary btn-sm" value="Calcular" action="#{RelatoriosManagedBean.calculaProgFutEve()}" update="projFut,lucro"/>
+       <br/><br/>
+       
+       <h:panelGrid id="projFut" columns="2">
+        <h5><b>Quantidade de participantes inscritos geral: </b></h5> 
+        <h:outputText value="#{RelatoriosManagedBean.qtdPrtInscGeralFut}"/>
+        <h5><b>Média de participantes inscritos por segmento: </b></h5> 
+        <h:outputText value="#{RelatoriosManagedBean.mediaPrtInscSegFut}"/>  
+        <h5><b>Quantidade de chaves:  </b></h5>
+        <h:outputText value="#{RelatoriosManagedBean.qtdChvFut}"/>  
+        <h5><b>Quantidade de participantes masculinos:  </b></h5>
+        <h:outputText value="#{RelatoriosManagedBean.qtdMascEvFut}"/>  
+        <h5><b>Quantidade de participantes femininos:  </b></h5>
+        <h:outputText value="#{RelatoriosManagedBean.qtdFemEvFut}"/>  
+        </h:panelGrid>
+       <br/>
+       <p:outputLabel value="Lucro de valor de inscrição:" />&nbsp;
+       <h:outputText id="lucro" value="R$#{RelatoriosManagedBean.lucroFut}"/>
+        <br/><br/><br/><br/>
+    </ui:define>
+</ui:decorate>
+
+

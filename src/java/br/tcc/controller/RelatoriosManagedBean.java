@@ -88,7 +88,7 @@ private String descricaoSegmento;
 
 
 // Eventos
-
+ 
 private  int codModali;
 private String dataEvento;
 private String statusEvento;
@@ -99,6 +99,8 @@ private String nomeEvento;
 private String codEveSelecionado;
 private String codSegSelecionado;
 private int codAtletaSelecionado;
+
+// metricas atleta
 private String nomeAtletaSelecionado;
 private PieChartModel grafPizzaTops;
 private PieChartModel grafPizzaMetNgts;
@@ -136,6 +138,45 @@ private String progPernaPstNgt= "0,00";
 private String progQuedagemPstNgt= "0,00";
 
 
+// Numeros do evento 
+private int qtdPrtInscGeral;
+private int qtdSegmentos;
+private int mediaPrtInscSeg;
+private int qtdCat;
+private int mediaArbSeg;
+private int qtdChv;
+
+private int qtdPrtInscGeralAnt;
+private int qtdSegmentosAnt;
+private int mediaPrtInscSegAnt;
+private int qtdCatAnt;
+private int mediaArbSegAnt;
+private int qtdChvAnt;
+
+private int qtdPrtInscGeralFut;
+private int qtdSegmentosFut;
+private int mediaPrtInscSegFut;
+private int qtdCatFut;
+private int mediaArbSegFut;
+private int qtdChvFut;
+private int qtdFemEvFut;
+private int qtdMascEvFut;
+private float lucroFut;
+private String valInsc;
+private String percEstProg;
+
+
+private float crescEve;
+private BarChartModel grafBarComparaNumEve;
+private PieChartModel grafPizzaSexoParts;
+
+
+
+List<Relatorios_bean> listaQtdPrtInscs = new ArrayList<>();
+List<Relatorios_bean> listaQtdSegmentos = new ArrayList<>();
+List<Relatorios_bean> listaQtdCat = new ArrayList<>();
+List<Relatorios_bean> listaQtdArb = new ArrayList<>();
+List<Relatorios_bean> listaQtdChv = new ArrayList<>();
 
 List<Relatorios_bean> chavesAberto = new ArrayList<>();
 List<Relatorios_bean> chaves = new ArrayList<>();
@@ -290,6 +331,23 @@ public void criarModeloDeBarras(){
         yAxis2.setMin(0);
         yAxis2.setMax(10);
         
+        
+        int max = 0;
+        
+        if((qtdPrtInscGeral+qtdSegmentos+mediaPrtInscSeg+qtdCat+mediaArbSeg+qtdChv) > (qtdPrtInscGeralAnt+qtdSegmentosAnt+mediaPrtInscSegAnt+qtdCatAnt+mediaArbSegAnt+qtdChvAnt)){
+            max = qtdPrtInscGeral+qtdSegmentos+mediaPrtInscSeg+qtdCat+mediaArbSeg+qtdChv+10;
+        }else{
+            max = qtdPrtInscGeralAnt+qtdSegmentosAnt+mediaPrtInscSegAnt+qtdCatAnt+mediaArbSegAnt+qtdChvAnt +10;
+        }
+        grafBarComparaNumEve = graficoBarrasComparaEves(); 
+        grafBarComparaNumEve.setTitle("Comparação qualitativa de crescimento");
+        grafBarComparaNumEve.setLegendPosition("ne");
+        Axis xAxis3 = grafBarComparaNumEve.getAxis(AxisType.X);
+        xAxis3.setLabel("Eventos");
+        Axis yAxis3 = grafBarComparaNumEve.getAxis(AxisType.Y);
+        yAxis3.setLabel("Progresso geral dos números");
+        yAxis3.setMin(0);
+        yAxis3.setMax(max); 
 }
 
 public BarChartModel graficoBarrasFinaisConfPst(){
@@ -610,6 +668,13 @@ public void linkMetricas() throws IOException{
     
 } 
 
+
+public void linkNumeros() throws IOException{
+    
+  
+    FacesContext.getCurrentInstance().getExternalContext().redirect("./NumerosDoEvento.xhtml");
+    
+} 
 ///////////////////////////////////////////////////////// Métodos métricas atletas //////////////////////////////////////////////
 
 /////////////// Métodos Consultas ////////////////
@@ -802,6 +867,186 @@ public void linhaSelecionadaAtleta(){
     codAtleta = codAtletaSelecionado;
     nomeAtleta = nomeAtletaSelecionado;
     
+}
+
+///////////////////////////////////////////////////////////////// MÉTODOS NÚMEROS DO EVENTO ///////////////////////////////////////////////////////
+
+/////// Métodos consulta ///////
+
+public void consultaInfIniciaisNumEve()throws SQLException{
+    Relatorios_dao dao = new Relatorios_dao();
+    List<Integer> eventos = new ArrayList<>();
+    if(codEveSelecionado.equals("")){
+        codEvento = 0;
+        qtdPrtInscGeral = 0;
+        qtdSegmentos = 0;
+        mediaPrtInscSeg = 0;
+        qtdCat = 0;
+        mediaArbSeg = 0;
+        qtdChv = 0;
+        
+        qtdPrtInscGeralAnt = 0;
+        qtdSegmentosAnt = 0;
+        mediaPrtInscSegAnt = 0;
+        qtdCatAnt = 0;
+        mediaArbSegAnt = 0;
+        qtdChvAnt = 0;
+    }else{
+    // Evento atual
+        
+    codEvento = Integer.valueOf(codEveSelecionado.substring(0,codEveSelecionado.indexOf(" ")));   
+    listaQtdPrtInscs = dao.consultaQtdIncs(codEvento);
+    listaQtdSegmentos = dao.consultaQtdSegs(codEvento);
+    listaQtdCat = dao.consultaQtdCat(codEvento);
+    listaQtdArb = dao.consultaQtdArb(codEvento);
+    listaQtdChv = dao.consultaQtdChv(codEvento);
+    
+    int qtdSeg = 0;
+    int dif = 0;
+    for(int i = 0; i < listaQtdPrtInscs.size();i++){
+        if(listaQtdPrtInscs.get(i).getCodSegmento() != dif){
+            qtdSeg +=1;
+            dif = listaQtdPrtInscs.get(i).getCodSegmento();
+        }
+    }
+    
+    int qtdSegArb = 0;
+    dif = 0;
+    for(int i = 0; i < listaQtdArb.size();i++){
+        if(listaQtdArb.get(i).getCodSegmento() != dif){
+            qtdSegArb +=1;
+            dif = listaQtdArb.get(i).getCodSegmento();
+        }
+    }
+    
+    
+    qtdPrtInscGeral = listaQtdPrtInscs.size();
+    qtdSegmentos = listaQtdSegmentos.size();
+    if(listaQtdPrtInscs.size() != 0){
+    mediaPrtInscSeg = listaQtdPrtInscs.size()/qtdSeg;    
+    }else{
+    mediaPrtInscSeg = 0;        
+    }
+    qtdCat = listaQtdCat.size();
+    if(listaQtdArb.size() != 0){
+    mediaArbSeg = listaQtdArb.size()/qtdSegArb;
+    }else{
+    mediaArbSeg = 0;    
+    }
+    qtdChv = listaQtdChv.size();
+     
+    // evento anterior
+    
+    eventos = dao.consultaCodEventos(codEvento);
+    listaQtdPrtInscs = dao.consultaQtdIncs(eventos.get(1));
+    listaQtdSegmentos = dao.consultaQtdSegs(eventos.get(1));
+    listaQtdCat = dao.consultaQtdCat(eventos.get(1));
+    listaQtdArb = dao.consultaQtdArb(eventos.get(1));
+    listaQtdChv = dao.consultaQtdChv(eventos.get(1));
+        
+    qtdSeg = 0;
+    dif = 0;
+    for(int i = 0; i < listaQtdPrtInscs.size();i++){
+        if(listaQtdPrtInscs.get(i).getCodSegmento() != dif){
+            qtdSeg +=1;
+            dif = listaQtdPrtInscs.get(i).getCodSegmento();
+        }
+    }
+    
+    qtdSegArb = 0;
+    dif = 0;
+    for(int i = 0; i < listaQtdArb.size();i++){
+        if(listaQtdArb.get(i).getCodSegmento() != dif){
+            qtdSegArb +=1;
+            dif = listaQtdArb.get(i).getCodSegmento();
+        }
+    }
+    
+    
+    qtdPrtInscGeralAnt = listaQtdPrtInscs.size();
+    qtdSegmentosAnt = listaQtdSegmentos.size();
+    if(listaQtdPrtInscs.size() != 0){
+    mediaPrtInscSegAnt = listaQtdPrtInscs.size()/qtdSeg;    
+    }else{
+    mediaPrtInscSegAnt = 0;        
+    }
+    qtdCatAnt = listaQtdCat.size();
+    if(listaQtdArb.size() != 0){
+    mediaArbSegAnt = listaQtdArb.size()/qtdSegArb;
+    }else{
+    mediaArbSegAnt = 0;    
+    }
+    qtdChvAnt = listaQtdChv.size();
+    
+
+    }
+    
+    // Grafico de barras 
+    criarModeloDeBarras();
+    // grafico de pizza
+    graficosPizzaSexosParts();
+    // Progresso de um evento para o outro
+     int eveAtu = qtdPrtInscGeral+qtdSegmentos+mediaPrtInscSeg+qtdCat+mediaArbSeg+qtdChv;
+     int eveAnt = qtdPrtInscGeralAnt+qtdSegmentosAnt+mediaPrtInscSegAnt+qtdCatAnt+mediaArbSegAnt+qtdChvAnt;
+     if(eveAtu > eveAnt){
+         crescEve = ((eveAtu - eveAnt)/(float)eveAtu)*100;
+     }else if(eveAtu < eveAnt){
+         crescEve = -((eveAnt - eveAtu)/(float)eveAnt)*100;
+     }
+} 
+
+public void graficosPizzaSexosParts()throws SQLException{
+    
+    
+    grafPizzaSexoParts = new PieChartModel();
+    
+    grafPizzaSexoParts.set("Masculino",new Relatorios_dao().consultaTotSexoMasc(codEvento));
+    grafPizzaSexoParts.set("Feminino",new Relatorios_dao().consultaTotSexoFem(codEvento));
+    
+    grafPizzaSexoParts.setTitle("Divisão de sexo dos participantes");
+    grafPizzaSexoParts.setLegendPosition("e");
+    grafPizzaSexoParts.setFill(false);
+    grafPizzaSexoParts.setShowDataLabels(true);
+    grafPizzaSexoParts.setDiameter(150);
+    
+}  
+
+public BarChartModel graficoBarrasComparaEves(){
+    BarChartModel graf = new BarChartModel();
+    
+    ChartSeries eventAnt = new ChartSeries();
+    ChartSeries eventAtu = new ChartSeries();
+    
+    
+    eventAnt.setLabel("Evento anterior");
+    eventAtu.setLabel("Evento atual");
+    
+    
+        eventAtu.set(" ",qtdPrtInscGeral+qtdSegmentos+mediaPrtInscSeg+qtdCat+mediaArbSeg+qtdChv);
+        eventAnt.set(" ",qtdPrtInscGeralAnt+qtdSegmentosAnt+mediaPrtInscSegAnt+qtdCatAnt+mediaArbSegAnt+qtdChvAnt);
+    
+        graf.addSeries(eventAtu);
+        graf.addSeries(eventAnt);
+    
+    
+    return graf;
+}
+
+public void calculaProgFutEve()throws SQLException{
+    
+    if(!percEstProg.equals("")){
+    qtdPrtInscGeralFut =qtdPrtInscGeral + ((int)(qtdPrtInscGeral*Float.valueOf(percEstProg.replace(",", ".").replace("%", "").replace(" ", "")))/100);
+    mediaPrtInscSegFut =mediaPrtInscSeg+ ((int)(mediaPrtInscSeg*Float.valueOf(percEstProg.replace(",", ".").replace("%", "").replace(" ", "")))/100);
+    qtdChvFut =qtdChv+ ((int)(qtdChv*Float.valueOf(percEstProg.replace(",", ".").replace("%", "").replace(" ", "")))/100);
+    qtdFemEvFut = new Relatorios_dao().consultaTotSexoFem(codEvento) + 
+                 ((int)(new Relatorios_dao().consultaTotSexoFem(codEvento)*Float.valueOf(percEstProg.replace(",", ".").replace("%", "").replace(" ", "")))/100);
+    qtdMascEvFut = new Relatorios_dao().consultaTotSexoMasc(codEvento) + 
+                 ((int)(new Relatorios_dao().consultaTotSexoMasc(codEvento)*Float.valueOf(percEstProg.replace(",", ".").replace("%", "").replace(" ", "")))/100);
+   
+    if(!valInsc.equals("")){
+    lucroFut = Float.valueOf(valInsc.replace("R", "").replace("$", "").replace(",", "."))*qtdPrtInscGeralFut;
+    }
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1388,5 +1633,118 @@ public int getTotais() {
     public String getProgQuedagemPstNgt() {
         return progQuedagemPstNgt;
     }
+
+    public int getQtdPrtInscGeral() {
+        return qtdPrtInscGeral;
+    }
+
+    public int getQtdSegmentos() {
+        return qtdSegmentos;
+    }
+
+    public int getMediaPrtInscSeg() {
+        return mediaPrtInscSeg;
+    }
+
+    public int getQtdCat() {
+        return qtdCat;
+    }
+
+    public int getMediaArbSeg() {
+        return mediaArbSeg;
+    }
+
+    public int getQtdChv() {
+        return qtdChv;
+    }
+
+    public int getQtdPrtInscGeralAnt() {
+        return qtdPrtInscGeralAnt;
+    }
+
+    public int getQtdSegmentosAnt() {
+        return qtdSegmentosAnt;
+    }
+
+    public int getMediaPrtInscSegAnt() {
+        return mediaPrtInscSegAnt;
+    }
+
+    public int getQtdCatAnt() {
+        return qtdCatAnt;
+    }
+
+    public int getMediaArbSegAnt() {
+        return mediaArbSegAnt;
+    }
+
+    public int getQtdChvAnt() {
+        return qtdChvAnt;
+    }
+
+    public Float getCrescEve() {
+        return crescEve;
+    }
+
+    public BarChartModel getGrafBarComparaNumEve() {
+        return grafBarComparaNumEve;
+    }
+
+    public PieChartModel getGrafPizzaSexoParts() {
+        return grafPizzaSexoParts;
+    }
+
+    public int getQtdPrtInscGeralFut() {
+        return qtdPrtInscGeralFut;
+    }
+
+    public int getQtdSegmentosFut() {
+        return qtdSegmentosFut;
+    }
+
+    public int getMediaPrtInscSegFut() {
+        return mediaPrtInscSegFut;
+    }
+
+    public int getQtdCatFut() {
+        return qtdCatFut;
+    }
+
+    public int getMediaArbSegFut() {
+        return mediaArbSegFut;
+    }
+
+    public int getQtdChvFut() {
+        return qtdChvFut;
+    }
+
+    public int getQtdFemEvFut() {
+        return qtdFemEvFut;
+    }
+
+    public int getQtdMascEvFut() {
+        return qtdMascEvFut;
+    }
+
+    public float getLucroFut() {
+        return lucroFut;
+    }
+
+    public String getValInsc() {
+        return valInsc;
+    }
+
+    public String getPercEstProg() {
+        return percEstProg;
+    }
+
+    public void setValInsc(String valInsc) {
+        this.valInsc = valInsc;
+    }
+
+    public void setPercEstProg(String percEstProg) {
+        this.percEstProg = percEstProg;
+    }
+    
     
 }

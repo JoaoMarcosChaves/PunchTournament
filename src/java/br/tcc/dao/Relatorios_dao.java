@@ -1050,4 +1050,190 @@ private Connection conexao;
     
         return lista;
     }
+    
+    
+    //////////////////////////////////////////////////// Números do evento /////////////////////////////////////////
+    
+    public List<Relatorios_bean> consultaQtdIncs(int codEve) throws SQLException{
+     
+        String sql = "select i.codSegmento, i.codInscricao from TB_inscricaoAtleta i inner join TB_segmentos s\n" +
+                 "on i.codSegmento = s.codSegmento\n" +
+                 "and s.codEvento = ?";
+    
+    PreparedStatement stmt = this.conexao.prepareStatement(sql);
+    stmt.setInt(1, codEve);
+        
+        ResultSet rs = stmt.executeQuery(); 
+        List<Relatorios_bean> lista = new ArrayList<>();
+         
+       while(rs.next()){
+         Relatorios_bean bean = new Relatorios_bean();
+           
+         bean.setCodSegmento(rs.getInt("codSegmento"));
+         bean.setCodInscricao(rs.getInt("codInscricao"));
+         
+            lista.add(bean);
+        }
+        rs.close();
+        stmt.close();    
+    
+        return lista;
+    }
+    
+    public List<Relatorios_bean> consultaQtdSegs(int codEve) throws SQLException{
+     
+        String sql = "select * from TB_segmentos where codEvento = ?";
+    
+    PreparedStatement stmt = this.conexao.prepareStatement(sql);
+    stmt.setInt(1, codEve);
+        
+        ResultSet rs = stmt.executeQuery(); 
+        List<Relatorios_bean> lista = new ArrayList<>();
+         
+       while(rs.next()){
+         Relatorios_bean bean = new Relatorios_bean();
+           
+         bean.setCodSegmento(rs.getInt("codSegmento"));
+         
+            lista.add(bean);
+        }
+        rs.close();
+        stmt.close();    
+    
+        return lista;
+    }
+    
+    public List<Relatorios_bean> consultaQtdCat(int codEve) throws SQLException{
+     
+        String sql = "select c.codCategoria, c.codSegmento from TB_categoria c inner join TB_segmentos s\n" +
+                     "on c.codSegmento = s.codSegmento\n" +
+                     "and s.codEvento = ?";
+    
+    PreparedStatement stmt = this.conexao.prepareStatement(sql);
+    stmt.setInt(1, codEve);
+        
+        ResultSet rs = stmt.executeQuery(); 
+        List<Relatorios_bean> lista = new ArrayList<>();
+         
+       while(rs.next()){
+         Relatorios_bean bean = new Relatorios_bean();
+           
+         bean.setCodSegmento(rs.getInt("codSegmento"));
+         bean.setCodCategoria(rs.getInt("codCategoria"));
+         
+            lista.add(bean);
+        }
+        rs.close();
+        stmt.close();    
+    
+        return lista;
+    }
+    
+    public List<Relatorios_bean> consultaQtdArb(int codEve) throws SQLException{
+     
+        String sql = "select a.codArbitro,a.codSegmento from TB_arbitro a inner join TB_segmentos s\n" +
+                     "on a.codSegmento = s.codSegmento\n" +
+                     "and s.codEvento = ?";
+    
+    PreparedStatement stmt = this.conexao.prepareStatement(sql);
+    stmt.setInt(1, codEve);
+        
+        ResultSet rs = stmt.executeQuery(); 
+        List<Relatorios_bean> lista = new ArrayList<>();
+         
+       while(rs.next()){
+         Relatorios_bean bean = new Relatorios_bean();
+           
+         bean.setCodSegmento(rs.getInt("codSegmento"));
+         bean.setCodArbitro(rs.getInt("codArbitro"));
+         
+         
+            lista.add(bean);
+        }
+        rs.close();
+        stmt.close();    
+    
+        return lista;
+    }
+    
+     public List<Relatorios_bean> consultaQtdChv(int codEve) throws SQLException{
+     
+        String sql = "select c.codChvConf,c.codSegmento from TB_confrontos c inner join TB_segmentos s\n" +
+                     "on c.codSegmento = s.codSegmento\n" +
+                     "and s.codEvento = ?";
+    
+    PreparedStatement stmt = this.conexao.prepareStatement(sql);
+    stmt.setInt(1, codEve);
+        
+        ResultSet rs = stmt.executeQuery(); 
+        List<Relatorios_bean> lista = new ArrayList<>();
+         
+       while(rs.next()){
+         Relatorios_bean bean = new Relatorios_bean();
+           
+         bean.setCodSegmento(rs.getInt("codSegmento"));
+         bean.setCodChvConf(rs.getInt("codChvConf"));
+         
+         
+            lista.add(bean);
+        }
+        rs.close();
+        stmt.close();    
+    
+        return lista;
+    }
+     
+     public int consultaTotSexoFem(int codEve) throws SQLException{
+     
+        String sql = "select count(a.codAtleta)codAtletaF from TB_inscricaoAtleta i inner join TB_atleta a\n" +
+"on a.codAtleta = i.codAtleta\n" +
+"inner join TB_segmentos s \n" +
+"on s.codSegmento = i.codSegmento\n" +
+"and a.sexo = 'Feminino'\n" +
+"and s.codEvento = ?";
+    
+    PreparedStatement stmt = this.conexao.prepareStatement(sql);
+    stmt.setInt(1, codEve);
+        
+        ResultSet rs = stmt.executeQuery(); 
+        int f = 0;
+         
+       while(rs.next()){
+         Relatorios_bean bean = new Relatorios_bean();
+           
+         f = rs.getInt("codAtletaF");
+         
+        }
+        rs.close();
+        stmt.close();    
+    
+        return f;
+    }
+     
+     public int consultaTotSexoMasc(int codEve) throws SQLException{
+     
+        String sql = "select count(a.codAtleta)codAtletaM from TB_inscricaoAtleta i inner join TB_atleta a\n" +
+"on a.codAtleta = i.codAtleta\n" +
+"inner join TB_segmentos s \n" +
+"on s.codSegmento = i.codSegmento\n" +
+"and a.sexo = 'Masculino'\n" +
+"and s.codEvento = ?";
+    
+    PreparedStatement stmt = this.conexao.prepareStatement(sql);
+    stmt.setInt(1, codEve);
+        
+        ResultSet rs = stmt.executeQuery(); 
+        int m = 0;
+         
+       while(rs.next()){
+         Relatorios_bean bean = new Relatorios_bean();
+           
+         m = rs.getInt("codAtletaM");
+         
+        }
+        rs.close();
+        stmt.close();    
+    
+        return m;
+    }
 }

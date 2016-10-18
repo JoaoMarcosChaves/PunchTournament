@@ -36,8 +36,8 @@
 	   
     </h:head>
     <h:body>
-<!--        <h:form id="form" rendered="#{LoginManagedBean.tipo == 1 || LoginManagedBean.tipo == 2}"  >-->
-        <h:form id="form" >
+        <h:form id="form" rendered="#{LoginManagedBean.tipo == 1 || LoginManagedBean.tipo == 2}"  >
+<!--        <h:form id="form" >-->
 		 <p:growl id="growl" showDetail="true" sticky="false" life="10000"/>
         <div id="wrapper">
 
@@ -151,7 +151,7 @@
                                 <li>
                                     
                                     <p:commandLink  actionListener="#{RelatoriosManagedBean.linkTops()}" rendered="#{LoginManagedBean.tipo == 1}">
-                                    <h:outputText value="Tóps do torneio" />
+                                    <h:outputText value="Melhores do evento" />
                                     </p:commandLink>
                                 </li>
                                 
@@ -159,6 +159,13 @@
                                     
                                     <p:commandLink  actionListener="#{RelatoriosManagedBean.linkMetricas()}" rendered="#{LoginManagedBean.tipo == 1}">
                                     <h:outputText value="Métricas dos atlétas" />
+                                    </p:commandLink>
+                                </li>
+                                
+                                <li>
+                                    
+                                    <p:commandLink  actionListener="#{RelatoriosManagedBean.linkNumeros()}" rendered="#{LoginManagedBean.tipo == 1}">
+                                    <h:outputText value="Números do evento" />
                                     </p:commandLink>
                                 </li>
                                 

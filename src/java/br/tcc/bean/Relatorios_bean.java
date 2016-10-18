@@ -114,6 +114,7 @@ private float progPernaNgt;
 private float progQuedagemNgt;
 private float rendimentoNgt;
 
+
     public float getProgCabecaPst() {
         return progCabecaPst;
     }
