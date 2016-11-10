@@ -129,7 +129,7 @@ public class LoginManagedBean {
                 
                 constroiCNX();
                 FacesContext.getCurrentInstance().getExternalContext().redirect("./Arbitro.xhtml");
-                
+                tipo = 2;
             }else {
                 // FacesContext.getCurrentInstance().getExternalContext().redirect("./index.xhtml");
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção", "Usuário/senha incorretos, ou inexistente"));

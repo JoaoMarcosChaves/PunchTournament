@@ -45,16 +45,17 @@
         
         <ui:insert name="menus">
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
+            <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Punch Tournament</a>
-            </div> 
+                <a class="navbar-brand" href="#"><p:graphicImage library="imgs" name="punch.png" height="70" /></a>
             
+            </div> 
+            <br/><br/>
             <ul class="nav navbar-top-links navbar-right">
                 
                 <li class="dropdown">
@@ -127,12 +128,12 @@
                             <ul class="nav nav-second-level">
                                 <li>
                                     
-                                    <p:commandLink  actionListener="#{ChavesManagedBean.linkGerarChaves()}" rendered="#{LoginManagedBean.tipo == 1 || LoginManagedBean.tipo == 2}">
+                                    <p:commandLink  actionListener="#{ChavesManagedBean.linkGerarChaves()}" rendered="#{LoginManagedBean.tipo == 1}">
                                     <h:outputText value="Gerar chaves de confronto" />
                                     </p:commandLink>
                                 </li>
                                 <li>
-                                    <p:commandLink  actionListener="#{ChavesManagedBean.linkChaves()}" rendered="#{LoginManagedBean.tipo == 1 || LoginManagedBean.tipo == 2}">
+                                    <p:commandLink  actionListener="#{ChavesManagedBean.linkChaves()}" rendered="#{LoginManagedBean.tipo == 1 }">
                                     <h:outputText value="Chaves de confronto" />
                                     </p:commandLink>
                                 </li>

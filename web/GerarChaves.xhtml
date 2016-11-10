@@ -46,8 +46,8 @@
                 
                 </h:panelGrid>
                 <br/>
-                <p:commandButton value="Pesquisar competidores" action="#{ChavesManagedBean.listarAtletasInsc()}" update="tabelaPRT,growl   "/>
-                <p:commandButton value="Remover participante" action="#{ChavesManagedBean.removerPrtGerarChave()}" update="tabelaPRT"/>
+                <p:commandButton class="btn btn-primary" value="Pesquisar competidores" action="#{ChavesManagedBean.listarAtletasInsc()}" update="tabelaPRT,growl   "/>
+                <p:commandButton class="btn btn-primary" value="Remover participante" action="#{ChavesManagedBean.removerPrtGerarChave()}" update="tabelaPRT"/>
                 <br/><br/>
                 
                 <p:dataTable id="tabelaPRT" value="#{ChavesManagedBean.incritos}" var="insc" paginator="true" rows="10"
@@ -63,7 +63,7 @@
                 
                 </p:dataTable>
                 <br/>
-                <p:commandButton value="Gerar chave de confronto" action="#{ChavesManagedBean.inserirConfrontos()}" update="growl"/>
+                <p:commandButton class="btn btn-primary" value="Gerar chave de confronto" action="#{ChavesManagedBean.inserirConfrontos()}" update="growl"/>
                 <br/><br/>
         
     </ui:define>

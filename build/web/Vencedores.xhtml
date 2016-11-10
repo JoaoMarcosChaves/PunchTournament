@@ -53,8 +53,8 @@
                    
                 </h:panelGrid>
                         <br/>
-                        <p:commandButton value="Limpar tabela" action="#{VencedoresManagedBean.limparTabela()}" update="tblVence"/>
-                        <p:commandButton value="Pesquisar" action="#{VencedoresManagedBean.consultaVencedores()}" update="tblVence,growl"/>
+                        <p:commandButton class="btn btn-primary" value="Limpar tabela" action="#{VencedoresManagedBean.limparTabela()}" update="tblVence"/>
+                        <p:commandButton class="btn btn-primary" value="Pesquisar" action="#{VencedoresManagedBean.consultaVencedores()}" update="tblVence,growl"/>
                         <br/><br/>
                        
                         <p:dataTable id="tblVence" value="#{VencedoresManagedBean.listaVencedores}" var="vence" paginator="true" rows="10">

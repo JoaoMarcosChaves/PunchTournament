@@ -11,17 +11,18 @@
         <h1 class="page-header">Eventos de torneio</h1>
         
         <h:panelGrid columns="5" class="grid">
-                <p:commandButton value="Inserir novo evento" onclick="PF('dlgInsEve').show();" />
-                <p:commandButton value="Configurar segmento" onclick="PF('dlgConfSeg').show();" />
-                <p:commandButton value="Atualizar dados do evento" action="#{EventosManagedBean.itensDeATL()}" onclick="PF('dlgAtlEve').show();" update="tabAltEv,CodAltEveSelect"/>
-                <p:commandButton value="Finalizar evento" action="#{EventosManagedBean.finalizaEvento()}" update="form"/>
-                <p:commandButton value="Cancelar evento" action="#{EventosManagedBean.cancelaEvento()}" update="form"/>
+                <p:commandButton value="Inserir novo evento" class="btn btn-primary" onclick="PF('dlgInsEve').show();" />
+                <p:commandButton value="Configurar segmento" class="btn btn-primary" onclick="PF('dlgConfSeg').show();" />
+                <p:commandButton value="Atualizar dados do evento" class="btn btn-primary" action="#{EventosManagedBean.itensDeATL()}" onclick="PF('dlgAtlEve').show();" update="tabAltEv,CodAltEveSelect"/>
+                <p:commandButton value="Finalizar evento" class="btn btn-primary" action="#{EventosManagedBean.finalizaEvento()}" update="form"/>
+                <p:commandButton value="Cancelar evento" class="btn btn-primary" action="#{EventosManagedBean.cancelaEvento()}" update="form"/>
                 
                 
                 
             </h:panelGrid>
                 <br/>
-                <p:commandButton value="Visualizar configurações do segmento" action="#{EventosManagedBean.consultaConfsSegs()}" onclick="PF('dlgVisConfSeg').show();" update="tabVisConfs"/>
+                <p:commandButton value="Visualizar configurações do segmento" class="btn btn-primary"
+                                 action="#{EventosManagedBean.consultaConfsSegs()}" onclick="PF('dlgVisConfSeg').show();" update="tabVisConfs"/>
                
              <br/><br/>
              
@@ -112,8 +113,8 @@
         <p:outputLabel for="nomeSegDlg" value="Segmento do evento: "/>
         <p:inputText id="nomeSegDlg" value="#{EventosManagedBean.nomeSegmento}" />
         
-        <p:commandButton value="Adicionar segmento" action="#{EventosManagedBean.adicionarSegLista()}" update="DlgtabelaSeg"/>
-        <p:commandButton value="Remover segmento" action="#{EventosManagedBean.removerSegLista()}" update="DlgtabelaSeg"/>
+        <p:commandButton class="btn btn-primary" value="Adicionar segmento" action="#{EventosManagedBean.adicionarSegLista()}" update="DlgtabelaSeg"/>
+        <p:commandButton class="btn btn-primary" value="Remover segmento" action="#{EventosManagedBean.removerSegLista()}" update="DlgtabelaSeg"/>
             
         <p:outputLabel for="areaDescEve" value="Descrição modalidade"/>
         <p:inputTextarea id="areaDescEve" value="#{EventosManagedBean.descricaoSegmento}"/>
@@ -132,7 +133,7 @@
                  
              </p:dataTable>
         
-        <p:commandButton value="Salvar" action="#{EventosManagedBean.inserirEve()}" update=":form"/>
+        <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirEve()}" update=":form"/>
         </p:tab>
         </p:tabView>
             </p:fieldset>
@@ -173,16 +174,16 @@
         <p:outputLabel for="NomeAltSegDlg" value="Segmento do evento: "/>
         <p:inputText id="NomeAltSegDlg" value="#{EventosManagedBean.altNomeSegmento}"/>
         
-        <p:commandButton value="Adicionar segmento" action="#{EventosManagedBean.addAltSegsEve()}" update="DlgAltTabelaSeg"/>
-        <p:commandButton value="Remover segmento" action="#{EventosManagedBean.removerAltSegLista()}" update="DlgAltTabelaSeg,NomeAltSegDlg,AltAreaDescEve"/>
-        <p:commandButton value="Restaurar lista de segmentos" action="#{EventosManagedBean.restauraListaAltSegs()}" update="DlgAltTabelaSeg"/>
+        <p:commandButton class="btn btn-primary" value="Adicionar segmento" action="#{EventosManagedBean.addAltSegsEve()}" update="DlgAltTabelaSeg"/>
+        <p:commandButton class="btn btn-primary" value="Remover segmento" action="#{EventosManagedBean.removerAltSegLista()}" update="DlgAltTabelaSeg,NomeAltSegDlg,AltAreaDescEve"/>
+        <p:commandButton class="btn btn-primary" value="Restaurar lista de segmentos" action="#{EventosManagedBean.restauraListaAltSegs()}" update="DlgAltTabelaSeg"/>
         
         
         <p:outputLabel for="AltAreaDescEve" value="Descrição modalidade"/>
         <p:inputTextarea id="AltAreaDescEve" value="#{EventosManagedBean.altDescricaoSegmento}"/>
         
-        <p:commandButton value="Alterar segmento" action="#{EventosManagedBean.segsParaAlt()}" update="DlgAltTabelaSeg"/>
-        <p:commandButton value="Limpar campos" action="#{EventosManagedBean.limparCamposAltEve()}" update="NomeAltSegDlg,AltAreaDescEve"/>
+        <p:commandButton class="btn btn-primary" value="Alterar segmento" action="#{EventosManagedBean.segsParaAlt()}" update="DlgAltTabelaSeg"/>
+        <p:commandButton class="btn btn-primary" value="Limpar campos" action="#{EventosManagedBean.limparCamposAltEve()}" update="NomeAltSegDlg,AltAreaDescEve"/>
         
         </h:panelGrid>
         
@@ -211,7 +212,7 @@
             
              </p:dataTable>
         <br/>
-        <p:commandButton value="Alterar" action="#{EventosManagedBean.alteraEvento()}" update=":form"/>
+        <p:commandButton class="btn btn-primary" value="Alterar" action="#{EventosManagedBean.alteraEvento()}" update=":form"/>
         
         </p:tab>  
         </p:tabView>
@@ -266,8 +267,8 @@
                  
              </h:panelGrid>
              <br/><br/>
-             <p:commandButton value="Adicionar categoria" action="#{EventosManagedBean.adicionaCatLista()}" update="DlgtabelaCat"/>             
-             <p:commandButton value="Remover categoria" action="#{EventosManagedBean.removerCatLista()}" update="DlgtabelaCat"/>
+             <p:commandButton class="btn btn-primary" value="Adicionar categoria" action="#{EventosManagedBean.adicionaCatLista()}" update="DlgtabelaCat"/>             
+             <p:commandButton class="btn btn-primary" value="Remover categoria" action="#{EventosManagedBean.removerCatLista()}" update="DlgtabelaCat"/>
              <br/><br/>
              
              <p:dataTable id="DlgtabelaCat" value="#{EventosManagedBean.listaCat}" var="cat" paginator="true" rows="5">
@@ -287,7 +288,7 @@
                  
              </p:dataTable>
              
-             <p:commandButton value="Salvar" action="#{EventosManagedBean.inserirCategoria()}" update=":form"/>
+             <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirCategoria()}" update=":form"/>
          </p:tab>
  
          <p:tab title="Métodos de pontuação">
@@ -319,8 +320,8 @@
              <p:outputLabel value="Descrição para uso:"/>
              <p:inputTextarea value="#{EventosManagedBean.descricaoPontua}" rows="4" autoResize="false"/>
              
-             <p:commandButton value="Adicionar" action="#{EventosManagedBean.adicionarPontuacaoLista()}" update="DlgtabelaPotuacao"/>
-             <p:commandButton value="Remover" action="#{EventosManagedBean.removerPontuacaoLista()}" update="DlgtabelaPotuacao"/>
+             <p:commandButton class="btn btn-primary" value="Adicionar" action="#{EventosManagedBean.adicionarPontuacaoLista()}" update="DlgtabelaPotuacao"/>
+             <p:commandButton class="btn btn-primary" value="Remover" action="#{EventosManagedBean.removerPontuacaoLista()}" update="DlgtabelaPotuacao"/>
              </h:panelGrid>
              
              
@@ -344,7 +345,7 @@
                  
              </p:dataTable>
              
-             <p:commandButton value="Salvar" action="#{EventosManagedBean.inserirTpPontuacao()}" update=":form"/>
+             <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirTpPontuacao()}" update=":form"/>
              
          </p:tab>
          
@@ -373,8 +374,8 @@
              </p:selectOneMenu> 
              </h:panelGrid>
              <br/>
-             <p:commandButton value="Adicionar" action="#{EventosManagedBean.adicionarPontuacaoListaARB()}" update="DlgtabelaPotuacaoARB"/>
-             <p:commandButton value="Remover" action="#{EventosManagedBean.removerPontuacaoListaARB()}" update="DlgtabelaPotuacaoARB"/>
+             <p:commandButton class="btn btn-primary" value="Adicionar" action="#{EventosManagedBean.adicionarPontuacaoListaARB()}" update="DlgtabelaPotuacaoARB"/>
+             <p:commandButton class="btn btn-primary" value="Remover" action="#{EventosManagedBean.removerPontuacaoListaARB()}" update="DlgtabelaPotuacaoARB"/>
              <br/><br/>
              <p:dataTable id="DlgtabelaPotuacaoARB" value="#{EventosManagedBean.ptPorARB}" var="prARB" paginator="true" rows="4">
                  
@@ -392,7 +393,7 @@
                  
              </p:dataTable>
              
-             <p:commandButton value="Salvar" action="#{EventosManagedBean.inserirArbitro()}" update=":form"/>
+             <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirArbitro()}" update=":form"/>
          </p:tab>
          
      </p:tabView>
@@ -410,8 +411,8 @@
      
          <p:tab title="Categorias">
               <br/><br/>       
-              <p:commandButton value="Remover categoria" action="#{EventosManagedBean.removerCatVis()}" update=":form:tabVisConfs:VisCats"  />
-              <p:commandButton value="Restaurar listas" action="#{EventosManagedBean.consultaConfsSegs()}" update=":form:tabVisConfs:VisCats"  />
+              <p:commandButton class="btn btn-primary" value="Remover categoria" action="#{EventosManagedBean.removerCatVis()}" update=":form:tabVisConfs:VisCats"  />
+              <p:commandButton class="btn btn-primary" value="Restaurar listas" action="#{EventosManagedBean.consultaConfsSegs()}" update=":form:tabVisConfs:VisCats"  />
              <br/><br/>
              
              <p:dataTable id="VisCats" value="#{EventosManagedBean.visListaCat}" 
@@ -439,8 +440,8 @@
          <p:tab title="Métodos de pontuação">
              
              <br/><br/>
-             <p:commandButton value="Remover método de pontuação" action="#{EventosManagedBean.removerMTPontuaVis()}" update=":form:tabVisConfs:VisMetPTs,:form:tabVisConfs:VisPtARB" />
-             <p:commandButton value="Restaurar listas" action="#{EventosManagedBean.consultaConfsSegs()}" update=":form:tabVisConfs:VisMetPTs,:form:tabVisConfs:VisPtARB"  />
+             <p:commandButton class="btn btn-primary" value="Remover método de pontuação" action="#{EventosManagedBean.removerMTPontuaVis()}" update=":form:tabVisConfs:VisMetPTs,:form:tabVisConfs:VisPtARB" />
+             <p:commandButton class="btn btn-primary" value="Restaurar listas" action="#{EventosManagedBean.consultaConfsSegs()}" update=":form:tabVisConfs:VisMetPTs,:form:tabVisConfs:VisPtARB"  />
              <br/><br/>
              <p:dataTable id="VisMetPTs" value="#{EventosManagedBean.visListaPontos}"
                           selectionMode="single" selection="#{EventosManagedBean.metSelecionadoVis}" rowKey="#{visPts.codPontua}"
@@ -472,8 +473,8 @@
          <p:tab title="Arbitros">
              
              <br/><br/>     
-             <p:commandButton value="Remover arbitro" action="#{EventosManagedBean.removerARBVis()}" update=":form:tabVisConfs:VisARBs,:form:tabVisConfs:VisPtARB"/>
-             <p:commandButton value="Restaurar listas" action="#{EventosManagedBean.consultaConfsSegs()}" update=":form:tabVisConfs:VisARBs,:form:tabVisConfs:VisPtARB"/>
+             <p:commandButton class="btn btn-primary" value="Remover arbitro" action="#{EventosManagedBean.removerARBVis()}" update=":form:tabVisConfs:VisARBs,:form:tabVisConfs:VisPtARB"/>
+             <p:commandButton class="btn btn-primary" value="Restaurar listas" action="#{EventosManagedBean.consultaConfsSegs()}" update=":form:tabVisConfs:VisARBs,:form:tabVisConfs:VisPtARB"/>
              <br/><br/>
              <p:dataTable id="VisARBs" value="#{EventosManagedBean.visARB}"
                           selectionMode="single" selection="#{EventosManagedBean.ARBSelecionadoVis}" rowKey="#{ARB.codArbitro}"
@@ -490,7 +491,7 @@
                  
              </p:dataTable>
              <br/><br/>
-             <p:commandButton value="Remover ponto arbitrado" action="#{EventosManagedBean.removerPTporARBVis()}" update=":form:tabVisConfs:VisPtARB" />
+             <p:commandButton class="btn btn-primary" value="Remover ponto arbitrado" action="#{EventosManagedBean.removerPTporARBVis()}" update=":form:tabVisConfs:VisPtARB" />
               <br/><br/>
               <p:dataTable id="VisPtARB"  value="#{EventosManagedBean.visPtPorARB}"
                            selectionMode="single" selection="#{EventosManagedBean.ptPorARBSelecionadoVis}" rowKey="#{visPrARB.codPontua}"
@@ -515,7 +516,7 @@
          </p:tab>
          
      </p:tabView>
-      <p:commandButton value="Concluir" action="#{EventosManagedBean.removerConfiguracoesSeg()}" update=":form"/>
+      <p:commandButton class="btn btn-primary" value="Concluir" action="#{EventosManagedBean.removerConfiguracoesSeg()}" update=":form"/>
  </p:dialog>
 
 <!-- Fechar tela Visualizar conf segmentos               -->

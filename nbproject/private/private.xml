@@ -4,7 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/joãomarcos/Documents/NetBeansProjects/TCCjsf/web/NumerosDoEvento.xhtml</file>
+            <file>file:/C:/Users/joãomarcos/Documents/NetBeansProjects/TCCjsf/src/java/br/tcc/relatorios/bean/NumerosDoEvento_relat_bean.java</file>
+            <file>file:/C:/Users/joãomarcos/Documents/NetBeansProjects/TCCjsf/src/java/br/tcc/relatorios/GerarNumEvento.java</file>
             <file>file:/C:/Users/joãomarcos/Documents/NetBeansProjects/TCCjsf/src/java/br/tcc/controller/RelatoriosManagedBean.java</file>
+            <file>file:/C:/Users/joãomarcos/Documents/NetBeansProjects/TCCjsf/src/java/br/tcc/relatorios/NumerosDoEvento.jrxml</file>
         </group>
     </open-files>
 </project-private>

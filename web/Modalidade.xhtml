@@ -14,9 +14,9 @@
 
 			 <h:panelGrid columns="2">
                 
-                <p:commandButton value="Inserir nova modalidade" onclick="PF('dlgInserModalidade').show();" />
+                <p:commandButton class="btn btn-primary" value="Inserir nova modalidade" onclick="PF('dlgInserModalidade').show();" />
                 
-                <p:commandButton value="Atualizar dados da modalidade"  onclick="PF('dlgAltModalidade').show();" />
+                <p:commandButton class="btn btn-primary" value="Atualizar dados da modalidade"  onclick="PF('dlgAltModalidade').show();" />
                 
             </h:panelGrid>
                 
@@ -83,8 +83,8 @@
     <p:inputText id="graduacModaliAlu" title="Adicione as faixas ou niveis de graduação da arte marcial"  value="#{ModalidadeManagedBean.identificacaoGraduATL}"/>
     <p:tooltip id="toolTipFocusAlu" for="graduacModaliAlu" showEvent="focus" hideEvent="blur" />
     
-    <p:commandButton value="Adicionar graduação" action="#{ModalidadeManagedBean.adicionarGraduATL()}"  update="TabelaGraduacaoModaliAlu"/>
-    <p:commandButton value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaInsATL()}"  update="TabelaGraduacaoModaliAlu"/>
+    <p:commandButton class="btn btn-primary" value="Adicionar graduação" action="#{ModalidadeManagedBean.adicionarGraduATL()}"  update="TabelaGraduacaoModaliAlu"/>
+    <p:commandButton class="btn btn-primary" value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaInsATL()}"  update="TabelaGraduacaoModaliAlu"/>
     
     </h:panelGrid>
         <br/><br/>
@@ -113,8 +113,8 @@
     <p:inputText id="graduacModaliArb" title="Adicione as faixas ou niveis de graduação da arte marcial" value="#{ModalidadeManagedBean.identificacaoGraduARB}"/>
     <p:tooltip id="toolTipFocusArb" for="graduacModaliArb" showEvent="focus" hideEvent="blur" />
     
-    <p:commandButton value="Adicionar graduação" action="#{ModalidadeManagedBean.adicionarGraduARB()}" update="TabelaGraduacaoModaliArb"/>
-    <p:commandButton value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaInsARB()}" update="TabelaGraduacaoModaliArb"/>
+    <p:commandButton class="btn btn-primary" value="Adicionar graduação" action="#{ModalidadeManagedBean.adicionarGraduARB()}" update="TabelaGraduacaoModaliArb"/>
+    <p:commandButton class="btn btn-primary" value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaInsARB()}" update="TabelaGraduacaoModaliArb"/>
     </h:panelGrid>
         <br/><br/>
         <p:dataTable id="TabelaGraduacaoModaliArb" value="#{ModalidadeManagedBean.graduacoesModaliARB}" var="arb" paginator="true" rows="5" >
@@ -137,7 +137,7 @@
         </p:tabView> 
         </p:fieldset>
     <br/>
-    <p:commandButton value="Salvar modalidade" action="#{ModalidadeManagedBean.inserirModali()}" update="form,growl"/>
+    <p:commandButton class="btn btn-primary" value="Salvar modalidade" action="#{ModalidadeManagedBean.inserirModali()}" update="form,growl"/>
 </p:dialog>                
 
 <!--   Finaliza Dialog inserir modalidades    -->
@@ -171,8 +171,8 @@
     <p:inputText id="AltgraduacModaliAlu" value="#{ModalidadeManagedBean.altIdentificacaoGraduATL}" title="Adicione as faixas ou niveis de graduação da arte marcial"/>
     <p:tooltip id="AlttoolTipFocusAlu" for="AltgraduacModaliAlu" showEvent="focus" hideEvent="blur" />
     
-    <p:commandButton value="Adicionar graduação" action="#{ModalidadeManagedBean.alteraGraduATL()}" update="AltTabelaGraduacaoModaliAlu"/>
-    <p:commandButton value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaAltATL()}" update="AltTabelaGraduacaoModaliAlu"/>
+    <p:commandButton class="btn btn-primary" value="Adicionar graduação" action="#{ModalidadeManagedBean.alteraGraduATL()}" update="AltTabelaGraduacaoModaliAlu"/>
+    <p:commandButton class="btn btn-primary" value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaAltATL()}" update="AltTabelaGraduacaoModaliAlu"/>
     </h:panelGrid>
         <br/><br/>
         <p:dataTable id="AltTabelaGraduacaoModaliAlu" value="#{ModalidadeManagedBean.altGraduacoesModaliATL}" var="altGrdATL" paginator="true" rows="5" >
@@ -199,8 +199,8 @@
     <p:inputText id="AltgraduacModaliArb" value="#{ModalidadeManagedBean.altIdentificacaoGraduARB}" title="Adicione as faixas ou niveis de graduação da arte marcial"/>
     <p:tooltip id="AlttoolTipFocusArb" for="AltgraduacModaliArb" showEvent="focus" hideEvent="blur" />
     
-    <p:commandButton value="Adicionar graduação" action="#{ModalidadeManagedBean.alteraGraduABR()}" update="AltTabelaGraduacaoModaliArb"/>
-    <p:commandButton value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaAltARB()}" update="AltTabelaGraduacaoModaliArb"/>
+    <p:commandButton class="btn btn-primary" value="Adicionar graduação" action="#{ModalidadeManagedBean.alteraGraduABR()}" update="AltTabelaGraduacaoModaliArb"/>
+    <p:commandButton class="btn btn-primary" value="Remover graduação" action="#{ModalidadeManagedBean.linhaSelecionadaAltARB()}" update="AltTabelaGraduacaoModaliArb"/>
     </h:panelGrid>
         <br/><br/>
         <p:dataTable id="AltTabelaGraduacaoModaliArb" value="#{ModalidadeManagedBean.altGraduacoesModaliARB}"
@@ -227,7 +227,7 @@
         </p:tabView> 
         </p:fieldset>
     <br/>
-    <p:commandButton value="Alterar modalidade" action="#{ModalidadeManagedBean.alteraMod()}" update=":form"/>
+    <p:commandButton class="btn btn-primary" value="Alterar modalidade" action="#{ModalidadeManagedBean.alteraMod()}" update=":form"/>
 </p:dialog>               
         
         

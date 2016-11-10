@@ -34,7 +34,7 @@
                 <p:outputLabel for="nomePRT" value="Nome: "/>
                 <p:inputText id="nomePRT" value="#{InscricaoManagedBean.nomeAtleta}"/>
                 
-                <p:commandButton value="Pesquisar" action="#{InscricaoManagedBean.consultaATL()}" update="tabelaPRT"/>
+                <p:commandButton class="btn btn-primary" value="Pesquisar" action="#{InscricaoManagedBean.consultaATL()}" update="tabelaPRT"/>
                 
                 </h:panelGrid>
                 <h:panelGrid columns="4">
@@ -63,7 +63,7 @@
                 </h:panelGrid>
                 <br/>
                 
-                <p:commandButton value="Limpar campos" action="#{InscricaoManagedBean.limparCampos()}" update=":form"/>
+                <p:commandButton class="btn btn-primary" value="Limpar campos" action="#{InscricaoManagedBean.limparCampos()}" update=":form"/>
                 
                 <br/>
                 <p:dataTable id="tabelaPRT" value="#{InscricaoManagedBean.listaATL}" selectionMode="single" selection="#{InscricaoManagedBean.atl}" 
@@ -83,8 +83,8 @@
                 </p:dataTable>
                  
                 <br/>
-                <p:commandButton value="Nova inscrição" action="#{InscricaoManagedBean.limparCampos()}" update=":form"/>
-                <p:commandButton value="Finalizar inscrição" action="#{InscricaoManagedBean.inserirInscricao()}" update=":form:growl, :form:codINSC"/>
+                <p:commandButton class="btn btn-primary" value="Nova inscrição" action="#{InscricaoManagedBean.limparCampos()}" update=":form"/>
+                <p:commandButton class="btn btn-primary" value="Finalizar inscrição" action="#{InscricaoManagedBean.inserirInscricao()}" update=":form:growl, :form:codINSC"/>
                 
 		<br/><br/>	
         

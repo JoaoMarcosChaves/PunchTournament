@@ -32,7 +32,8 @@
    
 
                    </h:panelGrid>
-        
+        <p:commandButton value="Gerar relatório" class="btn btn-outline btn-primary btn-sm" action="#{RelatoriosManagedBean.gerarRelatorio()}"
+                         ajax="false"  onclick="this.form.target = '_blank'" style="float: right"/>
         
         
         <div style="float: left;margin-right: 50px;">
@@ -102,7 +103,7 @@
         <h:outputText value="#{RelatoriosManagedBean.qtdFemEvFut}"/>  
         </h:panelGrid>
        <br/>
-       <p:outputLabel value="Lucro de valor de inscrição:" />&nbsp;
+       <p:outputLabel value="Arrecadação de valor de inscrição:" />&nbsp;
        <h:outputText id="lucro" value="R$#{RelatoriosManagedBean.lucroFut}"/>
         <br/><br/><br/><br/>
     </ui:define>

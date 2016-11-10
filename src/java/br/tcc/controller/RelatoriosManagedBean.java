@@ -6,6 +6,8 @@ import br.tcc.bean.Segmentos_bean;
 import br.tcc.dao.Atletas_dao;
 import br.tcc.dao.Eventos_dao;
 import br.tcc.dao.Relatorios_dao;
+import br.tcc.relatorios.GerarNumEvento;
+import br.tcc.relatorios.bean.NumerosDoEvento_relat_bean;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -17,6 +19,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import net.sf.jasperreports.engine.JRException;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
@@ -171,7 +174,7 @@ private BarChartModel grafBarComparaNumEve;
 private PieChartModel grafPizzaSexoParts;
 
 
-
+List<NumerosDoEvento_relat_bean> ListaGerarRelat = new ArrayList<>();
 List<Relatorios_bean> listaQtdPrtInscs = new ArrayList<>();
 List<Relatorios_bean> listaQtdSegmentos = new ArrayList<>();
 List<Relatorios_bean> listaQtdCat = new ArrayList<>();
@@ -994,6 +997,46 @@ public void consultaInfIniciaisNumEve()throws SQLException{
          crescEve = -((eveAnt - eveAtu)/(float)eveAnt)*100;
      }
 } 
+
+public void gerarRelatorio() throws JRException, IOException {
+    try {
+        NumerosDoEvento_relat_bean b = new NumerosDoEvento_relat_bean();
+        NumerosDoEvento_relat_bean c = new NumerosDoEvento_relat_bean();
+        GerarNumEvento gerar = new GerarNumEvento();
+
+        ListaGerarRelat.clear();
+        b.setCodEve(codEveSelecionado);
+        b.setMedArbSegAnt(mediaArbSegAnt);
+        b.setMedArbSegAt(mediaArbSeg);
+        b.setMedPartInscAnt(mediaPrtInscSegAnt);
+        b.setMedPartInscAt(mediaPrtInscSeg);
+        b.setQtdCatAt(qtdCat);
+        b.setQtdChvAnt(qtdChvAnt);
+        b.setQtdPartInscAnt(qtdPrtInscGeralAnt);
+        b.setQtdPartInscAt(qtdPrtInscGeral);
+        b.setQtdSegAnt(qtdSegmentosAnt);
+        b.setQtdSegAt(qtdSegmentos);
+        b.setNomeSex("Masculino");
+        b.setNumSex(new Relatorios_dao().consultaTotSexoMasc(codEvento));
+        b.setEve("Anterior");
+        b.setTotEve(qtdPrtInscGeralAnt+qtdSegmentosAnt+mediaPrtInscSegAnt+qtdCatAnt+mediaArbSegAnt+qtdChvAnt);
+        b.setCrescEve(crescEve);
+        c.setNomeSex("Feminino");
+        c.setNumSex(new Relatorios_dao().consultaTotSexoFem(codEvento));
+        c.setCodEve(codEveSelecionado);
+        c.setEve("Atual");
+        c.setTotEve(qtdPrtInscGeral+qtdSegmentos+mediaPrtInscSeg+qtdCat+mediaArbSeg+qtdChv);
+        
+
+        ListaGerarRelat.add(c);
+        ListaGerarRelat.add(b);
+        
+
+        gerar.GerarRelatorio(ListaGerarRelat);
+    } catch (SQLException ex) {
+        Logger.getLogger(RelatoriosManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
 
 public void graficosPizzaSexosParts()throws SQLException{
     

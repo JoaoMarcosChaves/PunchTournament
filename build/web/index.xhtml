@@ -32,7 +32,10 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Punch Tornament Login</h3>
+                        
+                        <h3 class="panel-title">
+                            <center><p:graphicImage library="imgs" name="punch.png" height="70" /></center>
+                            </h3>
                     </div>
                     <div class="panel-body">
                         <form role="form">
@@ -48,7 +51,7 @@
                                 
                                 <!-- Change this to a button or input when using this as a form -->
 <!--                                <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>-->
-<p:commandButton class="btn btn-lg btn-success btn-block" value="Login" actionListener="#{LoginManagedBean.linkInicial()}" update="growl" />
+<p:commandButton class="btn btn-primary btn-lg btn-block" value="Login" actionListener="#{LoginManagedBean.linkInicial()}" update="growl" />
                          </fieldset>
                         </form>
                         

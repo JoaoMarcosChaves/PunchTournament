@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="669" pageHeight="842" columnWidth="629" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="84c8bc99-0b1f-4fa7-b89e-4c709a895a27">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="300"/>
+	<property name="net.sf.jasperreports.chart.theme" value="default"/>
+	<field name="qtdPartInscAt" class="java.lang.String"/>
+	<field name="qtdSegAt" class="java.lang.String"/>
+	<field name="medPartInscAt" class="java.lang.String"/>
+	<field name="qtdCatAt" class="java.lang.String"/>
+	<field name="medArbSegAt" class="java.lang.String"/>
+	<field name="qtdChvAt" class="java.lang.String"/>
+	<field name="qtdPartInscAnt" class="java.lang.String"/>
+	<field name="qtdSegAnt" class="java.lang.String"/>
+	<field name="medPartInscAnt" class="java.lang.String"/>
+	<field name="qtdCatAnt" class="java.lang.String"/>
+	<field name="medArbSegAnt" class="java.lang.String"/>
+	<field name="qtdChvAnt" class="java.lang.String"/>
+	<field name="codEve" class="java.lang.String"/>
+	<field name="nomeSex" class="java.lang.String"/>
+	<field name="numSex" class="java.lang.Float"/>
+	<field name="eve" class="java.lang.String"/>
+	<field name="totEve" class="java.lang.Integer"/>
+	<field name="crescEve" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="92" splitType="Stretch">
+			<staticText>
+				<reportElement x="136" y="35" width="282" height="53" uuid="9c789ad4-618b-4bed-8f4f-fb13b5e2d458"/>
+				<textElement>
+					<font fontName="Buxton Sketch" size="30"/>
+				</textElement>
+				<text><![CDATA[Números do Evento]]></text>
+			</staticText>
+			<image>
+				<reportElement x="9" y="2" width="114" height="69" uuid="6772defc-34b1-4ed2-9055-1ff45dd7e516"/>
+				<imageExpression><![CDATA["C:\\Users\\joãomarcos\\Documents\\NetBeansProjects\\TCCjsf\\web\\resources\\imgs\\punch.png"]]></imageExpression>
+			</image>
+			<rectangle radius="10">
+				<reportElement x="8" y="69" width="578" height="10" forecolor="#000000" backcolor="#6666FF" uuid="6cc2654b-1887-48e6-b6d5-c456a3fdf1a1"/>
+			</rectangle>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="31" y="13" width="55" height="20" uuid="a87f6944-460e-4eae-aa9d-de2dae1f82ac"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Evento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="87" y="15" width="100" height="20" uuid="a97de445-c028-495f-b272-6ce1df1f81ee"/>
+				<textFieldExpression><![CDATA[$F{codEve}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="32" width="629" height="22" forecolor="#D0B48E" backcolor="#006699" uuid="753e3bb1-2d04-4463-bdb8-3e6013619fb3"/>
+				<textField>
+					<reportElement x="560" y="2" width="65" height="20" forecolor="#FFFFFF" uuid="fef1730a-3665-4322-b1e5-c29376172513"/>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="8" y="2" width="100" height="20" forecolor="#FFFFFF" uuid="4b9f12bf-a756-4cdd-920f-593323ff7827"/>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="513" y="2" width="100" height="20" forecolor="#FFFFFF" uuid="a34f0e87-7de4-4871-b473-706867fe68c7"/>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement x="0" y="26" width="626" height="2" uuid="8677b83d-cdcf-4cc7-bb08-a4eeef82f2a4"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="589" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="45" width="220" height="20" uuid="59ed0573-c049-42e2-b1e5-020bb721e9d0"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Quantidade de participantes inscritos geral:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="81" width="220" height="20" uuid="339263d8-0ee7-4d31-99a4-2bb0dfa83bdb"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Quantidade de segmentos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="115" width="220" height="20" uuid="7e67d6f8-d79e-44f4-a43d-66c454a65250"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Média de participantes inscritos por segmento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="152" width="220" height="20" uuid="9c5c29e2-e896-4cf9-9835-c24b86c11da9"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Quantidade de categorias:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="186" width="220" height="20" uuid="8511ae12-f0e4-460c-9631-8f43a95f8d36"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Média de árbitros por segmento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="220" width="220" height="20" uuid="eceaea65-d670-4391-b12e-16a8b33e95b1"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Quantidade de chaves:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="152" width="220" height="20" uuid="3fce1180-c770-4e44-b2bf-5ec5da8648a3"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Quantidade de categorias:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="45" width="220" height="20" uuid="d8a7eb01-4fee-4683-9d2e-b7122b80b963"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Quantidade de participantes inscritos geral:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="220" width="220" height="20" uuid="e3071d4f-b55d-492b-94a7-bbc2953da343"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Quantidade de chaves:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="115" width="220" height="20" uuid="e057e23c-5ae4-4bce-a3fc-8dc4e46b709b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Média de participantes inscritos por segmento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="81" width="220" height="20" uuid="145026fd-76ea-40d6-af69-9c6653a4f57a"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Quantidade de segmentos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="186" width="220" height="20" uuid="ec8ede8a-358a-425f-a02a-18fc42fff84b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Média de árbitros por segmento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="156" height="31" uuid="a93b0faa-a909-42e4-addf-4460fb03b4bd"/>
+				<textElement>
+					<font fontName="Times New Roman" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Evento atual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="0" width="156" height="31" uuid="2c7e6439-ce41-452c-b689-2fd6c6423cab"/>
+				<textElement>
+					<font fontName="Times New Roman" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Evento anterior]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="229" y="45" width="52" height="20" uuid="9971b877-ae71-42af-876a-c7148a6c423f"/>
+				<textFieldExpression><![CDATA[$F{qtdPartInscAt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="81" width="52" height="20" uuid="bd933e70-2e71-475b-a3da-8914164c5b7b"/>
+				<textFieldExpression><![CDATA[$F{qtdSegAt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="115" width="52" height="20" uuid="1f45d9bc-6956-407d-81d1-dacb625f7a17"/>
+				<textFieldExpression><![CDATA[$F{medPartInscAt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="152" width="52" height="20" uuid="6b8d223b-069d-410e-b012-8fa72e7d63d5"/>
+				<textFieldExpression><![CDATA[$F{qtdCatAt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="186" width="52" height="20" uuid="6e78abf5-4513-4ffa-8c35-8b815b51cfd3"/>
+				<textFieldExpression><![CDATA[$F{medArbSegAt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="229" y="220" width="52" height="20" uuid="dff06c44-d5ad-46a8-92b6-3c674382663f"/>
+				<textFieldExpression><![CDATA[$F{qtdChvAt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="541" y="45" width="52" height="20" uuid="6dd0fdb4-61a2-49fb-9a77-605b5f57ab09"/>
+				<textFieldExpression><![CDATA[$F{qtdPartInscAnt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="541" y="81" width="52" height="20" uuid="923eea98-17e9-4147-9b8d-ba8423d14567"/>
+				<textFieldExpression><![CDATA[$F{qtdSegAnt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="541" y="115" width="52" height="20" uuid="4c113402-a6ea-481c-8ad2-24b64895f431"/>
+				<textFieldExpression><![CDATA[$F{medPartInscAnt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="541" y="152" width="52" height="20" uuid="3f6642d7-ac93-4dc2-9898-70e9849137fc"/>
+				<textFieldExpression><![CDATA[$F{qtdCatAnt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="541" y="186" width="52" height="20" uuid="ccba5fa1-eb63-4450-9d0d-1de54263787c"/>
+				<textFieldExpression><![CDATA[$F{medArbSegAnt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="541" y="220" width="52" height="20" uuid="04adf832-4785-4edb-9b21-0e492c02c1e0"/>
+				<textFieldExpression><![CDATA[$F{qtdChvAnt}]]></textFieldExpression>
+			</textField>
+			<pieChart>
+				<chart>
+					<reportElement x="331" y="303" width="279" height="235" uuid="cfdf6afe-271e-4542-911e-4ac12f076d64"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{numSex}]]></keyExpression>
+					<valueExpression><![CDATA[$F{numSex}]]></valueExpression>
+					<labelExpression><![CDATA[$F{nomeSex}]]></labelExpression>
+				</pieDataset>
+				<piePlot>
+					<plot/>
+					<itemLabel/>
+				</piePlot>
+			</pieChart>
+			<barChart>
+				<chart>
+					<reportElement x="21" y="303" width="300" height="235" uuid="9f4f1791-a799-43ff-81ff-7edb73c1f188"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{totEve}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{eve}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{totEve}]]></valueExpression>
+						<labelExpression><![CDATA[$F{eve}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<staticText>
+				<reportElement x="37" y="273" width="264" height="20" uuid="44816b85-13da-44d0-9711-b0f0773f8e21"/>
+				<textElement>
+					<font fontName="Times New Roman" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comparação qualitativa de crescimento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="367" y="273" width="219" height="20" uuid="05bc2a32-92f0-4de5-8d2b-ea177c0acc12"/>
+				<textElement>
+					<font fontName="Times New Roman" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Divisão de sexo dos participantes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="559" width="336" height="20" uuid="07f50465-0278-43a6-82e6-97f622137ad7"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Porcentagem do aumento geral de valores do evento anterior ao atual:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="364" y="559" width="100" height="20" uuid="691a718c-81f5-4f4a-9d67-0a78fddd6b51"/>
+				<textFieldExpression><![CDATA[$F{crescEve}+"%"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
