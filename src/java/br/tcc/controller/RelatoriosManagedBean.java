@@ -52,13 +52,6 @@ private String emailAtleta;
 
 // Categorias
 private int codCategoria;
-private float pesoMinCategoria;
-private float pesoMaxCategoria;
-private int graduacaoMinCategoria;
-private int graduacaoMaxCategoria;
-private int idadeMinCategoria;
-private int idadeMaxCategoria;
-private String nomeCategoria;    
     
 // Confrontos
 
@@ -71,31 +64,17 @@ private int qtdChvs;
 // metricas atleta
 
 private int codInscricao;
-private int totPontosPositivos;
-private int totPontosNegativos;
+
 
 // metricas combate
 
-private int numRodada;
-private String parteDoCorpoNGT;
-private String parteDoCorpoPST;
-private String descricaoCBT;
 private String finalCBT;
-private int totais;
+
 
 // Segmentos 
 
 private int codEvento;    
-private String nomeSegmento;
-private String descricaoSegmento;
 
-
-// Eventos
- 
-private  int codModali;
-private String dataEvento;
-private String statusEvento;
-private String nomeEvento;
 
 // atributos manipulaveis
 
@@ -1093,13 +1072,7 @@ public void calculaProgFutEve()throws SQLException{
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-public int getTotais() {
-        return totais;
-    }
 
-    public void setTotais(int totais) {
-        this.totais = totais;
-    }
     
     public int getQtdChvs() {
         return qtdChvs;
@@ -1107,38 +1080,6 @@ public int getTotais() {
 
     public void setQtdChvs(int qtdChvs) {
         this.qtdChvs = qtdChvs;
-    }
-
-    public int getCodModali() {
-        return codModali;
-    }
-
-    public void setCodModali(int codModali) {
-        this.codModali = codModali;
-    }
-
-    public String getDataEvento() {
-        return dataEvento;
-    }
-
-    public void setDataEvento(String dataEvento) {
-        this.dataEvento = dataEvento;
-    }
-
-    public String getStatusEvento() {
-        return statusEvento;
-    }
-
-    public void setStatusEvento(String statusEvento) {
-        this.statusEvento = statusEvento;
-    }
-
-    public String getNomeEvento() {
-        return nomeEvento;
-    }
-
-    public void setNomeEvento(String nomeEvento) {
-        this.nomeEvento = nomeEvento;
     }
 
     public String getSexo() {
@@ -1221,62 +1162,6 @@ public int getTotais() {
         this.codCategoria = codCategoria;
     }
 
-    public float getPesoMinCategoria() {
-        return pesoMinCategoria;
-    }
-
-    public void setPesoMinCategoria(float pesoMinCategoria) {
-        this.pesoMinCategoria = pesoMinCategoria;
-    }
-
-    public float getPesoMaxCategoria() {
-        return pesoMaxCategoria;
-    }
-
-    public void setPesoMaxCategoria(float pesoMaxCategoria) {
-        this.pesoMaxCategoria = pesoMaxCategoria;
-    }
-
-    public int getGraduacaoMinCategoria() {
-        return graduacaoMinCategoria;
-    }
-
-    public void setGraduacaoMinCategoria(int graduacaoMinCategoria) {
-        this.graduacaoMinCategoria = graduacaoMinCategoria;
-    }
-
-    public int getGraduacaoMaxCategoria() {
-        return graduacaoMaxCategoria;
-    }
-
-    public void setGraduacaoMaxCategoria(int graduacaoMaxCategoria) {
-        this.graduacaoMaxCategoria = graduacaoMaxCategoria;
-    }
-
-    public int getIdadeMinCategoria() {
-        return idadeMinCategoria;
-    }
-
-    public void setIdadeMinCategoria(int idadeMinCategoria) {
-        this.idadeMinCategoria = idadeMinCategoria;
-    }
-
-    public int getIdadeMaxCategoria() {
-        return idadeMaxCategoria;
-    }
-
-    public void setIdadeMaxCategoria(int idadeMaxCategoria) {
-        this.idadeMaxCategoria = idadeMaxCategoria;
-    }
-
-    public String getNomeCategoria() {
-        return nomeCategoria;
-    }
-
-    public void setNomeCategoria(String nomeCategoria) {
-        this.nomeCategoria = nomeCategoria;
-    }
-
     public int getCodChvConf() {
         return codChvConf;
     }
@@ -1317,54 +1202,6 @@ public int getTotais() {
         this.codInscricao = codInscricao;
     }
 
-    public int getTotPontosPositivos() {
-        return totPontosPositivos;
-    }
-
-    public void setTotPontosPositivos(int totPontosPositivos) {
-        this.totPontosPositivos = totPontosPositivos;
-    }
-
-    public int getTotPontosNegativos() {
-        return totPontosNegativos;
-    }
-
-    public void setTotPontosNegativos(int totPontosNegativos) {
-        this.totPontosNegativos = totPontosNegativos;
-    }
-
-    public int getNumRodada() {
-        return numRodada;
-    }
-
-    public void setNumRodada(int numRodada) {
-        this.numRodada = numRodada;
-    }
-
-    public String getParteDoCorpoNGT() {
-        return parteDoCorpoNGT;
-    }
-
-    public void setParteDoCorpoNGT(String parteDoCorpoNGT) {
-        this.parteDoCorpoNGT = parteDoCorpoNGT;
-    }
-
-    public String getParteDoCorpoPST() {
-        return parteDoCorpoPST;
-    }
-
-    public void setParteDoCorpoPST(String parteDoCorpoPST) {
-        this.parteDoCorpoPST = parteDoCorpoPST;
-    }
-
-    public String getDescricaoCBT() {
-        return descricaoCBT;
-    }
-
-    public void setDescricaoCBT(String descricaoCBT) {
-        this.descricaoCBT = descricaoCBT;
-    }
-
     public String getFinalCBT() {
         return finalCBT;
     }
@@ -1379,22 +1216,6 @@ public int getTotais() {
 
     public void setCodEvento(int codEvento) {
         this.codEvento = codEvento;
-    }
-
-    public String getNomeSegmento() {
-        return nomeSegmento;
-    }
-
-    public void setNomeSegmento(String nomeSegmento) {
-        this.nomeSegmento = nomeSegmento;
-    }
-
-    public String getDescricaoSegmento() {
-        return descricaoSegmento;
-    }
-
-    public void setDescricaoSegmento(String descricaoSegmento) {
-        this.descricaoSegmento = descricaoSegmento;
     }
 
     public String getCodEveSelecionado() {
