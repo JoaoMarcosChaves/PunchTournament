@@ -1,27 +1,27 @@
 
-package br.tcc.criptografia;
+package br.tcc.interfaces;
 
 
 public class Criptografar implements InterfaceCrip{
 //Conteudo conte = new Conteudo();
     @Override
     
-    public void TipoCrip(Conteudo conte){
-    
+    public String TipoCrip(String txt){
+    String crip = "";
         int i = (int) (Math.random() * 2);
         if(i == 0){
-            CriptoInf1(conte);
+            crip = CriptoInf1(txt);
         }else{
-            CriptoInf2(conte);
+            crip = CriptoInf2(txt);
         }
         
-        
+        return crip;
     }
     
-    public void CriptoInf1(Conteudo conte) {
+    public String CriptoInf1(String txt) {
 
         String txtCript = "";
-        String pCript = conte.informacao.toLowerCase();
+        String pCript = txt.toLowerCase();
         for (int i = 0; i < pCript.length(); i++)
             {
           
@@ -32,32 +32,6 @@ public class Criptografar implements InterfaceCrip{
               txtCript += letra.replace("a", "*");
 
           }
-                else if (letra.equals("á"))
-          {
-             
-              txtCript += letra.replace("á", "]");
-
-          }
-                else if (letra.equals("ã"))
-          {
-             
-              txtCript += letra.replace("ã", "n");
-
-          }
-                else if (letra.equals("â"))
-          {
-             
-              txtCript += letra.replace("â", "y");
-
-          }
-                
-                else if (letra.equals("à"))
-          {
-             
-              txtCript += letra.replace("à", "w");
-
-          }
-                     
          else if (letra.equals("b"))
           {
               txtCript += letra.replace("b", "#");
@@ -297,12 +271,12 @@ public class Criptografar implements InterfaceCrip{
                 
           }
          
-          conte.txtCripto = "99"+txtCript;
+          return "99"+txtCript;
     }
     
-     public void CriptoInf2(Conteudo conte) {
+     public String CriptoInf2(String txt) {
          String txtCript = "";
-        String pCript = conte.informacao.toLowerCase();
+        String pCript = txt.toLowerCase();
         for (int i = 0; i < pCript.length(); i++)
             {
          String letra = String.valueOf(pCript.charAt(i));
@@ -550,7 +524,7 @@ public class Criptografar implements InterfaceCrip{
 
           }
          
-          conte.txtCripto = "23"+txtCript;
+          return "23"+txtCript;
          
      }
 }

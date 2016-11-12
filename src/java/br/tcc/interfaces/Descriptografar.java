@@ -1,5 +1,5 @@
 
-package br.tcc.criptografia;
+package br.tcc.interfaces;
 
 /**
  *
@@ -7,23 +7,25 @@ package br.tcc.criptografia;
  */
 public class Descriptografar implements InterfaceCrip{
 
-    @Override
-    public void TipoCrip(Conteudo conte) {
+    
+    public String TipoCrip(String txt) {
        
-        String inf = conte.informacao.substring(0,2);
+        String inf = txt.substring(0,2);
+        String descrip = "";
         if(inf.equals("99")){
             
-            Descrip1(conte);
+            descrip = Descrip1(txt);
             
         }else{
-            Descrip2(conte);
+            descrip = Descrip2(txt);
         }
         
+        return descrip;
     }
 
-    public void Descrip1(Conteudo conte){
+    public String Descrip1(String txt){
         String txtCript = "";
-        String pCript = conte.informacao.substring(2);
+        String pCript = txt.substring(2);
         
        
         
@@ -279,12 +281,12 @@ public class Descriptografar implements InterfaceCrip{
                 
           }
          
-          conte.txtCripto = txtCript;
+          return txtCript;
     }
     
-    public void Descrip2(Conteudo conte){
+    public String Descrip2(String txt){
         String txtCript = "";
-        String pCript = conte.informacao.substring(2);
+        String pCript = txt.substring(2);
         
         for (int i = 0; i < pCript.length(); i++)
             {
@@ -533,10 +535,7 @@ public class Descriptografar implements InterfaceCrip{
 
           }
          
-          conte.txtCripto = txtCript;
-        
-        
-        
+          return txtCript;
         
     }
     

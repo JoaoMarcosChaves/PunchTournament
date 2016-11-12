@@ -4,9 +4,6 @@ package br.tcc.controller;
 
 import br.tcc.bean.Arbitros_bean;
 import br.tcc.bean.Login_bean;
-import br.tcc.criptografia.Conteudo;
-import br.tcc.criptografia.Criptografar;
-import br.tcc.criptografia.InterfaceCrip;
 import br.tcc.dao.Eventos_dao;
 import br.tcc.dao.Login_dao;
 import java.io.IOException;
@@ -88,10 +85,7 @@ public class LoginManagedBean {
     
    
     Login_bean bean = new Login_bean();
-    Conteudo cont = new Conteudo();
-    InterfaceCrip crip = new Criptografar();
-    
-    cont.setInformacao(cadUsusario) ;
+   
     bean.setLogin(cadUsusario);
     
     bean.setSenha(cadSenha);

@@ -43,7 +43,7 @@
                 </p:selectOneMenu>
                     
                      <p:outputLabel for="cpfPRT" value="CPF: "/>
-                     <p:inputText id="cpfPRT" value="#{ParticipantesManagedBean.cpfAtleta}"/>
+                     <p:inputMask id="cpfPRT" value="#{ParticipantesManagedBean.cpfAtleta}" mask="999.999.999-99"/>
                      
                      <p:outputLabel for="emailPRT" value="E-mail: "/>
                      <p:inputText id="emailPRT" value="#{ParticipantesManagedBean.emailAtleta}"/>

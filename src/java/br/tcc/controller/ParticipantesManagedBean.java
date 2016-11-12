@@ -2,11 +2,12 @@ package br.tcc.controller;
 
 import br.tcc.bean.Atletas_bean;
 import br.tcc.bean.GraduacoesModali_bean;
-import br.tcc.criptografia.Conteudo;
-import br.tcc.criptografia.Criptografar;
-import br.tcc.criptografia.InterfaceCrip;
 import br.tcc.dao.Atletas_dao;
 import br.tcc.dao.Modalidades_dao;
+import br.tcc.interfaces.Criptografar;
+import br.tcc.interfaces.InterfaceCrip;
+import br.tcc.interfaces.InterfaceValida;
+import br.tcc.interfaces.Validacoes;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,24 +60,37 @@ public void carregaComboGradu()throws SQLException{
 }
 
 public void inserirParticipante(){
-
+    InterfaceValida v = new Validacoes();
+    InterfaceCrip c = new Criptografar();
+    
     try {
         Atletas_dao dao = new Atletas_dao();
 
+        if(v.ValidaCpf(cpfAtleta.replace(".", "").replace("-", "").replace(" ", ""))){
+            if(v.ValidaEmail(emailAtleta)){
+            
         atlBean.setNomeAtleta(nomeAtleta);
-        atlBean.setCpfAtleta(cpfAtleta);
+        atlBean.setCpfAtleta(c.TipoCrip(cpfAtleta.replace(".", "").replace("-", "").replace(" ", "")));
         atlBean.setEmailAtleta(emailAtleta);
         atlBean.setGraduacaoAtleta(graduacaoAtleta.substring(0, graduacaoAtleta.indexOf("-")).trim());
         atlBean.setIdadeAtleta(idadeAtleta);
         atlBean.setPesoAtleta(pesoAtleta);
         atlBean.setSexo(sexo);
-        
+    
         codATL = dao.inserirAtleta(atlBean);
         
         codAtleta = codATL.get(0).getCodAtleta();
         
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Sucesso","Atleta "+ nomeAtleta +" cadastrado"));
+                
+            }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção", "Endereço de E-mail com formato inválido"));
+            }
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção", "CPF inválido. Entre com um CPF válido."));
+        }
+        
         
     } catch (SQLException ex) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", "\n"+ ex));
