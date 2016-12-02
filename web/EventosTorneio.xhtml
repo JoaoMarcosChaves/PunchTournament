@@ -116,7 +116,7 @@
         <p:commandButton class="btn btn-primary" value="Adicionar segmento" action="#{EventosManagedBean.adicionarSegLista()}" update="DlgtabelaSeg"/>
         <p:commandButton class="btn btn-primary" value="Remover segmento" action="#{EventosManagedBean.removerSegLista()}" update="DlgtabelaSeg"/>
             
-        <p:outputLabel for="areaDescEve" value="Descrição modalidade"/>
+        <p:outputLabel for="areaDescEve" value="Descrição do evento"/>
         <p:inputTextarea id="areaDescEve" value="#{EventosManagedBean.descricaoSegmento}"/>
         
         </h:panelGrid>
@@ -179,7 +179,7 @@
         <p:commandButton class="btn btn-primary" value="Restaurar lista de segmentos" action="#{EventosManagedBean.restauraListaAltSegs()}" update="DlgAltTabelaSeg"/>
         
         
-        <p:outputLabel for="AltAreaDescEve" value="Descrição modalidade"/>
+        <p:outputLabel for="AltAreaDescEve" value="Descrição do evento"/>
         <p:inputTextarea id="AltAreaDescEve" value="#{EventosManagedBean.altDescricaoSegmento}"/>
         
         <p:commandButton class="btn btn-primary" value="Alterar segmento" action="#{EventosManagedBean.segsParaAlt()}" update="DlgAltTabelaSeg"/>
@@ -349,7 +349,7 @@
              
          </p:tab>
          
-         <p:tab title="Arbitros">
+         <p:tab title="Árbitros">
              
              <h:panelGrid columns="4">
              <p:outputLabel value="Nome para novo arbitro:"/>
@@ -470,7 +470,7 @@
              
          </p:tab>
          
-         <p:tab title="Arbitros">
+         <p:tab title="Árbitros">
              
              <br/><br/>     
              <p:commandButton class="btn btn-primary" value="Remover arbitro" action="#{EventosManagedBean.removerARBVis()}" update=":form:tabVisConfs:VisARBs,:form:tabVisConfs:VisPtARB"/>

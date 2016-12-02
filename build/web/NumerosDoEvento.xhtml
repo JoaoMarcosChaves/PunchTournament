@@ -72,9 +72,11 @@
         </h:panelGrid>
         </div>
         <br/><br/>
-        <h:panelGrid columns="2" id="grafs">
-        <p:chart id="grafBar" type="bar" model="#{RelatoriosManagedBean.grafBarComparaNumEve}" style="width: 450px ; height: 350px" />
-        <p:chart id="grafPizz" type="pie" model="#{RelatoriosManagedBean.grafPizzaSexoParts}" style="width:400px;height:300px" />
+        <h:panelGrid columns="2" id="grafs" rendered="#{RelatoriosManagedBean.codEvento !=0}">
+            <p:chart id="grafBar" type="bar" model="#{RelatoriosManagedBean.grafBarComparaNumEve}" 
+                     style="width: 450px ; height: 350px" />
+        <p:chart id="grafPizz" type="pie" model="#{RelatoriosManagedBean.grafPizzaSexoParts}" 
+                 style="width:400px;height:300px" />
         </h:panelGrid>
         <br/>
        <p:outputLabel value="Porcentagem do aumento geral de valores do evento anterior ao atual:" />

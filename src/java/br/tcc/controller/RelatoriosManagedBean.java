@@ -261,7 +261,7 @@ private void graficoPizzaTops(int finaliza, int pontos, int nocautes)throws SQLE
 public void consultaTotaisGraficosMetricas()throws SQLException{
     Relatorios_dao dao = new Relatorios_dao();
     
-    // Pizza
+    // Pizza 
     int cabeca = dao.graficoTotalNgtCabeca(codEvento, codAtleta);
     int bracos = dao.graficoTotalNgtBracos(codEvento, codAtleta);
     int pernas = dao.graficoTotalNgtPernas(codEvento, codAtleta);
@@ -277,7 +277,7 @@ public void consultaTotaisGraficosMetricas()throws SQLException{
     int troncoPst = dao.graficoTotalPstTronco(codEvento, codAtleta);
     graficosPizzaMetricas(cabeca, bracos, pernas, tronco, quedagem, cabecaPst, bracosPst, pernasPst, troncoPst, quedagemPst);
    
-    // Linhas 
+    // Linhas   
     
     listaProgresAcertNgt = dao.graficoProgressAcertosNgt(codEvento, codAtleta);
     listaProgresAcertPst = dao.graficoProgressAcertosPst(codEvento, codAtleta);
@@ -290,9 +290,8 @@ public void consultaTotaisGraficosMetricas()throws SQLException{
 
 
 public void criarModeloDeBarras(){
-        grafBarResultsConfPst = graficoBarrasFinaisConfPst(); 
-        
-        
+   
+        grafBarResultsConfPst =  graficoBarrasFinaisConfPst(); 
         grafBarResultsConfPst.setTitle("Confrontos vencidos finalizados em");
         grafBarResultsConfPst.setLegendPosition("ne");
         Axis xAxis = grafBarResultsConfPst.getAxis(AxisType.X);
@@ -320,7 +319,7 @@ public void criarModeloDeBarras(){
             max = qtdPrtInscGeral+qtdSegmentos+mediaPrtInscSeg+qtdCat+mediaArbSeg+qtdChv+10;
         }else{
             max = qtdPrtInscGeralAnt+qtdSegmentosAnt+mediaPrtInscSegAnt+qtdCatAnt+mediaArbSegAnt+qtdChvAnt +10;
-        }
+        } 
         grafBarComparaNumEve = graficoBarrasComparaEves(); 
         grafBarComparaNumEve.setTitle("Comparação qualitativa de crescimento");
         grafBarComparaNumEve.setLegendPosition("ne");
@@ -331,7 +330,7 @@ public void criarModeloDeBarras(){
         yAxis3.setMin(0);
         yAxis3.setMax(max); 
 }
-
+ 
 public BarChartModel graficoBarrasFinaisConfPst(){
     BarChartModel graf = new BarChartModel();
     
@@ -350,21 +349,32 @@ public BarChartModel graficoBarrasFinaisConfPst(){
     for(int i = 0; i < listaResultsConfPst.size(); i++){
         
         if(listaResultsConfPst.get(i).getFinalCBT().equals("Nocaute")){
-            nocaute.set("Circuito de chutes", numNocaute+=1);
+            
+        
+            numNocaute+=1;
         }
         else if(listaResultsConfPst.get(i).getFinalCBT().equals("Finalização")){
-            finalizacao.set("Circuito de chutes", numFinaliza += 1);
-        }else if(listaResultsConfPst.get(i).getFinalCBT().equals("Pontos")){
-            pontos.set("Circuito de chutes", numPontos += 1);
             
+            numFinaliza += 1;
+        
+        }else if(listaResultsConfPst.get(i).getFinalCBT().equals("Pontos")){
+            
+            numPontos += 1;
+        
         }
         
     }
-    }else{
+    nocaute.set(codEveSelecionado, numNocaute);
+    finalizacao.set(codEveSelecionado, numFinaliza);
+    pontos.set(codEveSelecionado, numPontos);
+    
+    }else{ 
+        
         nocaute.set("",0);
         pontos.set("",0);
         finalizacao.set("",0);
     }
+    
     graf.addSeries(nocaute);
     graf.addSeries(finalizacao);
     graf.addSeries(pontos);
@@ -390,13 +400,19 @@ public BarChartModel graficoBarrasFinaisConfNgt(){
     for(int i = 0; i < listaResultsConfNgt.size(); i++){
         
         if(listaResultsConfNgt.get(i).getFinalCBT().equals("Nocaute")){
-            nocaute.set(codEveSelecionado, numNocaute+=1);
+            
+            numNocaute+=1;
         }else if(listaResultsConfNgt.get(i).getFinalCBT().equals("Finalização")){
-            finalizacao.set(codEveSelecionado, numFinaliza += 1);
+            
+            numFinaliza += 1;
         }else if(listaResultsConfNgt.get(i).getFinalCBT().equals("Pontos") ){
-            finalizacao.set(codEveSelecionado, numPontos += 1);
+            
+            numPontos += 1;
         }
     }
+    nocaute.set(codEveSelecionado, numNocaute);
+    finalizacao.set(codEveSelecionado, numFinaliza);
+    finalizacao.set(codEveSelecionado, numPontos);
     }else{
         nocaute.set("",0);
         pontos.set("",0);
@@ -406,7 +422,7 @@ public BarChartModel graficoBarrasFinaisConfNgt(){
     graf.addSeries(finalizacao);
     graf.addSeries(pontos);
     return graf;
-}
+} 
 
 public void criarModeloDeLinhas()throws SQLException{
       int max = 0;
@@ -637,14 +653,16 @@ public void graficosPizzaMetricas(int cabeca, int bracos, int pernas, int tronco
 /////////////// Metodos links ////////////////////
 
 public void linkTops() throws IOException{
-    
+    codEveSelecionado = "";
+    codEvento = 0;
   
     FacesContext.getCurrentInstance().getExternalContext().redirect("./RelatorioTopsTRN.xhtml");
     
 } 
 
 public void linkMetricas() throws IOException{
-    
+    codEveSelecionado = "";
+    codEvento = 0;
   
     FacesContext.getCurrentInstance().getExternalContext().redirect("./MetricasAtletas.xhtml");
     
@@ -652,7 +670,8 @@ public void linkMetricas() throws IOException{
 
 
 public void linkNumeros() throws IOException{
-    
+    codEveSelecionado = "";
+    codEvento = 0;
   
     FacesContext.getCurrentInstance().getExternalContext().redirect("./NumerosDoEvento.xhtml");
     
@@ -711,19 +730,35 @@ public void calculaProgressAtl()throws SQLException{
     impacPst = dao.consultaTotImpactoPst(codEvento, codAtleta);
     impacNgt = dao.consultaTotImpactoNgt(codEvento, codAtleta);
     eventos = dao.consultaCodEventos(codEvento);
-    int eventAnte = eventos.get(1);
+    int eventAnte = 0 ;
+    int cabeca = 0;
+    int bracos = 0;
+    int pernas = 0;
+    int quedagem = 0;
+    int tronco = 0; 
     
-    int cabeca = dao.graficoTotalNgtCabeca(eventAnte, codAtleta);
-    int bracos = dao.graficoTotalNgtBracos(eventAnte, codAtleta);
-    int pernas = dao.graficoTotalNgtPernas(eventAnte, codAtleta);
-    int quedagem = dao.graficoTotalNgtQuedagem(eventAnte, codAtleta);
-    int tronco = dao.graficoTotalNgtTronco(eventAnte, codAtleta); 
+    int cabecaPst = 0;
+    int bracosPst = 0;
+    int pernasPst = 0;
+    int quedagemPst = 0;
+    int troncoPst = 0;    
     
-    int cabecaPst = dao.graficoTotalPstCabeca(eventAnte, codAtleta);
-    int bracosPst = dao.graficoTotalPstBracos(eventAnte, codAtleta);
-    int pernasPst = dao.graficoTotalPstPernas(eventAnte, codAtleta);
-    int quedagemPst = dao.graficoTotalPstQuedagem(eventAnte, codAtleta);
-    int troncoPst = dao.graficoTotalPstTronco(eventAnte, codAtleta);
+    if(eventos.size() > 1){
+     eventAnte = eventos.get(1);
+     cabeca = dao.graficoTotalNgtCabeca(eventAnte, codAtleta);
+     bracos = dao.graficoTotalNgtBracos(eventAnte, codAtleta);
+     pernas = dao.graficoTotalNgtPernas(eventAnte, codAtleta);
+     quedagem = dao.graficoTotalNgtQuedagem(eventAnte, codAtleta);
+     tronco = dao.graficoTotalNgtTronco(eventAnte, codAtleta); 
+    
+     cabecaPst = dao.graficoTotalPstCabeca(eventAnte, codAtleta);
+     bracosPst = dao.graficoTotalPstBracos(eventAnte, codAtleta);
+     pernasPst = dao.graficoTotalPstPernas(eventAnte, codAtleta);
+     quedagemPst = dao.graficoTotalPstQuedagem(eventAnte, codAtleta);
+     troncoPst = dao.graficoTotalPstTronco(eventAnte, codAtleta);
+    }
+    
+    
     
     DecimalFormat df = new DecimalFormat("0.00");
     
@@ -834,8 +869,8 @@ public void calculaProgressAtl()throws SQLException{
         progQuedagemPstNgt = df.format(((impacNgt.get(i).getProgQuedagemNgt() - quedagem)/impacNgt.get(i).getProgQuedagemNgt())*100);
         }
     }
-    
-   } 
+    }
+   
 }
 
 

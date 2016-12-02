@@ -224,7 +224,7 @@
                         <br/><br/>
                         <p:chart type="line" model="#{RelatoriosManagedBean.grafLinhaMetAcertNgt}" rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
                         <br/><br/>
-                        <p:chart type="bar" model="#{RelatoriosManagedBean.grafBarResultsConfNgt}" rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
+<p:chart type="bar" model="#{RelatoriosManagedBean.grafBarResultsConfNgt}" rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
                         <br/><br/>
                         <b><h4>Atributos que decaíram desde o evento anterior:</h4></b><br/>
                         
@@ -264,9 +264,10 @@
                                  rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
                         <br/><br/>
                         <p:chart type="line" model="#{RelatoriosManagedBean.grafLinhaMetAcertPst}" rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
+
+                       <p:chart type="bar" model="#{RelatoriosManagedBean.grafBarResultsConfPst}" rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
                         <br/><br/>
-                        <p:chart type="bar" model="#{RelatoriosManagedBean.grafBarResultsConfPst}" rendered="#{RelatoriosManagedBean.codAtleta != 0}"/>
-                        <br/><br/>
+
                         <b><h4>Progresso desde o evento anterior:</h4></b><br/>
                         
                         <b>  Progressões de acertos positivos:</b><br/>
