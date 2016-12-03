@@ -35,8 +35,9 @@ public Confrontos_dao()throws SQLException{
 public List<InscricaoPRT_bean> consultaATL(int codCat)throws SQLException{
            
            String sql = "select * from TB_inscricaoAtleta i inner join TB_atleta a\n" +
-                        "on i.codAtleta = a.codAtleta \n" +
-                        "and i.codCategoria = ?";
+"on i.codAtleta = a.codAtleta\n" +
+"and i.codCategoria = ?\n" +
+"and statusInscricao = 'Confirmado'";
            
            PreparedStatement stmt = this.conexao.prepareStatement(sql);
            stmt.setInt(1, codCat);

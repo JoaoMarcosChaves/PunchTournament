@@ -246,6 +246,31 @@ public class Eventos_dao {
         stmt.close();
         return minhaLista;
     }
+    
+    public List<Eventoss_bean>pesquisaEventosFinalizados(int cod) throws SQLException{
+        
+    String sql = "select * from TB_Evento where statusEvento = 'Finalizado' and codModali = ?";
+    PreparedStatement stmt = this.conexao.prepareStatement(sql);
+    
+    
+    
+    stmt.setInt(1,cod);     
+        
+        ResultSet rs = stmt.executeQuery(); 
+        
+        ArrayList<Eventoss_bean> minhaLista = new ArrayList<Eventoss_bean>();
+        
+        
+        while(rs.next()){
+            Eventoss_bean c1 = new Eventoss_bean();
+            c1.setNomeEvento(rs.getString("nomeEvento"));
+            c1.setCodEvento(rs.getInt("codEvento"));
+            minhaLista.add(c1);
+        }
+        rs.close();
+        stmt.close();
+        return minhaLista;
+    }
    
      public List<Segmentos_bean> consultaSegs(int cod)throws SQLException{
         

@@ -1,10 +1,13 @@
 
 package br.tcc.controller;
 
+import br.tcc.bean.Eventoss_bean;
+import br.tcc.bean.Modalidades_bean;
 import br.tcc.bean.Relatorios_bean;
 import br.tcc.bean.Segmentos_bean;
 import br.tcc.dao.Atletas_dao;
 import br.tcc.dao.Eventos_dao;
+import br.tcc.dao.Modalidades_dao;
 import br.tcc.dao.Relatorios_dao;
 import br.tcc.relatorios.GerarNumEvento;
 import br.tcc.relatorios.bean.NumerosDoEvento_relat_bean;
@@ -165,7 +168,7 @@ List<Relatorios_bean> chaves = new ArrayList<>();
 List<Relatorios_bean> metricasPST = new ArrayList<>();
 List<Relatorios_bean> metricasNGT = new ArrayList<>();
 private List<String> ComboSegs = new ArrayList<>();
-private List<String> comboEve = new ArrayList<>();
+
 private List<Segmentos_bean> listaSegs = new ArrayList<>();
 private List<Relatorios_bean> listaTops = new ArrayList<>();
 private List<Relatorios_bean> listaAtletas = new ArrayList<>();
@@ -175,6 +178,62 @@ private List<Relatorios_bean> listaProgresAcertNgt = new ArrayList<>();
 private List<Relatorios_bean> listaProgresAcertPst = new ArrayList<>();
 private List<Relatorios_bean> listaResultsConfPst = new ArrayList<>();
 private List<Relatorios_bean> listaResultsConfNgt = new ArrayList<>();
+
+
+// VARIAVEIS NECESSÁRIAS PARA PREENCHER COMBOS DE MOD, EVE,E SEG.
+private List<Modalidades_bean> modalidades = new ArrayList<>();
+private List <String> comboMod = new ArrayList<>();
+private List <String> comboEve = new ArrayList<>();
+private String codModSelecionado;
+private int codModali;
+private List<Eventoss_bean> eve = new ArrayList<>();
+//
+//private int codEventoP;
+//private String codEveSelecionadoP;
+//private List<Segmentos_bean> listaSegsP = new ArrayList<>();
+
+
+public RelatoriosManagedBean()throws SQLException{
+    Modalidades_dao dao = new Modalidades_dao();
+        
+        modalidades = dao.PesqMod();
+        for(int i = 0; i <modalidades.size(); i++){
+        
+      comboMod.add(modalidades.get(i).getCodModali()+" - "+modalidades.get(i).getNomeModali());
+        
+    }
+}
+
+public void carregarComboEv() throws SQLException{
+    Eventos_dao dao = new Eventos_dao();
+    comboEve.clear();
+    ComboSegs.clear();
+    
+    if(codModSelecionado.equals("")){
+        
+        comboEve.clear();
+        ComboSegs.clear();
+       
+    }
+    else{
+    
+    
+    codModali = Integer.valueOf(codModSelecionado.substring(0,codModSelecionado.indexOf(" ")));
+    eve = dao.pesquisaEventosFinalizados(codModali);
+    
+    if(eve.isEmpty()){
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "Não existem eventos finalizados para se realizar a consulta."));                            
+    }else{
+    for(int i = 0; i <eve.size(); i++){
+        
+      comboEve.add(eve.get(i).getCodEvento()+" - "+eve.get(i).getNomeEvento());
+        
+    }    
+    }
+    
+    
+    }
+}
 ///////////////////////////////////////////////////////// Métodos Tops do torneio //////////////////////////////////////////////
 
 
@@ -1643,6 +1702,46 @@ public void calculaProgFutEve()throws SQLException{
 
     public void setPercEstProg(String percEstProg) {
         this.percEstProg = percEstProg;
+    }
+
+    public List<Modalidades_bean> getModalidades() {
+        return modalidades;
+    }
+
+    public void setModalidades(List<Modalidades_bean> modalidades) {
+        this.modalidades = modalidades;
+    }
+
+    public String getCodModSelecionado() {
+        return codModSelecionado;
+    }
+
+    public void setCodModSelecionado(String codModSelecionado) {
+        this.codModSelecionado = codModSelecionado;
+    }
+
+    public int getCodModali() {
+        return codModali;
+    }
+
+    public void setCodModali(int codModali) {
+        this.codModali = codModali;
+    }
+
+    public List<Eventoss_bean> getEve() {
+        return eve;
+    }
+
+    public void setEve(List<Eventoss_bean> eve) {
+        this.eve = eve;
+    }
+
+    public List<String> getComboMod() {
+        return comboMod;
+    }
+
+    public void setComboMod(List<String> comboMod) {
+        this.comboMod = comboMod;
     }
     
     

@@ -13,10 +13,10 @@
 						
                         <h:panelGrid columns="4">
                         <p:outputLabel for="ModCads" value="Modalidades cadastradas: "/>
-                    <p:selectOneMenu id="ModCads"  value="#{VencedoresManagedBean.codModSelecionado}"  >
-                        <p:ajax   listener="#{VencedoresManagedBean.carregarComboEv()}" update="EventCads,SegsCads" />
+                    <p:selectOneMenu id="ModCads"  value="#{RelatoriosManagedBean.codModSelecionado}"  >
+                        <p:ajax   listener="#{RelatoriosManagedBean.carregarComboEv()}" update="EventCads,SegsCads,growl" />
                         <f:selectItem itemLabel="Selecione uma modalidade"/>
-                        <f:selectItems value="#{EventosManagedBean.comboMod}"  />
+                        <f:selectItems value="#{RelatoriosManagedBean.comboMod}"  />
                         
                     </p:selectOneMenu>
                     
@@ -25,7 +25,7 @@
                         <p:ajax   listener="#{RelatoriosManagedBean.carregaCombos()}"  update="form"/>
                         
                         <f:selectItem itemLabel="Selecione um evento"/>
-                        <f:selectItems value="#{VencedoresManagedBean.comboEve}"  />
+                        <f:selectItems value="#{RelatoriosManagedBean.comboEve}"  />
                         
                     </p:selectOneMenu>
                     

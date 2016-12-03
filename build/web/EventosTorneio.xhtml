@@ -14,8 +14,20 @@
                 <p:commandButton value="Inserir novo evento" class="btn btn-primary" onclick="PF('dlgInsEve').show();" />
                 <p:commandButton value="Configurar segmento" class="btn btn-primary" onclick="PF('dlgConfSeg').show();" />
                 <p:commandButton value="Atualizar dados do evento" class="btn btn-primary" action="#{EventosManagedBean.itensDeATL()}" onclick="PF('dlgAtlEve').show();" update="tabAltEv,CodAltEveSelect"/>
-                <p:commandButton value="Finalizar evento" class="btn btn-primary" action="#{EventosManagedBean.finalizaEvento()}" update="form"/>
-                <p:commandButton value="Cancelar evento" class="btn btn-primary" action="#{EventosManagedBean.cancelaEvento()}" update="form"/>
+                <p:commandButton value="Finalizar evento" class="btn btn-primary" action="#{EventosManagedBean.finalizaEvento()}" update="form">
+                <p:confirm header="Confirmação" message="Confirma que esse evento será finalizado?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+                </p:commandButton>
+                <p:commandButton value="Cancelar evento" class="btn btn-primary" action="#{EventosManagedBean.cancelaEvento()}" update="form">
+                <p:confirm header="Confirmação" message="Confirma o cancelamento deste evento?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+                </p:commandButton>
                 
                 
                 
@@ -133,7 +145,13 @@
                  
              </p:dataTable>
         
-        <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirEve()}" update=":form"/>
+        <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirEve()}" update=":form">
+        <p:confirm header="Confirmação" message="Confirma a inscrição deste evento?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+        </p:commandButton>
         </p:tab>
         </p:tabView>
             </p:fieldset>
@@ -212,7 +230,13 @@
             
              </p:dataTable>
         <br/>
-        <p:commandButton class="btn btn-primary" value="Alterar" action="#{EventosManagedBean.alteraEvento()}" update=":form"/>
+        <p:commandButton class="btn btn-primary" value="Alterar" action="#{EventosManagedBean.alteraEvento()}" update=":form">
+        <p:confirm header="Confirmação" message="Confirma a alteração deste evento?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+        </p:commandButton>
         
         </p:tab>  
         </p:tabView>
@@ -288,7 +312,13 @@
                  
              </p:dataTable>
              
-             <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirCategoria()}" update=":form"/>
+             <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirCategoria()}" update=":form">
+             <p:confirm header="Confirmação" message="Confirma a inserção desta categoria ?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+             </p:commandButton>
          </p:tab>
  
          <p:tab title="Métodos de pontuação">
@@ -345,7 +375,13 @@
                  
              </p:dataTable>
              
-             <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirTpPontuacao()}" update=":form"/>
+             <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirTpPontuacao()}" update=":form">
+             <p:confirm header="Confirmação" message="Confirma a inserção dessa metodologia de pontuação?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+             </p:commandButton>
              
          </p:tab>
          
@@ -393,7 +429,13 @@
                  
              </p:dataTable>
              
-             <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirArbitro()}" update=":form"/>
+             <p:commandButton class="btn btn-primary" value="Salvar" action="#{EventosManagedBean.inserirArbitro()}" update=":form">
+             <p:confirm header="Confirmação" message="Confirma a inserção deste árbitro?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+             </p:commandButton>
          </p:tab>
          
      </p:tabView>

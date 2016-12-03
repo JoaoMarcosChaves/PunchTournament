@@ -137,7 +137,13 @@
         </p:tabView> 
         </p:fieldset>
     <br/>
-    <p:commandButton class="btn btn-primary" value="Salvar modalidade" action="#{ModalidadeManagedBean.inserirModali()}" update="form,growl"/>
+    <p:commandButton class="btn btn-primary" value="Salvar modalidade" action="#{ModalidadeManagedBean.inserirModali()}" update="form,growl">
+    <p:confirm header="Confirmação" message="Confirma a inserção da modalidade?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+    </p:commandButton>
 </p:dialog>                
 
 <!--   Finaliza Dialog inserir modalidades    -->
@@ -227,7 +233,13 @@
         </p:tabView> 
         </p:fieldset>
     <br/>
-    <p:commandButton class="btn btn-primary" value="Alterar modalidade" action="#{ModalidadeManagedBean.alteraMod()}" update=":form"/>
+    <p:commandButton class="btn btn-primary" value="Alterar modalidade" action="#{ModalidadeManagedBean.alteraMod()}" update=":form">
+    <p:confirm header="Confirmação" message="Confirma a alteração desta modalidade?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+    </p:commandButton>
 </p:dialog>               
         
         
