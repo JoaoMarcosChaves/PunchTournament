@@ -15,7 +15,25 @@ private int codInscricao;
 private int numRodada;
 private String statusInscricao;
 private String statusConf;
+private String nomeSegmento;
+private String nomeCategoria;
 private boolean selected;
+
+    public String getNomeSegmento() {
+        return nomeSegmento;
+    }
+
+    public void setNomeSegmento(String nomeSegmento) {
+        this.nomeSegmento = nomeSegmento;
+    }
+
+    public String getNomeCategoria() {
+        return nomeCategoria;
+    }
+
+    public void setNomeCategoria(String nomeCategoria) {
+        this.nomeCategoria = nomeCategoria;
+    }
 
     public String getStatusConf() {
         return statusConf;

@@ -18,10 +18,10 @@
                 <p:inputText id="codINSC" disabled="true" value="#{InscricaoManagedBean.codInscricao}"/>
                 
                 <p:outputLabel for="ModCads" value="Modalidades cadastradas: "/>
-                    <p:selectOneMenu id="ModCads"  value="#{EventosManagedBean.codModSelecionado}" >
-                        <p:ajax   listener="#{EventosManagedBean.carregarComboEv()}" update="EventCads,SegsCads"/>
+                <p:selectOneMenu id="ModCads"  value="#{InscricaoManagedBean.codModSelecionado}" >
+                    <p:ajax   listener="#{InscricaoManagedBean.carregarComboEv()}" update="EventCads,SegsCads"/>
                         <f:selectItem itemLabel="Selecione uma modalidade"/>
-                        <f:selectItems value="#{EventosManagedBean.comboMod}"  />
+                        <f:selectItems value="#{InscricaoManagedBean.comboMod}"  />
                         
                     </p:selectOneMenu>
                 </h:panelGrid>
@@ -34,21 +34,21 @@
                 <p:outputLabel for="nomePRT" value="Nome: "/>
                 <p:inputText id="nomePRT" value="#{InscricaoManagedBean.nomeAtleta}"/>
                 
-                <p:commandButton class="btn btn-primary" value="Pesquisar" action="#{InscricaoManagedBean.consultaATL()}" update="tabelaPRT"/>
+                <p:commandButton class="btn btn-primary" value="Pesquisar" action="#{InscricaoManagedBean.consultaATL()}" update="tabelaPRT,growl"/>
                 
                 </h:panelGrid>
                 <h:panelGrid columns="4">
                 <p:outputLabel for="EventCads" value="Eventos cadastrados: "/>
-                    <p:selectOneMenu id="EventCads"  value="#{EventosManagedBean.codEveSelecionado}"  >
-                     <p:ajax   listener="#{EventosManagedBean.carregaComboSegEcategs()}"  update="SegsCads"/>
+                    <p:selectOneMenu id="EventCads"  value="#{InscricaoManagedBean.codEveSelecionado}"  >
+                     <p:ajax   listener="#{InscricaoManagedBean.carregaComboSegEcategs()}"  update="SegsCads"/>
                         <f:selectItem itemLabel="Selecione um evento"/>
-                        <f:selectItems value="#{EventosManagedBean.comboEve}"  />
+                        <f:selectItems value="#{InscricaoManagedBean.comboEve}"  />
                     </p:selectOneMenu>
                 
                 <p:outputLabel for="SegsCads" value="Segmentos do evento: "/>    
                 <p:selectOneMenu id="SegsCads"   value="#{InscricaoManagedBean.segmentoSelecionado}">
                         <f:selectItem itemLabel="Segmentos"/>
-                        <f:selectItems value="#{EventosManagedBean.comboSegs}"  />
+                        <f:selectItems value="#{InscricaoManagedBean.comboSegs}"  />
                     </p:selectOneMenu> 
                 
                 
@@ -65,11 +65,11 @@
                 
                 <p:commandButton class="btn btn-primary" value="Limpar campos" action="#{InscricaoManagedBean.limparCampos()}" update=":form"/>
                 
-                <br/>
+                <br/><br/>
                 <p:dataTable id="tabelaPRT" value="#{InscricaoManagedBean.listaATL}" selectionMode="single" selection="#{InscricaoManagedBean.atl}" 
                              rowKey="#{atls.codAtleta}"  paginator="true" rows="10" var="atls">
 
-                    <p:ajax event="rowSelect" listener="#{InscricaoManagedBean.editar()}" update=":form:codPRT,:form:nomePRT,:form:categoriaPRT,:form:growl,:form:codINSC" />
+                    <p:ajax event="rowSelect" listener="#{InscricaoManagedBean.editar()}" update=":form:codPRT,:form:nomePRT,:form:categoriaPRT,:form:growl,:form:codINSC,:form:inscPend" />
 
                     <p:column headerText="Código do participante" >
                         <h:outputText value="#{atls.codAtleta}" />
@@ -84,10 +84,45 @@
                  
                 <br/>
                 <p:commandButton class="btn btn-primary" value="Nova inscrição" action="#{InscricaoManagedBean.limparCampos()}" update=":form"/>
-                <p:commandButton class="btn btn-primary" value="Finalizar inscrição" action="#{InscricaoManagedBean.inserirInscricao()}" update=":form:growl, :form:codINSC"/>
+                <p:commandButton class="btn btn-primary" value="Finalizar inscrição parcial" action="#{InscricaoManagedBean.inserirInscricao()}" update=":form:growl, :form:codINSC">
+                <p:confirm header="Confirmação" message="Confirma a inscrição parcial do atleta?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
                 
+                </p:commandButton>
+                <p:commandButton value="Inscrições não confirmadas" class="btn btn-primary" onclick="PF('inscPend').show();"/>
 		<br/><br/>	
         
+                <p:dialog id="inscPend" header="Inscrições pendentes de confirmação" widgetVar="inscPend" resizable="false" width="500">
+                    <p:dataTable id="tabelaInscPend" value="#{InscricaoManagedBean.listaInscsPend}" var="p"
+                                 selectionMode="single" selection="#{InscricaoManagedBean.inscPendSelec}" rowKey="#{p.codInscricao}">
+                        
+                        <p:ajax event="rowSelect" listener="#{InscricaoManagedBean.linhaSelecionadaInscsPend()}" />
+                        
+                        <p:column headerText="Código da inscrição">
+                            <h:outputText value="#{p.codInscricao}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Segmento">
+                            <h:outputText value="#{p.nomeSegmento}"/>
+                        </p:column>
+                        
+                        <p:column headerText="Categoria">
+                            <h:outputText value="#{p.nomeCategoria}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <br/>
+                    <p:commandButton value="Confirmar inscrição" class="btn btn-primary" style="float: right"
+                                     action="#{InscricaoManagedBean.confirmaInscricao()}" update="inscPend,growl">
+                        <p:confirm header="Confirmação" message="Confirma a participação do representante dessa inscrição?" icon="ui-icon-alert" />
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+               </p:confirmDialog>
+                    </p:commandButton>
+                </p:dialog>
     </ui:define>
     
 

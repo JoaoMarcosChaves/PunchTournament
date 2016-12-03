@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,11 +114,30 @@ public class Atletas_dao {
         return lista;
     }
     
-       public List<Atletas_bean> pesquisaAtletas(String query)throws SQLException{
+    public void confirmaInscricao(int cod)throws SQLException{
+        String sql = "update TB_inscricaoAtleta set statusInscricao = 'Confirmado' where codInscricao  = ?";
+        PreparedStatement stmt = this.conexao.prepareStatement(sql);
+        stmt.setInt(1, cod);
+        stmt.execute();
+        stmt.close();
+    }
+    
+       public List<Atletas_bean> pesquisaAtletas(Atletas_bean bean)throws SQLException{
            
-           String sql = query;
+           String sql = "select * from TB_atleta where graduacaoAtleta in (select codGraduMod from TB_graduaModali where\n" +
+                         "codModali = ? \n" +
+                         "and tipoGradu = 'Atleta')";
+           
+           if(bean.getCodAtleta() != 0 && bean.getNomeAtleta().equals("")){
+               sql+="\n and codAtleta =  "+bean.getCodAtleta();
+           }else if(bean.getCodAtleta() == 0 && !bean.getNomeAtleta().equals("")){
+               sql+="\n and nomeAtleta like '"+bean.getNomeAtleta()+"%'";
+           }else if(bean.getCodAtleta() != 0 && !bean.getNomeAtleta().equals("")){
+               sql+="\n and codAtleta =  "+bean.getCodAtleta();
+           }
            
            PreparedStatement stmt = this.conexao.prepareStatement(sql);
+           stmt.setInt(1, bean.getCodModalidade());
            ResultSet rs = stmt.executeQuery(); 
         ArrayList<Atletas_bean> lista = new ArrayList<>();
         
@@ -215,7 +235,7 @@ public class Atletas_dao {
 "and idadeMaxCategoria >= (select idadeAtleta from TB_atleta where codAtleta = ?)\n" +
 "and sexo = (select sexo from TB_atleta where codAtleta = ?)\n" +
 "and codSegmento = ?";
-           System.out.println(""+sql);
+          
            PreparedStatement stmt = this.conexao.prepareStatement(sql);
            stmt.setInt(1, codAtleta);
            stmt.setInt(2, codAtleta);
@@ -241,4 +261,27 @@ public class Atletas_dao {
            
        }
        
+       public List<InscricaoPRT_bean> consultaInscPend(InscricaoPRT_bean bean)throws SQLException{
+           String sql = "select i.codInscricao,s.nomeSegmento,c.nomeCategoria from TB_inscricaoAtleta i inner join TB_segmentos s\n" +
+"on i.codSegmento = s.codSegmento\n" +
+"inner join TB_categoria c\n" +
+"on c.codCategoria = i.codCategoria\n" +
+"and i.statusInscricao = 'Pendente'\n" +
+"and codAtleta = ?";
+           PreparedStatement stmt = this.conexao.prepareStatement(sql);
+           stmt.setInt(1, bean.getCodAtleta());
+           ResultSet rs = stmt.executeQuery();
+           List<InscricaoPRT_bean> lista = new ArrayList<>();
+           while(rs.next()){
+               InscricaoPRT_bean c1 = new InscricaoPRT_bean();
+               c1.setCodInscricao(rs.getInt("codInscricao"));
+               c1.setNomeSegmento(rs.getString("nomeSegmento"));
+               c1.setNomeCategoria(rs.getString("nomeCategoria"));
+               
+               lista.add(c1);
+           }
+           rs.close();
+           stmt.close();
+           return lista;
+       }
 }

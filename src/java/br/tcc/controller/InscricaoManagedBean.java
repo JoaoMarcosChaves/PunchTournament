@@ -3,8 +3,13 @@ package br.tcc.controller;
 
 import br.tcc.bean.Atletas_bean;
 import br.tcc.bean.Categorias_bean;
+import br.tcc.bean.Eventoss_bean;
 import br.tcc.bean.InscricaoPRT_bean;
+import br.tcc.bean.Modalidades_bean;
+import br.tcc.bean.Segmentos_bean;
 import br.tcc.dao.Atletas_dao;
+import br.tcc.dao.Eventos_dao;
+import br.tcc.dao.Modalidades_dao;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -23,7 +28,7 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean(name="InscricaoManagedBean", eager = true)
 @SessionScoped
-public class InscricaoManagedBean implements Serializable{
+public class InscricaoManagedBean{
     
      
 private int codSegmento;
@@ -36,21 +41,111 @@ private String segmentoSelecionado;
 private Atletas_bean atl;
 String categoria;
 
+private int codInscPend;
+private InscricaoPRT_bean inscPendSelec;
+
+
 InscricaoPRT_bean inscBean = new InscricaoPRT_bean();
 Atletas_bean atlBean = new Atletas_bean();
+
 
 private List<Categorias_bean> categs = new ArrayList<>();
 private List<Atletas_bean> listaATL = new ArrayList<>();
 private List<InscricaoPRT_bean> codInsc = new ArrayList<>();
 private List<String> comboCategs = new ArrayList<>();
-//Atletas_dao dao = new Atletas_dao();
+private List<InscricaoPRT_bean> listaInscsPend = new ArrayList<>();
+
+
+// VARIAVEIS NECESSÁRIAS PARA PREENCHER COMBOS DE MOD, EVE,E SEG.
+private List<Modalidades_bean> modalidades = new ArrayList<>();
+private List <String> comboMod = new ArrayList<>();
+private List <String> comboEve = new ArrayList<>();
+private String codModSelecionado;
+private List<String> ComboSegs = new ArrayList<>();
+private int codModali;
+private List<Eventoss_bean> eve = new ArrayList<>();
+
+private int codEvento;
+private String codEveSelecionado;
+private List<Segmentos_bean> listaSegs = new ArrayList<>();
+
+public InscricaoManagedBean()throws SQLException{
+    Modalidades_dao dao = new Modalidades_dao();
+        
+        modalidades = dao.PesqMod();
+        for(int i = 0; i <modalidades.size(); i++){
+        
+      comboMod.add(modalidades.get(i).getCodModali()+" - "+modalidades.get(i).getNomeModali());
+        
+    }
+}
+
+
+public void carregarComboEv() throws SQLException{
+    Eventos_dao dao = new Eventos_dao();
+    comboEve.clear();
+    ComboSegs.clear();
+    
+    if(codModSelecionado.equals("")){
+        
+        comboEve.clear();
+        ComboSegs.clear();
+       
+    }
+    else{
+    
+    
+    codModali = Integer.valueOf(codModSelecionado.substring(0,codModSelecionado.indexOf(" ")));
+    eve = dao.pesquisaEventos(codModali);
+    
+    for(int i = 0; i <eve.size(); i++){
+        
+      comboEve.add(eve.get(i).getCodEvento()+" - "+eve.get(i).getNomeEvento());
+        
+    }
+    }
+}
+
+public void carregaComboSegEcategs() throws SQLException{
+   
+   Eventos_dao dao = new Eventos_dao();
+    if(codEveSelecionado.equals("")){
+        
+        ComboSegs.clear();
+        
+        codEvento = 0;
+        
+    }else{
+   
+   ComboSegs.clear();
+   codEvento = Integer.valueOf(codEveSelecionado.substring(0,codEveSelecionado.indexOf(" ")));
+   listaSegs = dao.consultaSegs(codEvento);
+   
+  if(listaSegs.isEmpty()){
+        
+        ComboSegs.clear();
+   
+    }else
+      for(int i = 0; i< listaSegs.size(); i++){
+      
+          ComboSegs.add(listaSegs.get(i).getCodSegmento()+" - "+ listaSegs.get(i).getNomeSegmento());
+          
+      }
+  
+  eve = dao.consultaDataEve(codEvento);
+     
+    }
+    listaSegs.clear();
+}
+
 
 
 public void inserirInscricao()throws SQLException{
     
       Atletas_dao dao = new Atletas_dao();
       
-      inscBean.setCodAtleta(codAtleta);
+      if(codCategoria != 0){
+          inscBean.setCodAtleta(codAtleta);
       inscBean.setCodSegmento(codSegmento);
       inscBean.setCodCategoria(codCategoria);
       
@@ -60,67 +155,35 @@ public void inserirInscricao()throws SQLException{
       
       FacesContext context = FacesContext.getCurrentInstance();
     context.addMessage(null, new FacesMessage("Sucesso","Atleta "+ nomeAtleta +" inscrito"));
+      }else{
+    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção", "Selecione evento, segmento e categoria para realizar a inscrição"));
+      }
+      
+      
     
 }
 
-
-
-
-
-
-
-
+public void confirmaInscricao()throws SQLException{
+    Atletas_dao dao = new Atletas_dao();
+    dao.confirmaInscricao(codInscPend);
+    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Inscrição confirmada com sucesso."));
+    inscBean.setCodAtleta(codAtleta);
+    listaInscsPend = dao.consultaInscPend(inscBean);
+}
 
 public void consultaATL()throws SQLException{
     
     Atletas_dao dao = new Atletas_dao();
     
-    if(!segmentoSelecionado.equals("")){
-    codSegmento = Integer.valueOf(segmentoSelecionado.substring(0, segmentoSelecionado.indexOf("-")).trim());
+    if(!codModSelecionado.equals("")){
+    Atletas_bean bean = new Atletas_bean();
+    bean.setCodModalidade(codModali);
+    bean.setCodAtleta(codAtleta);
+    bean.setNomeAtleta(nomeAtleta);
+    listaATL = dao.pesquisaAtletas(bean);
+    }else{
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Atenção", "Selecione uma modalidade antes de realizar a pesquisa."));
     }
-    String sql = "select * from TB_atleta where ";
-
-    
-    if(codAtleta == 0 && nomeAtleta.equals("") && segmentoSelecionado.equals("")){
-        
-        sql = "select * from TB_atleta";
-    }
-    else if(codAtleta == 0 && nomeAtleta.equals("") && !segmentoSelecionado.equals("")){
-        sql = "select * from TB_atleta where graduacaoAtleta in (select codGraduMod from TB_graduaModali where\n" +
-"codModali = (select codModali from TB_evento\n" +
-"where codEvento =\n" +
-"(select codEvento from TB_segmentos where codSegmento =  "+codSegmento +"))\n" +
-"and tipoGradu = 'Atleta')";
-    }
-    
-    else if(codAtleta != 0 && segmentoSelecionado.equals("")){
-        
-        sql+= "codAtleta = "+codAtleta;
-        
-    }else if(!nomeAtleta.equals("") && codAtleta == 0 && segmentoSelecionado.equals("")){
-        
-        sql+= "nomeAtleta like  '"+nomeAtleta+"%'";
-        
-    }else if(nomeAtleta.equals("") && codAtleta != 0 && !segmentoSelecionado.equals("") || !nomeAtleta.equals("") && codAtleta != 0 && !segmentoSelecionado.equals("")){
-        
-        sql += "graduacaoAtleta in (select codGraduMod from TB_graduaModali where\n" +
-"codModali = (select codModali from TB_evento\n" +
-"where codEvento =\n" +
-"(select codEvento from TB_segmentos where codSegmento =  "+codSegmento+"))\n" +
-"and tipoGradu = 'Atleta')"+
-                "and codAtleta = "+codAtleta;
-    }else if(!nomeAtleta.equals("") && codAtleta == 0 && !segmentoSelecionado.equals("")){
-        
-        sql += "graduacaoAtleta in (select codGraduMod from TB_graduaModali where\n" +
-"codModali = (select codModali from TB_evento\n" +
-"where codEvento =\n" +
-"(select codEvento from TB_segmentos where codSegmento =  "+codSegmento +"))\n" +
-"and tipoGradu = 'Atleta')"+
-                " and nomeAtleta like  '"+nomeAtleta+"%'";
-    }
-    
-   
-   listaATL = dao.pesquisaAtletas(sql);
 }
 
 
@@ -133,18 +196,13 @@ public void editar()throws SQLException{
         
         codAtleta = atl.getCodAtleta(); 
         nomeAtleta = atl.getNomeAtleta();
+        inscBean.setCodAtleta(codAtleta);
+        listaInscsPend = dao.consultaInscPend(inscBean);
+        
         
        if(!segmentoSelecionado.equals("")) {
            codSegmento = Integer.valueOf(segmentoSelecionado.substring(0, segmentoSelecionado.indexOf("-")).trim());
-        //  int num =  dao.consultaATLestaINSC(codAtleta, codSegmento);
-         
-//           if(num > 0){
-//               categoria = "";
-//               codInscricao = num;
-//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informação", "\nO atleta já esta inscrito\n"
-//                    + "nesta modalidade, e não pode realizar nova inscrição na mesma."));
-//
-//           }else{
+        
            categoria = "";
            codCategoria = 0;
            codInscricao = 0;
@@ -165,12 +223,17 @@ public void editar()throws SQLException{
             comboCategs.add(categs.get(i).getCodCategoria()+" - "+ categs.get(i).getNomeCategoria());
         }
             
-     //   categoria = categs.get(0).getCodCategoria()+" - "+ categs.get(0).getNomeCategoria();
-     //   codCategoria = categs.get(0).getCodCategoria();
+    
         }
- //   }
+
        }
     }
+}
+
+public void linhaSelecionadaInscsPend(){
+if(inscPendSelec != null){
+codInscPend = inscPendSelec.getCodInscricao();
+}
 }
 
 public void verificaParticip()throws SQLException{
@@ -196,11 +259,24 @@ public void limparCampos(){
     codCategoria = 0;
     codInscricao = 0;
 }
+    
+public int getCodInscPend() {
+        return codInscPend;
+    }
 
+    public void setCodInscPend(int codInscPend) {
+        this.codInscPend = codInscPend;
+    }
 
-
+    public List<InscricaoPRT_bean> getListaInscsPend() {
+        return listaInscsPend;
+    }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void setListaInscsPend(List<InscricaoPRT_bean> listaInscsPend) {
+        this.listaInscsPend = listaInscsPend;
+    }
+
     public int getCodSegmento() {
         return codSegmento;
     }
@@ -312,6 +388,104 @@ public void limparCampos(){
     public void setComboCategs(List<String> comboCategs) {
         this.comboCategs = comboCategs;
     }
+
+    public InscricaoPRT_bean getInscPendSelec() {
+        return inscPendSelec;
+    }
+
+    public void setInscPendSelec(InscricaoPRT_bean inscPendSelec) {
+        this.inscPendSelec = inscPendSelec;
+    }
+
+    public Atletas_bean getAtlBean() {
+        return atlBean;
+    }
+
+    public void setAtlBean(Atletas_bean atlBean) {
+        this.atlBean = atlBean;
+    }
+
+    public List<Modalidades_bean> getModalidades() {
+        return modalidades;
+    }
+
+    public void setModalidades(List<Modalidades_bean> modalidades) {
+        this.modalidades = modalidades;
+    }
+
+    public List<String> getComboMod() {
+        return comboMod;
+    }
+
+    public void setComboMod(List<String> comboMod) {
+        this.comboMod = comboMod;
+    }
+
+    public List<String> getComboEve() {
+        return comboEve;
+    }
+
+    public void setComboEve(List<String> comboEve) {
+        this.comboEve = comboEve;
+    }
+
+    public String getCodModSelecionado() {
+        return codModSelecionado;
+    }
+
+    public void setCodModSelecionado(String codModSelecionado) {
+        this.codModSelecionado = codModSelecionado;
+    }
+
+    public List<String> getComboSegs() {
+        return ComboSegs;
+    }
+
+    public void setComboSegs(List<String> ComboSegs) {
+        this.ComboSegs = ComboSegs;
+    }
+
+    public int getCodModali() {
+        return codModali;
+    }
+
+    public void setCodModali(int codModali) {
+        this.codModali = codModali;
+    }
+
+    public List<Eventoss_bean> getEve() {
+        return eve;
+    }
+
+    public void setEve(List<Eventoss_bean> eve) {
+        this.eve = eve;
+    }
+
+    public int getCodEvento() {
+        return codEvento;
+    }
+
+    public void setCodEvento(int codEvento) {
+        this.codEvento = codEvento;
+    }
+
+    public String getCodEveSelecionado() {
+        return codEveSelecionado;
+    }
+
+    public void setCodEveSelecionado(String codEveSelecionado) {
+        this.codEveSelecionado = codEveSelecionado;
+    }
+
+    public List<Segmentos_bean> getListaSegs() {
+        return listaSegs;
+    }
+
+    public void setListaSegs(List<Segmentos_bean> listaSegs) {
+        this.listaSegs = listaSegs;
+    }
+
+   
 
 
 

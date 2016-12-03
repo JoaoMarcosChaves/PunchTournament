@@ -11,6 +11,7 @@ package br.tcc.bean;
  */
 public class Atletas_bean {
 
+private int codModalidade;
 private int codSegmento;   
 private int codAtleta;
 private String nomeAtleta;
@@ -21,6 +22,16 @@ private String graduacaoAtleta;
 private String cpfAtleta;
 private String emailAtleta;
 private boolean selected;
+
+    public int getCodModalidade() {
+        return codModalidade;
+    }
+
+    public void setCodModalidade(int codModalidade) {
+        this.codModalidade = codModalidade;
+    }
+
+
 
     public int getCodSegmento() {
         return codSegmento;
